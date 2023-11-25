@@ -108,7 +108,6 @@ export const updateUsername = async (
   try {
     const { id } = req.params;
     const { username } = req.body;
-
     if (!username) {
       return res.sendStatus(400);
     }
@@ -117,7 +116,40 @@ export const updateUsername = async (
 
     user!.username = username;
     await user!.save();
+
     return res.status(200).json(user).end();
+  } catch (error) {
+    return res.sendStatus(400);
+  }
+};
+
+export const updatePassword = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  try {
+    const { id } = req.params;
+    const { password } = req.body;
+
+    if (!id || !password) {
+      return res.sendStatus(400);
+    }
+
+    const user = await getUserById(id);
+
+    if (!user) {
+      return res.sendStatus(404);
+    }
+
+    const newSalt = random();
+    const hashedPassword = authentication(newSalt, password);
+
+    user.authentication!.salt = newSalt;
+    user.authentication!.password = hashedPassword;
+
+    await user.save();
+
+    return res.status(200);
   } catch (error) {
     return res.sendStatus(400);
   }
