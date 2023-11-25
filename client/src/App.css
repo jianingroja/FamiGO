@@ -15,6 +15,9 @@ input:focus {
 /* background colors are set temporarily to make visualization easier */
 :root {
   background-color: olivedrab;
+
+  /* temporary */
+  --primary-color: #6ea8ff;
 }
 
 .app {
@@ -23,5 +26,5 @@ input:focus {
   height: 100vh;
   max-width: 430px;
   margin: 0 auto;
-  text-align: center;
+  /* text-align: center; */
 }
