@@ -1,7 +1,7 @@
-import DataBox from './DataBox';
+import DataBox from '../DataBox/DataBox';
 
-import Logo from '../assets/logo.png';
-import '../styles/PersonalInfo.css';
+import Logo from '../../assets/logo.png';
+import './PersonalInfo.css';
 
 const tempImg = Logo;
 

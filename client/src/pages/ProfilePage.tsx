@@ -1,4 +1,4 @@
-import PersonalInfo from '../components/PersonalInfo';
+import PersonalInfo from '../components/PersonalInfo/PersonalInfo';
 
 const ProfilePage = () => {
   return (
