@@ -4,14 +4,14 @@
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-}
 
-.collection-nav .btn {
-  width: 100%;
-  border: none;
-  background-color: transparent;
-}
+  & .btn {
+    width: 100%;
+    border: none;
+    background-color: transparent;
+  }
 
-.collection-nav .active {
-  border-bottom: 2px solid var(--primary-color);
+  & .active {
+    border-bottom: 2px solid var(--primary-color);
+  }
 }
