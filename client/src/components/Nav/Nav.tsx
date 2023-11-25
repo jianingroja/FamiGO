@@ -15,7 +15,7 @@ const Nav = () => {
         <NavLink to="/generator">Generator</NavLink>
       </div>
       <div className="nav-item">
-        <NavLink to="/publish-idea">Publish</NavLink>
+        <NavLink to="/publish-activity">Publish</NavLink>
       </div>
     </div>
   );
