@@ -6,13 +6,13 @@ const Nav = () => {
   return (
     <div className="nav">
       <div className="nav-item">
-        <NavLink to="/feed">Feed</NavLink>
+        <NavLink to="/">Feed</NavLink>
       </div>
       <div className="nav-item">
         <NavLink to="/profile">Profile</NavLink>
       </div>
       <div className="nav-item">
-        <NavLink to="/Generator">Generator</NavLink>
+        <NavLink to="/generator">Generator</NavLink>
       </div>
       <div className="nav-item">
         <NavLink to="/publish-idea">Publish</NavLink>
