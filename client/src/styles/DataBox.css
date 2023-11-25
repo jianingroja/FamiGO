@@ -1,0 +1,12 @@
+.data {
+  text-align: center;
+}
+
+.data .number {
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.data .type {
+  font-size: 0.8rem;
+}

@@ -1,0 +1,46 @@
+.personal-info {
+  border: 1px dashed var(--primary-color);
+  width: 100%;
+  padding: 1rem 2rem;
+}
+
+.upper {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.avatar {
+  width: 30%;
+}
+
+.avatar img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 1px solid var(--primary-color);
+}
+
+.statistics {
+  width: 70%;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.lower {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.name {
+  font-weight: 500;
+}
+
+.desc {
+  font-size: 0.8rem;
+}
