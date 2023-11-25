@@ -1,4 +1,4 @@
-import '../styles/DataBox.css';
+import './DataBox.css';
 
 type Props = {
   type: string;
