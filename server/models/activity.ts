@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 import { UserModel } from './users';
 
+import { ActivityWithUser } from '../types/activity';
+
 const Schema = mongoose.Schema;
 
 const activitySchema = new Schema({
@@ -89,3 +91,9 @@ export const getActivities = () => ActivityModel.find();
 export const getActivitiesByID = (id: string) => ActivityModel.findById(id);
 export const getActivitiesFromUser = (username: string) =>
   UserModel.findOne({ username: username });
+
+export const createActivity = async (activity: ActivityWithUser) => {
+  const res = await ActivityModel.create(activity);
+
+  return res;
+};

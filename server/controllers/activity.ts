@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { getUserByUserName } from '../models/users';
 import { getActivitiesFromUser } from '../models/activity';
-import { ActivityModel } from '../models/activity';
+import { ActivityModel, createActivity } from '../models/activity';
 import {
   iterateIDs,
   getAllPostsIDs,
@@ -9,31 +9,39 @@ import {
   iterateActivitiesFromUser,
 } from '../helpers/activity';
 
+import { ActivityWithUser } from '../types/activity';
+
 export const publishActivity = async (req: Request, res: Response) => {
   try {
-    const activityBody = req.body;
+    const {
+      body: { activity },
+    } = req;
+
     const username = req.cookies['username'];
     const user = await getUserByUserName(username);
 
-    activityBody.userInfo.username = user!.username;
+    const activityWithUser: ActivityWithUser = {
+      ...activity,
+      userInfo: {
+        username,
+      },
+    };
 
-    const activity = await new ActivityModel(activityBody).save();
+    const newActivity = await createActivity(activityWithUser);
+    const activityId = newActivity.id;
+    console.log('activity id -->', activityId);
 
-    const activityID = await ActivityModel.findById(activity._id);
-
-    if (user && activityID) {
+    if (user && activityId) {
       user.statistics ??= {};
       user.statistics.posts ??= [];
-      user.statistics.posts.push(activityID._id.toString());
+      user.statistics.posts.push(activityId);
 
-      await user!.save();
+      await user.save();
 
-      res.json(activity).status(200);
-      return;
+      res.status(201).send(newActivity); // 201 created
     }
-    return;
   } catch (error) {
-    return res.sendStatus(400);
+    res.status(400).send(error);
   }
 };
 
