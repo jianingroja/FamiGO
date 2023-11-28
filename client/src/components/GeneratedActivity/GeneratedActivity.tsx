@@ -74,7 +74,7 @@ const GeneratedActivity: React.FC<IActivity> = ({ activity }) => {
             {material}
           </div>
         ))}
-      </div>
+      </p>
       <p>{activity.description}</p>
       <div className="button-box">
         <button className="button" onClick={handleSaveClick}>
