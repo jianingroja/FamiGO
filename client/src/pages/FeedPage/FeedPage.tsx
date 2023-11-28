@@ -1,8 +1,9 @@
-import FeedItem from '../components/FeedItem/FeedItem';
+import FeedItem from '../../components/FeedItem/FeedItem';
+import './FeedPage.css';
 
 const FeedPage = () => {
   return (
-    <div>
+    <div className="feed-page">
       Filter Placeholder
       <FeedItem />
       <FeedItem />

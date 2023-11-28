@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 
-import FeedPage from './pages/FeedPage';
-import ProfilePage from './pages/ProfilePage';
+import FeedPage from './pages/FeedPage/FeedPage';
+import ProfilePage from './pages/ProfilePage/ProfilePage';
 import PublishIdeaPage from './pages/PublishActivityPage';
 import GeneratorPage from './pages/GeneratorPage';
 import LoginPage from './pages/LoginPage';
@@ -13,14 +13,12 @@ import './App.css';
 const App = () => {
   return (
     <div className="app">
-      Hello Famigo
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route element={<NavOutlet />}>
           <Route path="/" element={<FeedPage />} />
           <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/publish-activity" element={<PublishIdeaPage />} />
           <Route path="/generator" element={<GeneratorPage />} />
         </Route>
         <Route path="/publish-activity" element={<PublishIdeaPage />} />

@@ -23,7 +23,7 @@ input:focus {
 .app {
   background-color: white;
   width: 100vw;
-  height: 90vh;
+  height: 100vh;
   max-height: 100vh;
   max-width: 430px;
   margin: 0 auto;
