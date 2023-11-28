@@ -1,3 +1,5 @@
+import './GeneratedActivity.css';
+import SaveIcon from '../../assets/Save.svg';
 interface IActivity {
   activity: {
     filters: Array<String>;
@@ -45,20 +47,27 @@ const GeneratedActivity: React.FC<IActivity> = ({ activity }) => {
     });
   };
   return (
-    <div>
+    <div className="generated-activity-container">
       <h2>{activity.title}</h2>
-      <div>
+      <div className="box-filters">
         {activity.filters.map((filter, index) => (
-          <div key={index}># {filter}</div>
+          <div key={index}>
+            <span className="list">#</span>
+            {filter}
+          </div>
         ))}
       </div>
-      <div>
+      <p>
         {activity.materials.map((material, index) => (
-          <div key={index}>-{material}</div>
+          <div key={index}>
+            <span className="list">- </span>
+            {material}
+          </div>
         ))}
-      </div>
+      </p>
       <p>{activity.description}</p>
-      <button className="save-button" onClick={handleSaveClick}>
+      <button className="button" onClick={handleSaveClick}>
+        <img src={SaveIcon} alt="SaveIcon" />
         Save
       </button>
     </div>
