@@ -1,4 +1,5 @@
 .activity-form {
+  padding: 1rem 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -72,5 +73,13 @@
       color: whitesmoke;
       background-color: var(--primary-color);
     }
+  }
+}
+
+.title-container,
+.material-container,
+.description-container {
+  & label {
+    display: block;
   }
 }
