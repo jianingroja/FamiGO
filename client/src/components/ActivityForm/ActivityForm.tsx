@@ -70,8 +70,17 @@ const ActivityForm = () => {
 
   // form
   const onSubmit: SubmitHandler<FormInput> = (data) => {
-    const { title, materials, description, ...filtersOrigin } = data;
+    // check all inputs are provided=
+    const hasAllInputs = Object.values(data).every(
+      (input) => Boolean(input) === true
+    );
 
+    if (!hasAllInputs) {
+      console.log('fill iin all');
+      return;
+    }
+
+    const { title, materials, description, ...filtersOrigin } = data;
     let filtersCopy = {};
 
     Object.entries(filtersOrigin).forEach(([key, { value }]) => {
@@ -125,7 +134,7 @@ const ActivityForm = () => {
           />
         </div>
         <div className="material-container">
-          materials
+          <label>materials</label>
           <Controller
             name="materials"
             control={control}
@@ -133,7 +142,7 @@ const ActivityForm = () => {
           />
         </div>
         <div className="description-container">
-          description
+          <label> description</label>
           <Controller
             name="description"
             control={control}
