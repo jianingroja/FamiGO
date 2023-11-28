@@ -3,9 +3,10 @@ type Option = {
   value: string;
 };
 
-interface GroupBase<Option> {
-  readonly options: readonly Option[];
-  readonly label?: string;
+interface OptionGroup<Option> {
+  options: Option[];
+  name: string;
+  placeholder: string;
 }
 
 const topicOptions: Option[] = [
@@ -51,37 +52,43 @@ const durationOptions: Option[] = [
   { value: '3h <', label: '3h <' },
 ];
 
-const topicGroup: GroupBase<Option> = {
-  label: 'Topic',
+const topicGroup: OptionGroup<Option> = {
+  name: 'topic',
+  placeholder: 'topic',
   options: topicOptions,
 };
 
-const kidsGroup: GroupBase<Option> = {
-  label: 'KidsNumber',
+const kidsGroup: OptionGroup<Option> = {
+  name: 'numOfKids',
+  placeholder: 'kids number',
   options: kidsOptions,
 };
 
-const ageGroup: GroupBase<Option> = {
-  label: 'AgeRange',
+const ageGroup: OptionGroup<Option> = {
+  name: 'age',
+  placeholder: 'age range',
   options: ageRangeOptions,
 };
 
-const difficultyGroup: GroupBase<Option> = {
-  label: 'Difficulty',
+const difficultyGroup: OptionGroup<Option> = {
+  name: 'difficulty',
+  placeholder: 'difficulty',
   options: difficultyOptions,
 };
 
-const placeGroup: GroupBase<Option> = {
-  label: 'Place',
+const placeGroup: OptionGroup<Option> = {
+  name: 'place',
+  placeholder: 'place',
   options: placeOptions,
 };
 
-const durationGroup: GroupBase<Option> = {
-  label: 'Duration',
+const durationGroup: OptionGroup<Option> = {
+  name: 'duration',
+  placeholder: 'duration',
   options: durationOptions,
 };
 
-export const filterGroups: GroupBase<Option>[] = [
+export const filterGroups: OptionGroup<Option>[] = [
   topicGroup,
   kidsGroup,
   ageGroup,
