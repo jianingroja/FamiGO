@@ -34,9 +34,9 @@ const GeneratorPage = () => {
       .then((dataReceived) => {
         console.log('dataReceived', dataReceived);
         // If working with openAI, use:
-        // setActivity(dataReceived);
+        setActivity(dataReceived);
         // If working with MOCK data, use:
-        setActivity(dataReceived.openAIResponse.content);
+        // setActivity(dataReceived.openAIResponse.content);
       })
       .catch((error) => {
         console.error('Error:', error);

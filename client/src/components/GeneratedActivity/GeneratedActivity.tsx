@@ -21,14 +21,24 @@ const GeneratedActivity: React.FC<IActivity> = ({ activity }) => {
     const materials = activity.materials;
     const description = activity.description;
     const type = 'saved';
+    const username = '';
+    const userInfo = { username };
 
-    const savedActivity = { filters, title, materials, description, type };
-
+    const savedActivity = {
+      filters,
+      title,
+      materials,
+      description,
+      type,
+      userInfo,
+    };
+    console.log('savedActivity', savedActivity);
     fetch('http://localhost:3000/save-activity', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: 'include',
       body: JSON.stringify(savedActivity),
     }).catch((error) => {
       console.error('Error:', error);

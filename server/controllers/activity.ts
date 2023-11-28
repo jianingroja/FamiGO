@@ -65,14 +65,14 @@ export const saveActivity = async (req: Request, res: Response) => {
   try {
     const savedActivityBody = req.body;
 
-    // When we have users, we are going to add the userInfo and username to the savedActivity.
-    // const username = req.cookies['username'];
-    // const user = await getUserByUserName(username);
-    // savedActivityBody.userInfo.username = user!.username;
+    const username = req.cookies['username'];
+    const user = await getUserByUserName(username);
+    savedActivityBody.userInfo.username = user!.username;
 
     const activity = await new ActivityModel(savedActivityBody).save();
     return res.status(200).json(activity);
   } catch (error) {
-    return res.sendStatus(400);
+    console.error('Error saving activity:', error);
+    return res.sendStatus(400).send(error);
   }
 };
