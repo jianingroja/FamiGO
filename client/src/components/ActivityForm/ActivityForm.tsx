@@ -1,12 +1,11 @@
 import { useState, ChangeEvent } from 'react';
-import Select from 'react-select';
+import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 
 import {
   uploadFileToCloudinary,
   deleteFileFromCloudinary,
 } from '../../services/apiCloudinary';
-
-import { filterGroups } from '../../utils/mock/filters';
+import FiltersSelect from '../FiltersSelect/FiltersSelect';
 
 import DeleteIcon from '../../assets/close-white.png';
 import Logo from '../../assets/logo.png';
@@ -19,9 +18,28 @@ type FileInfo = {
   publicId: string;
 };
 
+type Option = {
+  label: string;
+  value: string;
+};
+
+type FormInput = {
+  topic: Option;
+  numOfKids: Option;
+  age: Option;
+  difficulty: Option;
+  place: Option;
+  duration: Option;
+  title: string;
+  materials: string[];
+  description: string;
+};
+
 const ActivityForm = () => {
   const [fileInfo, setFileInfo] = useState<FileInfo>({} as FileInfo);
   const [isFileLoading, setIsFileLoading] = useState(false);
+
+  const { control, handleSubmit } = useForm<FormInput>();
 
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     try {
@@ -50,13 +68,31 @@ const ActivityForm = () => {
 
   // todo: upload multiple files
 
-  // select
-  // !problem: can select multiple from every option group
-  const formatGroupLabel = (data: any) => (
-    <div style={{ color: 'red' }}>
-      <span>{data.label}</span>
-    </div>
-  );
+  // form
+  const onSubmit: SubmitHandler<FormInput> = (data) => {
+    const { title, materials, description, ...filtersOrigin } = data;
+
+    let filtersCopy = {};
+
+    Object.entries(filtersOrigin).forEach(([key, { value }]) => {
+      filtersCopy = {
+        ...filtersCopy,
+        [key]: value,
+      };
+    });
+
+    console.log('formatted -->', filtersCopy);
+
+    const info = {
+      image: fileInfo.secureUrl,
+      filters: filtersCopy,
+      title,
+      materials,
+      description,
+    };
+
+    console.log('send to backend -->', info);
+  };
 
   return (
     <div className="activity-form">
@@ -76,20 +112,36 @@ const ActivityForm = () => {
           <label>upload a image</label>
         </div>
       </div>
-      <div className="filter-container">
-        filters
-        <Select
-          // <ColourOption | FlavourOption>
-          defaultValue={filterGroups[0].options[0]}
-          options={filterGroups}
-          isMulti
-          formatGroupLabel={formatGroupLabel}
-        />
-      </div>
-      <div className="title-container">title</div>
-      <div className="material-container">materials</div>
-      <div className="description-container">description</div>
-      <div className="button">publish</div>
+
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FiltersSelect control={control} />
+
+        <div className="title-container">
+          <label>title</label>
+          <Controller
+            name="title"
+            control={control}
+            render={({ field }) => <textarea {...field} />}
+          />
+        </div>
+        <div className="material-container">
+          materials
+          <Controller
+            name="materials"
+            control={control}
+            render={({ field }) => <textarea {...field} />}
+          />
+        </div>
+        <div className="description-container">
+          description
+          <Controller
+            name="description"
+            control={control}
+            render={({ field }) => <textarea {...field} />}
+          />
+        </div>
+        <button type="submit">publish</button>
+      </form>
     </div>
   );
 };
