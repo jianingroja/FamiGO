@@ -5,7 +5,10 @@ import {
   uploadFileToCloudinary,
   deleteFileFromCloudinary,
 } from '../../services/apiCloudinary';
+import { publishActivity } from '../../services/activity';
 import FiltersSelect from '../FiltersSelect/FiltersSelect';
+
+import { Activity, FiltersWithValues } from '../../types/activity';
 
 import DeleteIcon from '../../assets/close-white.png';
 import Logo from '../../assets/logo.png';
@@ -69,7 +72,7 @@ const ActivityForm = () => {
   // todo: upload multiple files
 
   // form
-  const onSubmit: SubmitHandler<FormInput> = (data) => {
+  const onSubmit: SubmitHandler<FormInput> = async (data) => {
     // check all inputs are provided=
     const hasAllInputs = Object.values(data).every(
       (input) => Boolean(input) === true
@@ -86,7 +89,7 @@ const ActivityForm = () => {
     }
 
     const { title, materials, description, ...filtersOrigin } = data;
-    let filtersCopy = {};
+    let filtersCopy = {} as FiltersWithValues;
 
     Object.entries(filtersOrigin).forEach(([key, { value }]) => {
       filtersCopy = {
@@ -97,7 +100,7 @@ const ActivityForm = () => {
 
     console.log('formatted -->', filtersCopy);
 
-    const info = {
+    const info: Activity = {
       image: fileInfo.secureUrl,
       filters: filtersCopy,
       title,
@@ -106,6 +109,9 @@ const ActivityForm = () => {
     };
 
     console.log('send to backend -->', info);
+    await publishActivity(info);
+    // see todo in service
+    console.log('ok, published!');
   };
 
   return (
