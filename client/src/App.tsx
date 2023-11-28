@@ -23,6 +23,7 @@ const App = () => {
           <Route path="/publish-activity" element={<PublishIdeaPage />} />
           <Route path="/generator" element={<GeneratorPage />} />
         </Route>
+        <Route path="/publish-activity" element={<PublishIdeaPage />} />
         <Route path="/*" element={<p>page not found</p>} />
       </Routes>
     </div>
