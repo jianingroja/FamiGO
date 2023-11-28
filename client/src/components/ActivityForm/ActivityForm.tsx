@@ -34,13 +34,16 @@ type FormInput = {
   place: Option;
   duration: Option;
   title: string;
-  materials: string[];
+  // materials?: string[];
   description: string;
 };
 
 const ActivityForm = () => {
   const [fileInfo, setFileInfo] = useState<FileInfo>({} as FileInfo);
   const [isFileLoading, setIsFileLoading] = useState(false);
+
+  const [material, setMaterial] = useState<string>('');
+  const [materials, setMaterials] = useState<Array<string>>([]);
 
   const { control, handleSubmit } = useForm<FormInput>();
 
@@ -71,6 +74,20 @@ const ActivityForm = () => {
 
   // todo: upload multiple files
 
+  // material
+  const handleAddMaterial = () => {
+    setMaterials((prev) => [...prev, material]);
+    setMaterial('');
+  };
+
+  const handleDeleteMaterial = (index: number) => {
+    setMaterials((prev) => {
+      const newArr = [...prev];
+      newArr.splice(index, 1);
+      return newArr;
+    });
+  };
+
   // form
   const onSubmit: SubmitHandler<FormInput> = async (data) => {
     // check all inputs are provided=
@@ -88,7 +105,7 @@ const ActivityForm = () => {
       return;
     }
 
-    const { title, materials, description, ...filtersOrigin } = data;
+    const { title, description, ...filtersOrigin } = data;
     let filtersCopy = {} as FiltersWithValues;
 
     Object.entries(filtersOrigin).forEach(([key, { value }]) => {
@@ -151,11 +168,22 @@ const ActivityForm = () => {
         </div>
         <div className="material-container">
           <label>Materials</label>
-          <Controller
-            name="materials"
-            control={control}
-            render={({ field }) => <textarea {...field} />}
+          <input
+            type="text"
+            value={material}
+            onChange={(e) => setMaterial(e.target.value)}
           />
+          <button type="button" onClick={handleAddMaterial}>
+            add
+          </button>
+          <div>
+            {!!materials.length &&
+              materials.map((material, index) => (
+                <span onClick={() => handleDeleteMaterial(index)} key={index}>
+                  - {material}{' '}
+                </span>
+              ))}
+          </div>
         </div>
         <div className="description-container">
           <label>Description</label>
@@ -172,5 +200,3 @@ const ActivityForm = () => {
 };
 
 export default ActivityForm;
-
-// todo: materials should be an array
