@@ -80,6 +80,11 @@ const ActivityForm = () => {
       return;
     }
 
+    if (!fileInfo.secureUrl) {
+      console.log('upload an image');
+      return;
+    }
+
     const { title, materials, description, ...filtersOrigin } = data;
     let filtersCopy = {};
 
@@ -126,7 +131,7 @@ const ActivityForm = () => {
         <FiltersSelect control={control} />
 
         <div className="title-container">
-          <label>title</label>
+          <label>Title</label>
           <Controller
             name="title"
             control={control}
@@ -134,7 +139,7 @@ const ActivityForm = () => {
           />
         </div>
         <div className="material-container">
-          <label>materials</label>
+          <label>Materials</label>
           <Controller
             name="materials"
             control={control}
@@ -142,7 +147,7 @@ const ActivityForm = () => {
           />
         </div>
         <div className="description-container">
-          <label> description</label>
+          <label>Description</label>
           <Controller
             name="description"
             control={control}
@@ -156,3 +161,5 @@ const ActivityForm = () => {
 };
 
 export default ActivityForm;
+
+// todo: materials should be an array
