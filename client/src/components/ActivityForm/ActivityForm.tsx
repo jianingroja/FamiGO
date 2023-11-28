@@ -8,35 +8,18 @@ import {
 import { publishActivity } from '../../services/activity';
 import FiltersSelect from '../FiltersSelect/FiltersSelect';
 
-import { Activity, FiltersWithValues } from '../../types/activity';
+import {
+  FileInfo,
+  PublishFormInput,
+  Activity,
+  FiltersWithValues,
+} from '../../types/activity';
 
 import DeleteIcon from '../../assets/close-white.png';
 import Logo from '../../assets/logo.png';
 import './ActivityForm.css';
 
 const tempImg = Logo;
-
-type FileInfo = {
-  secureUrl: string;
-  publicId: string;
-};
-
-type Option = {
-  label: string;
-  value: string;
-};
-
-type FormInput = {
-  topic: Option;
-  numOfKids: Option;
-  age: Option;
-  difficulty: Option;
-  place: Option;
-  duration: Option;
-  title: string;
-  // materials?: string[];
-  description: string;
-};
 
 const ActivityForm = () => {
   const [fileInfo, setFileInfo] = useState<FileInfo>({} as FileInfo);
@@ -45,7 +28,7 @@ const ActivityForm = () => {
   const [material, setMaterial] = useState<string>('');
   const [materials, setMaterials] = useState<Array<string>>([]);
 
-  const { control, handleSubmit } = useForm<FormInput>();
+  const { control, handleSubmit } = useForm<PublishFormInput>();
 
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     try {
@@ -89,7 +72,7 @@ const ActivityForm = () => {
   };
 
   // form
-  const onSubmit: SubmitHandler<FormInput> = async (data) => {
+  const onSubmit: SubmitHandler<PublishFormInput> = async (data) => {
     // check all inputs are provided=
     const hasAllInputs = Object.values(data).every(
       (input) => Boolean(input) === true

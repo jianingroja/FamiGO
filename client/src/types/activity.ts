@@ -1,7 +1,7 @@
-export type Option = {
+export interface Option {
   label: string;
   value: string;
-};
+}
 
 export interface OptionGroup<Option> {
   options: Option[];
@@ -23,5 +23,23 @@ export interface Activity {
   filters: FiltersWithValues;
   title: string;
   materials: string[];
+  description: string;
+}
+
+// publish
+export interface FileInfo {
+  secureUrl: string;
+  publicId: string;
+}
+
+export interface PublishFormInput {
+  topic: Option;
+  numOfKids: Option;
+  age: Option;
+  difficulty: Option;
+  place: Option;
+  duration: Option;
+  title: string;
+  // materials?: string[];
   description: string;
 }
