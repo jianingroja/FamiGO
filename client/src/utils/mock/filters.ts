@@ -1,13 +1,4 @@
-type Option = {
-  label: string;
-  value: string;
-};
-
-interface OptionGroup<Option> {
-  options: Option[];
-  name: string;
-  placeholder: string;
-}
+import { Option, OptionGroup } from '../../types/activity';
 
 const topicOptions: Option[] = [
   { value: 'Nature', label: 'Nature' },
@@ -54,37 +45,37 @@ const durationOptions: Option[] = [
 
 const topicGroup: OptionGroup<Option> = {
   name: 'topic',
-  placeholder: 'topic',
+  placeholder: 'Topic',
   options: topicOptions,
 };
 
 const kidsGroup: OptionGroup<Option> = {
   name: 'numOfKids',
-  placeholder: 'kids number',
+  placeholder: 'Number of kids',
   options: kidsOptions,
 };
 
 const ageGroup: OptionGroup<Option> = {
   name: 'age',
-  placeholder: 'age range',
+  placeholder: 'Age range',
   options: ageRangeOptions,
 };
 
 const difficultyGroup: OptionGroup<Option> = {
   name: 'difficulty',
-  placeholder: 'difficulty',
+  placeholder: 'Difficulty',
   options: difficultyOptions,
 };
 
 const placeGroup: OptionGroup<Option> = {
   name: 'place',
-  placeholder: 'place',
+  placeholder: 'Place',
   options: placeOptions,
 };
 
 const durationGroup: OptionGroup<Option> = {
   name: 'duration',
-  placeholder: 'duration',
+  placeholder: 'Duration',
   options: durationOptions,
 };
 

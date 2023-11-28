@@ -1,10 +1,10 @@
 import Select from 'react-select';
-import { Controller } from 'react-hook-form';
+import { Controller, Control } from 'react-hook-form';
 
 import { filterGroups } from '../../utils/mock/filters';
 
 type Props = {
-  control: any;
+  control: Control<any>;
 };
 
 const FiltersSelect = ({ control }: Props) => {
