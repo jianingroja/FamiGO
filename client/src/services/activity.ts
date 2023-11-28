@@ -18,14 +18,17 @@ export const publishActivity = async (info: Activity) => {
     };
 
     const res = await fetch(url, options);
+
+    if (res.status !== 201) {
+      throw 'published failed';
+    }
+
     const data = await res.json();
-    console.log(data);
+    console.log('data returned -->', data);
 
-    // todo
-    // save data to redux, go to feed, render  new activity
-
-    return;
+    return data;
   } catch (error) {
     console.log('publish activity errrr -->', error);
+    return;
   }
 };

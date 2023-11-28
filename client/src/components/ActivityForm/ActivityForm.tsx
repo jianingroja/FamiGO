@@ -109,9 +109,14 @@ const ActivityForm = () => {
     };
 
     console.log('send to backend -->', info);
-    await publishActivity(info);
-    // see todo in service
-    console.log('ok, published!');
+    const publishedActivity = await publishActivity(info);
+
+    // todo
+    // save data to redux, go to feed, render  new activity
+
+    if (publishedActivity) {
+      console.log('ok, published!');
+    }
   };
 
   return (
