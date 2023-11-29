@@ -81,9 +81,7 @@ export const registerPOST = async (
   }
 };
 
-export const checkAuthentication = async (
-  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>
-) => {
+export const checkAuthentication = async () => {
   try {
     const response = await fetch(`${url}/api/check-auth`, {
       method: 'GET',
@@ -91,13 +89,12 @@ export const checkAuthentication = async (
     });
 
     if (response.ok) {
-      setIsAuthenticated(true);
-      console.log('ee');
+      return true;
     } else {
-      setIsAuthenticated(false);
+      return false;
     }
   } catch (error) {
     console.error(error);
-    setIsAuthenticated(false);
+    return false;
   }
 };
