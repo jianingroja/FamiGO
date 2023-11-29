@@ -19,7 +19,7 @@ const FeedItem = ({ activity }: Props) => {
     image,
   } = activity;
 
-  const filterValues = Object.values(filters);
+  const filterEntries = Object.entries(filters);
 
   return (
     <div className="feed-item">
@@ -30,8 +30,8 @@ const FeedItem = ({ activity }: Props) => {
         <p>{username}</p>
       </div>
       <div className="filters">
-        {filterValues.map((value) => (
-          <FilterTag value={value} />
+        {filterEntries.map(([label, value]) => (
+          <FilterTag label={label} value={value} />
         ))}
       </div>
       <div className="content">

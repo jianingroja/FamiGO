@@ -1,11 +1,19 @@
+import { Option } from '../../types/activity';
+
 import './FilterTag.css';
 
-type Props = {
-  value: string;
-};
+const FilterTag = ({ label, value }: Option) => {
+  let text = value;
 
-const FilterTag = ({ value }: Props) => {
-  return <span>{value}</span>;
+  if (label === 'numOfKids') {
+    if (value === '1') {
+      text = `${value} kid`;
+    } else {
+      text = `${value} kids`;
+    }
+  }
+
+  return <span className="filter-tag">{text}</span>;
 };
 
 export default FilterTag;
