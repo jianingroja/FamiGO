@@ -10,7 +10,7 @@ const Nav = () => {
   return (
     <div className="nav">
       <div>
-        <NavLink to="/">
+        <NavLink to="/feed">
           <img src={Home} alt="Feed" />
         </NavLink>
       </div>

@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { User } from '../../types/user';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { registerPOST } from '../../services/auth';
 import './Register.css';
 
 const Register = () => {
+  const navigate = useNavigate();
+
   interface FormState {
     inputValues: User;
   }
@@ -40,6 +42,8 @@ const Register = () => {
           password: '',
           confirmPassword: '',
         });
+
+        navigate('/login');
       });
     }
   };

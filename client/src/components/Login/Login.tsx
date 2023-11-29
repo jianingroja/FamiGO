@@ -13,7 +13,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const user = await login(email, password);
-      navigate('/'); // después de login va al FeedPage
+      navigate('/feed'); // después de login va al FeedPage
       console.log('Logged in', user);
     } catch (error) {
       console.error('Login failed');
@@ -23,7 +23,7 @@ const Login = () => {
   const handleGoogleLogin = async (response: any) => {
     try {
       const user = await googleLogin(response.credential);
-      navigate('/');
+      navigate('/feed');
       console.log('Logged in with Google', user);
     } catch (error) {
       console.error('Google login failed', error);
