@@ -19,7 +19,8 @@ input:focus {
   /* temporary */
   --primary-color: rgba(0, 109, 119, 1);
   --secondary-color: rgba(255, 213, 194, 1);
-  --grey-color: rgba(105, 103, 103, 1);
+  --darkgrey-color: rgba(105, 103, 103, 1);
+  --lightgrey-color: rgb(158, 158, 158);
 }
 
 .app {

@@ -8,7 +8,7 @@
 }
 
 .button-box p {
-  color: grey;
+  color: var(--darkgrey-color);
   display: flex;
   justify-content: flex-end;
 }
@@ -55,14 +55,14 @@
 .button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  background-color: rgb(144, 143, 143);
+  background-color: var(--lightgrey-color);
   color: rgb(17, 17, 17);
 }
 
 /* OTHER */
 .list {
   font-size: 18px;
-  color: grey;
+  color: var(--lightgrey-color);
   font-family: Arial, Helvetica, sans-serif;
   line-height: 26px;
 }
