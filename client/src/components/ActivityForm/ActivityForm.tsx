@@ -116,6 +116,7 @@ const ActivityForm = () => {
 
     if (publishedActivity) {
       console.log('ok, published!');
+      navigate('/feed');
     }
   };
 
