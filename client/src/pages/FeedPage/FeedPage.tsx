@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { getNewlyPublishedActivity } from '../../redux/activitySlice';
-import { checkAuthentication } from '../../services/auth';
 import { getFeed } from '../../services/feed';
 import { FeedActivity } from '../../types/feed';
 import FeedItem from '../../components/FeedItem/FeedItem';
@@ -21,26 +19,13 @@ export interface IFormInput {
 }
 
 const FeedPage = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [hasChecked, setHasChecked] = useState<boolean>(false);
   const [postsByFilter, setPostsByFilter] = useState();
 
   const { control, handleSubmit } = useForm<IFormInput>({});
 
-  const navigate = useNavigate();
-
   const [feedItems, setFeedItems] = useState<FeedActivity[]>([]);
 
   const myNewPublish = getNewlyPublishedActivity();
-
-  useEffect(() => {
-    (async () => {
-      const authRes = await checkAuthentication();
-
-      setIsAuthenticated(authRes);
-      setHasChecked(true);
-    })();
-  }, []);
 
   useEffect(() => {
     const getFeedItems = async () => {
@@ -50,12 +35,6 @@ const FeedPage = () => {
 
     getFeedItems();
   }, []);
-
-  if (hasChecked) {
-    if (!isAuthenticated) {
-      navigate('/login');
-    }
-  }
 
   const onSubmit: SubmitHandler<any> = (data) => {
     const apiEndpoint = 'http://localhost:3000/feed';
@@ -80,18 +59,14 @@ const FeedPage = () => {
 
   return (
     <div className="feed-page">
-      {hasChecked && isAuthenticated && (
-        <>
-          Filter Placeholder
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <FiltersSelect control={control} />
-            <button type="submit">Search</button>
-          </form>
-          {myNewPublish && <FeedItem activity={myNewPublish} />}
-          {!!feedItems.length &&
-            feedItems.map((feedItem) => <FeedItem activity={feedItem} />)}
-        </>
-      )}
+      Filter Placeholder
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FiltersSelect control={control} />
+        <button type="submit">Search</button>
+      </form>
+      {myNewPublish && <FeedItem activity={myNewPublish} />}
+      {!!feedItems.length &&
+        feedItems.map((feedItem) => <FeedItem activity={feedItem} />)}
     </div>
   );
 };
