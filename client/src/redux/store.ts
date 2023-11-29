@@ -1,7 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import { activityReducer } from './activitySlice';
+
 const store = configureStore({
-  reducer: {},
+  reducer: {
+    activity: activityReducer,
+  },
 });
 
 export default store;
