@@ -1,6 +1,10 @@
+import { UserLogin } from '../types/user';
+
 const url = 'http://localhost:3000';
 
-export const login = async (email: string, password: string) => {
+export const login = async (info: UserLogin) => {
+  const { email, password } = info;
+
   try {
     const response = await fetch(`${url}/login`, {
       method: 'POST',
@@ -9,7 +13,6 @@ export const login = async (email: string, password: string) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      // credentials: 'include',
       body: JSON.stringify({
         email,
         password,
