@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 
+import HomePage from './pages/HomePage/HomePage';
 import FeedPage from './pages/FeedPage/FeedPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import PublishIdeaPage from './pages/PublishActivityPage';
@@ -18,7 +19,7 @@ const App = () => {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/" element={<FeedPage />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/edit-profile" element={<EditProfilePage />} />
         <Route element={<NavOutlet />}>
           <Route path="/feed" element={<FeedPage />} />
