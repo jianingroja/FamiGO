@@ -1,5 +1,7 @@
 import { FeedActivity } from '../../types/feed';
 
+import FilterTag from '../FilterTag/FilterTag';
+
 import Logo from '../../assets/logo.png';
 import './FeedItem.css';
 
@@ -13,8 +15,11 @@ const FeedItem = ({ activity }: Props) => {
   const {
     userInfo: { username },
     description,
+    filters,
     image,
   } = activity;
+
+  const filterValues = Object.values(filters);
 
   return (
     <div className="feed-item">
@@ -23,6 +28,11 @@ const FeedItem = ({ activity }: Props) => {
           <img src={tempImg} alt="avatar" />
         </div>
         <p>{username}</p>
+      </div>
+      <div className="filters">
+        {filterValues.map((value) => (
+          <FilterTag value={value} />
+        ))}
       </div>
       <div className="content">
         <img src={image} alt="activity image" />
