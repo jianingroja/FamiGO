@@ -1,11 +1,14 @@
-import FeedItem from '../../components/FeedItem/FeedItem';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { checkAuthentication } from '../../services/auth';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import './FeedPage.css';
+import { checkAuthentication } from '../../services/auth';
+import { getFeed } from '../../services/feed';
+import { FeedActivity } from '../../types/feed';
+import FeedItem from '../../components/FeedItem/FeedItem';
 import FiltersSelect from '../../components/FiltersSelect/FiltersSelect';
+
+import './FeedPage.css';
 
 export interface IFormInput {
   Topic: {};
@@ -25,6 +28,8 @@ const FeedPage = () => {
 
   const navigate = useNavigate();
 
+  const [feedItems, setFeedItems] = useState<FeedActivity[]>([]);
+
   useEffect(() => {
     (async () => {
       const authRes = await checkAuthentication();
@@ -32,6 +37,15 @@ const FeedPage = () => {
       setIsAuthenticated(authRes);
       setHasChecked(true);
     })();
+  }, []);
+
+  useEffect(() => {
+    const getFeedItems = async () => {
+      const res = (await getFeed()) as FeedActivity[];
+      setFeedItems(res);
+    };
+
+    getFeedItems();
   }, []);
 
   if (hasChecked) {
@@ -70,9 +84,8 @@ const FeedPage = () => {
             <FiltersSelect control={control} />
             <button type="submit">Search</button>
           </form>
-          <FeedItem />
-          <FeedItem />
-          <FeedItem />
+          {!!feedItems.length &&
+            feedItems.map((feedItem) => <FeedItem activity={feedItem} />)}
         </>
       )}
     </div>
