@@ -16,10 +16,12 @@ const FeedItem = ({ activity }: Props) => {
     userInfo: { username },
     description,
     filters,
+    likes,
     image,
   } = activity;
 
   const filterEntries = Object.entries(filters);
+  const likesCount = likes.length;
 
   return (
     <div className="feed-item">
@@ -38,7 +40,7 @@ const FeedItem = ({ activity }: Props) => {
         <img src={image} alt="activity image" />
       </div>
       <div className="status">
-        <p>321 likes</p>
+        <p>{likesCount} likes</p>
         <div className="actions">
           <p>like</p>
           <p>comment</p>
@@ -46,7 +48,6 @@ const FeedItem = ({ activity }: Props) => {
         </div>
       </div>
       <p>{description}</p>
-      <p>Here is a description of my experience</p>
       <p>view all comments</p>
     </div>
   );
