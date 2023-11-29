@@ -1,7 +1,9 @@
-import { useEffect } from 'react';
-
+import { useEffect, useState } from 'react';
+import { BaseSyntheticEvent } from 'react';
+import { Link } from 'react-router-dom';
 import './GeneratedActivity.css';
-import SaveIcon from '../../assets/Save.svg';
+import Save from '../../assets/Save.svg';
+import New from '../../assets/New.svg';
 
 interface IActivity {
   activity: {
@@ -10,9 +12,14 @@ interface IActivity {
     materials: Array<String>;
     description: String;
   };
+  onSubmit: (
+    e?: BaseSyntheticEvent<object, any, any> | undefined
+  ) => Promise<void>;
 }
 
-const GeneratedActivity: React.FC<IActivity> = ({ activity }) => {
+const GeneratedActivity: React.FC<IActivity> = ({ activity, onSubmit }) => {
+  const [newClickCount, setNewClickCount] = useState(0);
+
   useEffect(() => {
     if (activity) {
       console.log(document.body.scrollHeight);
@@ -56,6 +63,17 @@ const GeneratedActivity: React.FC<IActivity> = ({ activity }) => {
       console.error('Error:', error);
     });
   };
+
+  const handleSubmit = (e: any) => {
+    if (newClickCount < 3) {
+      setNewClickCount(newClickCount + 1);
+      onSubmit(e);
+      console.log('e', e);
+    }
+  };
+
+  const remainingClicks = 3 - newClickCount;
+
   return (
     <div className="generated-activity-container">
       <h2>{activity.title}</h2>
@@ -77,10 +95,23 @@ const GeneratedActivity: React.FC<IActivity> = ({ activity }) => {
       </div>
       <p>{activity.description}</p>
       <div className="button-box">
-        <button className="button" onClick={handleSaveClick}>
-          <img src={SaveIcon} alt="SaveIcon" />
-          Save
-        </button>
+        <Link to="/profile" className="saveredirect-btn">
+          <button className="button" onClick={handleSaveClick}>
+            <img src={Save} alt="SaveIcon" />
+            Save
+          </button>
+        </Link>
+        <form onSubmit={handleSubmit}>
+          <button
+            className="button"
+            type="submit"
+            disabled={newClickCount >= 3}
+          >
+            <img src={New} alt="SaveIcon" />
+            New
+          </button>
+          <p>{remainingClicks}/3</p>
+        </form>
       </div>
     </div>
   );

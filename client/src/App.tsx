@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import FeedPage from './pages/FeedPage/FeedPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import PublishIdeaPage from './pages/PublishActivityPage';
-import GeneratorPage from './pages/GeneratorPage';
+import GeneratorPage from './pages/GeneratorPage/GeneratorPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import NavOutlet from './components/NavOutlet';
