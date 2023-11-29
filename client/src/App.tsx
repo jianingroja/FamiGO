@@ -13,7 +13,6 @@ import './App.css';
 const App = () => {
   return (
     <div className="app">
-      Hello Famigo
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />

@@ -15,7 +15,6 @@ export interface IFormInput {
 
 const GeneratorPage = () => {
   const { control, handleSubmit } = useForm<IFormInput>({});
-
   const [activity, setActivity] = useState();
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
@@ -45,8 +44,9 @@ const GeneratorPage = () => {
 
   return (
     <div>
+      <br />
+      <br />
       <h1>Generate an activity</h1>
-      <p>Based on your preferences:</p>
       <GenerateForm control={control} onSubmit={handleSubmit(onSubmit)} />
       {activity && <GeneratedActivity activity={activity} />}
       <NavOutlet />

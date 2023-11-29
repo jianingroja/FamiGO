@@ -14,18 +14,47 @@ input:focus {
 
 /* background colors are set temporarily to make visualization easier */
 :root {
-  background-color: olivedrab;
+  background-color: rgb(216, 215, 215);
 
   /* temporary */
-  --primary-color: #6ea8ff;
+  --primary-color: rgba(0, 109, 119, 1);
+  --secondary-color: rgba(255, 213, 194, 1);
+  --grey-color: rgba(105, 103, 103, 1);
 }
 
 .app {
-  background-color: white;
+  background-color: rgba(255, 255, 255, 1);
   width: 100vw;
   height: 90vh;
   max-height: 100vh;
   max-width: 430px;
   margin: 0 auto;
   overflow-y: scroll;
+}
+
+/* FONTS */
+h1 {
+  color: var(--primary-color);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 26px;
+  text-align: center;
+}
+
+h2 {
+  color: #3d405b;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 23px;
+  font-weight: 600;
+  line-height: 26px;
+  text-align: center;
+}
+
+p {
+  color: #000000;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 26px;
+  text-align: justify;
 }

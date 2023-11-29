@@ -1,6 +1,7 @@
 import { BaseSyntheticEvent } from 'react';
 import { Controller } from 'react-hook-form';
 import Select from 'react-select';
+import './GenerateForm.css';
 
 type Options = {
   value: String;
@@ -66,7 +67,7 @@ const GenerateForm: React.FC<GenerateFormProps> = ({ control, onSubmit }) => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} className="generated-activity-container">
       <br />
       <Controller
         name="Topic"
@@ -113,7 +114,11 @@ const GenerateForm: React.FC<GenerateFormProps> = ({ control, onSubmit }) => {
           handleSelect(field, durationOptions, 'Duration...')
         }
       />
-      <input type="submit" value="Generate" />
+      <div className="button-box">
+        <button className="button" type="submit">
+          Generate
+        </button>
+      </div>
     </form>
   );
 };
