@@ -133,12 +133,12 @@ export const getPostsForFeed = async (req: Request, res: Response) => {
 };
 
 interface FilterCriteria {
-  topic: {};
-  numOfKids: {};
-  age: {};
-  difficulty: {};
-  place: {};
-  duration: {};
+  topic?: {};
+  numOfKids?: {};
+  age?: {};
+  difficulty?: {};
+  place?: {};
+  duration?: {};
 }
 
 export const getPostsByFilter = async (req: Request, res: Response) => {
