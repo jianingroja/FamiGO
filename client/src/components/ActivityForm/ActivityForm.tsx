@@ -1,6 +1,9 @@
 import { useState, ChangeEvent } from 'react';
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
+import { useAppDispatch } from '../../redux/hooks';
+import { setNewlyPublishedActivity } from '../../redux/activitySlice';
 import {
   uploadFileToCloudinary,
   deleteFileFromCloudinary,
@@ -29,6 +32,9 @@ const ActivityForm = () => {
   const [materials, setMaterials] = useState<Array<string>>([]);
 
   const { control, handleSubmit } = useForm<PublishFormInput>();
+
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     try {
@@ -116,6 +122,7 @@ const ActivityForm = () => {
 
     if (publishedActivity) {
       console.log('ok, published!');
+      dispatch(setNewlyPublishedActivity(publishedActivity));
       navigate('/feed');
     }
   };

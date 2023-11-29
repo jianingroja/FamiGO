@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
+import { getNewlyPublishedActivity } from '../../redux/activitySlice';
 import { checkAuthentication } from '../../services/auth';
 import { getFeed } from '../../services/feed';
 import { FeedActivity } from '../../types/feed';
@@ -29,6 +30,8 @@ const FeedPage = () => {
   const navigate = useNavigate();
 
   const [feedItems, setFeedItems] = useState<FeedActivity[]>([]);
+
+  const myNewPublish = getNewlyPublishedActivity();
 
   useEffect(() => {
     (async () => {
@@ -84,6 +87,7 @@ const FeedPage = () => {
             <FiltersSelect control={control} />
             <button type="submit">Search</button>
           </form>
+          {myNewPublish && <FeedItem activity={myNewPublish} />}
           {!!feedItems.length &&
             feedItems.map((feedItem) => <FeedItem activity={feedItem} />)}
         </>
