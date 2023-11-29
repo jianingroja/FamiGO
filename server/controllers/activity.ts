@@ -133,29 +133,32 @@ export const getPostsForFeed = async (req: Request, res: Response) => {
 };
 
 interface FilterCriteria {
-  topic?: string;
-  numOfKids?: string;
-  age?: string;
-  difficulty?: string;
-  place?: string;
-  duration?: string;
+  topic: string;
+  numOfKids: string;
+  age: string;
+  difficulty: string;
+  place: string;
+  duration: string;
 }
 
 export const getPostsByFilter = async (req: Request, res: Response) => {
   try {
-    const filters: FilterCriteria = req.body.filters;
+    const filters: FilterCriteria = req.body;
+    console.log('filters', filters);
     let query: Record<string, any> = {};
 
     if (filters) {
-      Object.entries(filters).forEach(([key, value]) => {
-        if (value !== undefined) {
-          query[`filters.${key}`] = value;
+      Object.entries(filters).forEach(([key, filterObject]) => {
+        if (filterObject && filterObject.value !== undefined) {
+          query[`filters.${key}`] = filterObject.value;
         }
       });
     }
 
-    const limit = 20;
+    const limit = 5;
+    console.log('query', query);
     const filteredActivities = await ActivityModel.find(query).limit(limit);
+    console.log('filteredActivities', filteredActivities);
 
     res.status(200).json({ activities: filteredActivities });
   } catch (error) {

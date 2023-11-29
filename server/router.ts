@@ -54,6 +54,7 @@ router.get('/profile/:id', isAuthenticated, getUserInfo, getUserData);
 
 //get posts from feed
 router.get('/feed', isAuthenticated, getPostsForFeed, getPostsByFilter);
+router.post('/feed', getPostsByFilter);
 
 //Activities
 router.post('/save-activity', saveActivity);
