@@ -1,0 +1,10 @@
+.filter-tag {
+  margin-right: 0.3rem;
+  padding: 0.1rem 0.5rem;
+  width: auto;
+  display: inline-block;
+  font-size: 0.7rem;
+  color: var(--primary-color);
+  border: solid 1px var(--primary-color);
+  border-radius: 2rem;
+}
