@@ -22,6 +22,7 @@ import {
   saveActivity,
   getPostsForFeed,
   getActivity,
+  getPostsByFilter,
 } from './controllers/activity';
 import { generateActivity } from './controllers/generateActivity';
 
@@ -52,7 +53,7 @@ router.get('/api/check-auth', isAuthenticated, cookiesOK);
 router.get('/profile/:id', isAuthenticated, getUserInfo, getUserData);
 
 //get posts from feed
-router.get('/feed', isAuthenticated, getPostsForFeed);
+router.get('/feed', isAuthenticated, getPostsForFeed, getPostsByFilter);
 
 //Activities
 router.post('/save-activity', saveActivity);

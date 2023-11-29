@@ -74,6 +74,22 @@ export const getUserData = async (_req: Request, res: Response) => {
   }
 };
 
+export const saveActivity = async (req: Request, res: Response) => {
+  try {
+    const savedActivityBody = req.body;
+
+    const username = req.cookies['username'];
+    const user = await getUserByUserName(username);
+    savedActivityBody.userInfo.username = user!.username;
+
+    const activity = await new ActivityModel(savedActivityBody).save();
+    return res.status(200).json(activity);
+  } catch (error) {
+    console.error('Error saving activity:', error);
+    return res.sendStatus(400).send(error);
+  }
+};
+
 export const getPostsForFeed = async (req: Request, res: Response) => {
   try {
     const username = req.cookies['username'];
@@ -116,18 +132,34 @@ export const getPostsForFeed = async (req: Request, res: Response) => {
   }
 };
 
-export const saveActivity = async (req: Request, res: Response) => {
+interface FilterCriteria {
+  topic?: string;
+  numOfKids?: string;
+  age?: string;
+  difficulty?: string;
+  place?: string;
+  duration?: string;
+}
+
+export const getPostsByFilter = async (req: Request, res: Response) => {
   try {
-    const savedActivityBody = req.body;
+    const filters: FilterCriteria = req.body.filters;
+    let query: Record<string, any> = {};
 
-    const username = req.cookies['username'];
-    const user = await getUserByUserName(username);
-    savedActivityBody.userInfo.username = user!.username;
+    if (filters) {
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value !== undefined) {
+          query[`filters.${key}`] = value;
+        }
+      });
+    }
 
-    const activity = await new ActivityModel(savedActivityBody).save();
-    return res.status(200).json(activity);
+    const limit = 20;
+    const filteredActivities = await ActivityModel.find(query).limit(limit);
+
+    res.status(200).json({ activities: filteredActivities });
   } catch (error) {
-    console.error('Error saving activity:', error);
-    return res.sendStatus(400).send(error);
+    console.error('Error fetching filtered posts:', error);
+    res.status(500).send('Error fetching posts');
   }
 };
