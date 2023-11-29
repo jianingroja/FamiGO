@@ -9,15 +9,15 @@ export const publishActivity = async (info: Activity) => {
     };
 
     const url = `${BASE_URL}/publish-activity`;
-    const options = {
+
+    const res = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: 'include',
       body: JSON.stringify({ activity }),
-    };
-
-    const res = await fetch(url, options);
+    });
 
     if (res.status !== 201) {
       throw 'published failed';
