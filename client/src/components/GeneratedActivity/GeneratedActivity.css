@@ -7,6 +7,12 @@
   text-align: justify;
 }
 
+.button-box p {
+  color: grey;
+  display: flex;
+  justify-content: flex-end;
+}
+
 /* CONTAINERS */
 .generated-activity-container {
   margin: 4% 8% 4% 8%;
@@ -27,7 +33,7 @@
 }
 .button-box {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   padding: 4%;
 }
 
@@ -46,10 +52,21 @@
   border: none;
 }
 
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: rgb(144, 143, 143);
+  color: rgb(17, 17, 17);
+}
+
 /* OTHER */
 .list {
   font-size: 18px;
   color: grey;
   font-family: Arial, Helvetica, sans-serif;
   line-height: 26px;
+}
+
+a {
+  text-decoration: none;
 }
