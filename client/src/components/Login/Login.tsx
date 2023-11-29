@@ -1,27 +1,30 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
-import { login, googleLogin } from '../../services/auth';
+
+import useAuth from '../../hooks/useAuth';
+import { googleLogin } from '../../services/auth';
 import './Login.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
 
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+  const navigate = useNavigate();
+  const { handleLogin } = useAuth();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      const user = await login(email, password);
-      navigate('/feed'); // después de login va al FeedPage
-      console.log('Logged in', user);
-    } catch (error) {
-      console.error('Login failed');
-    }
+
+    handleLogin({ email, password })
+      .then(() => navigate('/feed'))
+      .catch((error) => console.log('login err component', error));
   };
 
   const handleGoogleLogin = async (response: any) => {
     try {
+      // todo: use auth
+
       const user = await googleLogin(response.credential);
       navigate('/feed');
       console.log('Logged in with Google', user);
@@ -33,7 +36,7 @@ const Login = () => {
   return (
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <div className="login-container">
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleSubmit}>
           <input
             type="email"
             value={email}
