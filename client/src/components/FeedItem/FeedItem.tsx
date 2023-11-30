@@ -33,7 +33,7 @@ const FeedItem = ({ activity }: Props) => {
       </div>
       <div className="filters">
         {filterEntries.map(([label, value]) => (
-          <FilterTag label={label} value={value} />
+          <FilterTag key={label} label={label} value={value} />
         ))}
       </div>
       <div className="content">

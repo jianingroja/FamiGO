@@ -66,7 +66,9 @@ const FeedPage = () => {
       </form>
       {myNewPublish && <FeedItem activity={myNewPublish} />}
       {!!feedItems.length &&
-        feedItems.map((feedItem) => <FeedItem activity={feedItem} />)}
+        feedItems.map((feedItem) => (
+          <FeedItem key={feedItem._id} activity={feedItem} />
+        ))}
     </div>
   );
 };
