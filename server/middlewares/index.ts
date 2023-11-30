@@ -69,6 +69,7 @@ export const isAuthorized = async (
 
     if (identity.username !== username) {
       res.status(401).end(); // 401 Unauthorized
+      return;
     }
 
     return next();
