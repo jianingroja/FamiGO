@@ -92,9 +92,9 @@ export const saveActivity = async (req: Request, res: Response) => {
       user.savedAIPosts.push(activityID);
 
       await user.save();
+      res.status(201).send(activity);
     }
-
-    return res.status(201).send(activity);
+    return;
   } catch (error) {
     console.error('Error saving activity:', error);
     return res.sendStatus(400).send(error);
