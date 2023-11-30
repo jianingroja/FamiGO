@@ -149,13 +149,13 @@ export const getPostsByFilter = async (req: Request, res: Response) => {
 
     if (filters) {
       Object.entries(filters).forEach(([key, filterObject]) => {
-        if (filterObject && filterObject.value !== undefined) {
+        if (filterObject) {
           query[`filters.${key}`] = filterObject.value;
         }
       });
     }
 
-    const limit = 5;
+    const limit = 20;
     console.log('query', query);
     const filteredActivities = await ActivityModel.find(query).limit(limit);
     console.log('filteredActivities', filteredActivities);
