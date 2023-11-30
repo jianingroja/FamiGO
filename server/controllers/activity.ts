@@ -60,19 +60,15 @@ export const getActivity = async (req: Request, res: Response) => {
 export const getUserData = async (_req: Request, res: Response) => {
   try {
     const user = res.locals.user;
-
     const username = user?.username;
-
     const activitiesFromUser = await getActivitiesFromUser(username);
 
     const listOfActivities = await iterateActivitiesFromUser(
       activitiesFromUser!.statistics!.posts!
     );
-
     const listOfSavedAIActivities = await iterateActivitiesFromUser(
       activitiesFromUser!.savedAIPosts!
     );
-
     const listOfSavedActivities = await iterateActivitiesFromUser(
       activitiesFromUser!.savedPosts!
     );
