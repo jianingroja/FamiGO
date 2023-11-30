@@ -16,15 +16,16 @@ input:focus {
 :root {
   background-color: rgb(216, 215, 215);
 
-  /* temporary */
   --primary-color: rgba(0, 109, 119, 1);
   --secondary-color: rgba(255, 213, 194, 1);
   --darkgrey-color: rgba(105, 103, 103, 1);
   --lightgrey-color: rgb(158, 158, 158);
+  --white-color: rgba(255, 255, 255, 1);
+  --primary-active-color: rgba(0, 162, 176, 1);
 }
 
 .app {
-  background-color: rgba(255, 255, 255, 1);
+  background-color: var(--white-color);
   width: 100vw;
   height: 100vh;
   max-height: 100vh;
