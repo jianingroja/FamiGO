@@ -26,7 +26,6 @@ export const publishActivity = async (req: Request, res: Response) => {
         username,
       },
     };
-
     const newActivity = await createActivity(activityWithUser);
     const activityId = newActivity.id;
     console.log('activity id -->', activityId);
@@ -100,34 +99,27 @@ export const getPostsForFeed = async (req: Request, res: Response) => {
     const followingUserIDs = user!.statistics!.following!;
 
     if (followingUserIDs.length > 0) {
-      //get post info of each user following
+      const followingUsersInfo = await iterateIDs(followingUserIDs);
 
-      const arrayWithUsers = await iterateIDs(followingUserIDs);
-
-      //arrayWithUsers contains all users following.
       //iteratee over each object over postsIDs
-      const postsIDs = getAllPostsIDs(arrayWithUsers);
+      const postsIDs = getAllPostsIDs(followingUsersInfo);
+      const activities = await iterateActivities(postsIDs);
 
-      const arrayWithAllActivities = await iterateActivities(postsIDs);
-
-      //Sort by createdAt
-      const sortedArrayToName = arrayWithAllActivities.sort((a, b) => {
-        const createdAtA = new Date(Object.values(a)[0].createdAt).getTime();
-        const createdAtB = new Date(Object.values(b)[0].createdAt).getTime();
-
-        return createdAtB - createdAtA;
+      //Sort by latest
+      activities.sort((a, b) => {
+        return b.createdAt - a.createdAt;
       });
 
-      res.json({ sortedArrayToName });
+      res.json({ activities });
     }
     //if not following any users goes to else
     else {
       let limit = 20; //will only get 20 posts
-      const randomActivities = await ActivityModel.aggregate([
+      const activities = await ActivityModel.aggregate([
         { $sample: { size: limit } },
       ]);
 
-      res.json({ randomActivities }).status(200);
+      res.json({ activities }).status(200);
     }
     return;
   } catch (error) {

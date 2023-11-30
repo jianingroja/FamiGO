@@ -36,7 +36,7 @@ export async function iterateActivities(activities: string[]) {
     const activity = await getActivitiesByID(activityId);
 
     if (activity) {
-      listOfActivities.push({ [activityId]: activity });
+      listOfActivities.push(activity);
     }
   }
 
