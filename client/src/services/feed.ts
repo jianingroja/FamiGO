@@ -39,6 +39,9 @@ export const getFilteredFeed = async (
       credentials: 'include',
     });
 
+    // json stringify will take out the undefined property
+    // only given filters will be included in the body
+
     const data = (await res.json()) as FeedResponseData;
     console.log('filtered data -->', data);
 
