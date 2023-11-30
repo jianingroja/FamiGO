@@ -23,8 +23,6 @@ const App = () => {
         <Route path="/edit-profile" element={<EditProfilePage />} />
         <Route element={<NavOutlet />}>
           <Route path="/feed" element={<FeedPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/" element={<FeedPage />} />
           <Route path="/profile/:username" element={<ProfilePage />} />
           <Route path="/activity/:id" element={<Activity />} />
           <Route path="/generator" element={<GeneratorPage />} />
