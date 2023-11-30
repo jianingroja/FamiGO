@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
+import { FeedActivity } from '../types/feed';
 import { useAppSelector } from './hooks';
 
 type initialStateType = {
-  newlyPublishedActivity: null | {}; // FeedActivity
+  newlyPublishedActivity: null | FeedActivity;
 };
 
 const initialState: initialStateType = {
