@@ -1,0 +1,15 @@
+.filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-content: center;
+  margin-top: 5%;
+  padding-top: 2%;
+  padding-right: 2%;
+  padding-left: 2%;
+}
+
+.individual-filter {
+  width: 40%;
+  padding-bottom: 2%;
+}
