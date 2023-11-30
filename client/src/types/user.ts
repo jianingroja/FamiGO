@@ -53,3 +53,20 @@ export interface UserLogin {
   email: string;
   password: string;
 }
+
+// redux
+export interface UserStatistics {
+  followers: string[];
+  following: string[];
+  posts: string[];
+}
+
+export interface IUser {
+  _id: string;
+  username: string;
+  email: string;
+  avatar: string;
+  description: string;
+  savedPosts: string[];
+  statistics: UserStatistics;
+}
