@@ -1,4 +1,4 @@
-import { FiltersWithValues } from './activity';
+import { Option, FiltersWithValues } from './activity';
 
 export interface FeedActivity {
   _id: string;
@@ -17,4 +17,13 @@ export interface FeedActivity {
 
 export interface FeedResponseData {
   activities: FeedActivity[];
+}
+
+export interface FiltersWithOptions {
+  topic: Option | undefined;
+  numOfKids: Option | undefined;
+  age: Option | undefined;
+  difficulty: Option | undefined;
+  place: Option | undefined;
+  duration: Option | undefined;
 }
