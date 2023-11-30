@@ -29,16 +29,18 @@
   & .pre-view {
     width: 33%;
     margin-right: 0.5%;
-
-    & img {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      object-fit: cover;
-    }
   }
 
   & .pre-view:nth-child(3n) {
     margin-right: 0;
+  }
+
+  & .pre-view-title-box {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
   }
 }
 

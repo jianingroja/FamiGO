@@ -6,6 +6,7 @@ import { getUserInfo } from '../../services/users';
 import { getActivity } from '../../services/activity';
 
 import Logo from '../../assets/logo.png';
+import { act } from 'react-dom/test-utils';
 
 type Props = {
   type: string;
@@ -39,6 +40,13 @@ const Collection = ({ type }: Props) => {
     console.log('activityData', activityData);
   };
 
+  function getRandomColorWithOpacity(opacity: Number) {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgb(${r}, ${g}, ${b}, ${opacity})`;
+  }
+
   if (type === 'ai') {
     return (
       <div className="collection-ai">
@@ -46,13 +54,20 @@ const Collection = ({ type }: Props) => {
           const activityId = Object.keys(activityObj)[0];
           const activity = activityObj[activityId];
 
+          const randomColorWithOpacity = getRandomColorWithOpacity(0.2);
+
           return (
             <div key={activityId} className="pre-view">
               <Link
                 to={`/activity/${activityId}`}
                 onClick={() => handleImageClick(activityId)}
               >
-                <img className="img" src={Logo} alt={activity.title} />
+                <div
+                  className="pre-view-title-box"
+                  style={{ backgroundColor: randomColorWithOpacity }}
+                >
+                  <h2>{activity.title}</h2>
+                </div>
               </Link>
             </div>
           );
