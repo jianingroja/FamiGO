@@ -15,3 +15,12 @@ export interface UserStatistics {
   following: any[];
   posts: string[];
 }
+
+export interface IUser {
+  _id: string;
+  username: string;
+  email: string;
+  avatar: string;
+  savedPosts: any[];
+  statistics: UserStatistics;
+}

@@ -2,6 +2,11 @@ import { Request, Response, NextFunction } from 'express';
 import { get, merge } from 'lodash';
 
 import { getUserBySessionToken } from '../models/users';
+import { IUser } from '../types';
+
+interface RequestWithUser extends Request {
+  identity: IUser;
+}
 
 export const isOwner = async (
   req: Request,
