@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { BaseSyntheticEvent } from 'react';
 import { Link } from 'react-router-dom';
 import './GeneratedActivity.css';
-import Save from '../../assets/Save.svg';
+import Save from '../../assets/SavedAIPosts.svg';
 import New from '../../assets/New.svg';
 
 interface IActivity {
