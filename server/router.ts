@@ -14,7 +14,12 @@ import {
   deleteFromCloudinary,
 } from './controllers/cloudinary';
 import { getAllUsers } from './middlewares/users';
-import { cookiesOK, isAuthenticated, isOwner } from './middlewares';
+import {
+  cookiesOK,
+  isAuthenticated,
+  isOwner,
+  isAuthorized,
+} from './middlewares/index';
 
 import {
   getUserData,
@@ -55,7 +60,7 @@ router.get('/profile/:id/edit', isAuthenticated, isOwner); // auth and owner
 router.get('/profile/:id', isAuthenticated, getUserInfo, getUserData);
 
 //get posts from feed
-router.get('/feed', isAuthenticated, getPostsForFeed);
+router.get('/feed', isAuthenticated, isAuthorized, getPostsForFeed);
 router.post('/feed', getPostsByFilter);
 
 //Activities
