@@ -12,8 +12,8 @@
 
   & a {
     display: inline-block;
-    width: 10vw;
-    height: 10vw;
+    width: 2.5rem;
+    height: 2.5rem;
     text-align: center;
 
     & img {
