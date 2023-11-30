@@ -173,7 +173,9 @@ export const getPostsByFilter = async (req: Request, res: Response) => {
 
     const limit = 20;
     console.log('query', query);
-    const filteredActivities = await ActivityModel.find(query).limit(limit);
+    const filteredActivities = await ActivityModel.find(query)
+      .find({ type: 'published' })
+      .limit(limit);
     console.log('filteredActivities', filteredActivities);
 
     res.status(200).json({ activities: filteredActivities });
