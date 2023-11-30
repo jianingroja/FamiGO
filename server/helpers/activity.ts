@@ -1,7 +1,7 @@
 // helpers.ts
 import { getActivitiesByID } from '../models/activity';
 import { getUserById } from '../models/users';
-import { UsersData } from '../types';
+import { UsersData } from '../types/user';
 
 export async function iterateIDs(userIDs: string[]) {
   const usersData: { [key: string]: any }[] = [];

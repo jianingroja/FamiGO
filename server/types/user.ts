@@ -1,3 +1,9 @@
+export interface UserStatistics {
+  followers: any[];
+  following: any[];
+  posts: string[];
+}
+
 export interface UsersData {
   [key: string]: {
     statistics: UserStatistics;
@@ -8,12 +14,6 @@ export interface UsersData {
     savedPosts: any[];
     __v: number;
   };
-}
-
-export interface UserStatistics {
-  followers: any[];
-  following: any[];
-  posts: string[];
 }
 
 export interface IUser {

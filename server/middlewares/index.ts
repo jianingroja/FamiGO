@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { get, merge } from 'lodash';
 
 import { getUserBySessionToken } from '../models/users';
-import { IUser } from '../types';
+import { IUser } from '../types/user';
 
 interface RequestWithUser extends Request {
   identity: IUser;
