@@ -1,3 +1,4 @@
+// todo: rename
 export interface User {
   username: string;
   email: string;
@@ -46,4 +47,9 @@ export interface UserInfo {
       __v: number;
     };
   }[];
+}
+
+export interface UserLogin {
+  email: string;
+  password: string;
 }
