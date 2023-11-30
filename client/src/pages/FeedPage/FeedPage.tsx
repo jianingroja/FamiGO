@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { getNewlyPublishedActivity } from '../../redux/activitySlice';
@@ -27,10 +28,15 @@ const FeedPage = () => {
 
   const myNewPublish = getNewlyPublishedActivity();
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const getFeedItems = async () => {
-      const res = (await getFeed()) as FeedActivity[];
-      setFeedItems(res);
+      const res = await getFeed();
+      if (!res) {
+        navigate('/login');
+      }
+      setFeedItems(res as FeedActivity[]);
     };
 
     getFeedItems();

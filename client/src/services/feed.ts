@@ -2,7 +2,7 @@ import { FeedActivity, FeedResponseData } from '../types/feed';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-export const getFeed = async (): Promise<FeedActivity[] | void> => {
+export const getFeed = async (): Promise<FeedActivity[] | null> => {
   try {
     const url = `${BASE_URL}/feed`;
     const res = await fetch(url, { credentials: 'include' });
@@ -15,6 +15,7 @@ export const getFeed = async (): Promise<FeedActivity[] | void> => {
     return activities;
   } catch (error) {
     console.log('get feed errrr -->', error);
-    return;
+
+    return null;
   }
 };
