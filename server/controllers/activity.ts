@@ -86,7 +86,15 @@ export const saveActivity = async (req: Request, res: Response) => {
     savedActivityBody.userInfo.username = user!.username;
 
     const activity = await new ActivityModel(savedActivityBody).save();
-    return res.status(200).json(activity);
+    const activityID = activity.id;
+    if (user && activityID) {
+      user.savedAIPosts ??= [];
+      user.savedAIPosts.push(activityID);
+
+      await user.save();
+    }
+
+    return res.status(201).send(activity);
   } catch (error) {
     console.error('Error saving activity:', error);
     return res.sendStatus(400).send(error);
