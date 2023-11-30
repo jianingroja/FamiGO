@@ -53,7 +53,7 @@ router.get('/api/check-auth', isAuthenticated, cookiesOK);
 router.get('/profile/:id', isAuthenticated, getUserInfo, getUserData);
 
 //get posts from feed
-router.get('/feed', isAuthenticated, getPostsForFeed, getPostsByFilter);
+router.get('/feed', isAuthenticated, getPostsForFeed);
 router.post('/feed', getPostsByFilter);
 
 //Activities
