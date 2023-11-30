@@ -16,5 +16,5 @@ export interface FeedActivity {
 }
 
 export interface FeedResponseData {
-  randomActivities?: FeedActivity[];
+  activities: FeedActivity[];
 }

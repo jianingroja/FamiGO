@@ -2,7 +2,6 @@ import { FeedActivity, FeedResponseData } from '../types/feed';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-// only random feed now
 export const getFeed = async (): Promise<FeedActivity[] | void> => {
   try {
     const url = `${BASE_URL}/feed`;
@@ -11,9 +10,9 @@ export const getFeed = async (): Promise<FeedActivity[] | void> => {
     const data = (await res.json()) as FeedResponseData;
     console.log('feed data -->', data);
 
-    const { randomActivities } = data;
+    const { activities } = data;
 
-    return randomActivities;
+    return activities;
   } catch (error) {
     console.log('get feed errrr -->', error);
     return;
