@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { FeedActivity } from '../../types/feed';
 
 import FilterTag from '../FilterTag/FilterTag';
@@ -29,7 +30,9 @@ const FeedItem = ({ activity }: Props) => {
         <div className="avatar">
           <img src={tempImg} alt="avatar" />
         </div>
-        <p>{username}</p>
+        <Link to={`../profile/${username}`}>
+          <p>{username}</p>
+        </Link>
       </div>
       <div className="filters">
         {filterEntries.map(([label, value]) => (
