@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import { HiOutlineSquares2X2 } from 'react-icons/hi2';
+import { MdSaveAlt } from 'react-icons/md';
+import { BsBookmark } from 'react-icons/bs';
 
 import './CollectionNav.css';
 
@@ -10,9 +13,9 @@ const CollectionNav = ({ onNavClick }: Props) => {
   const [activeNav, setActiveNav] = useState('mine');
 
   const navOptions = {
-    mine: 'mine',
-    others: 'others',
-    ai: 'ai',
+    mine: <HiOutlineSquares2X2 size={24} />,
+    others: <MdSaveAlt size={22} />,
+    ai: <BsBookmark size={20} />,
   };
 
   const handleClick = (navType: string) => {
