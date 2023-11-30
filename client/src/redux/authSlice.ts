@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
+import { IUser } from '../types/user';
 import { useAppSelector } from './hooks';
 
 // todo: define user interface
 type authState = {
-  user: null | any;
+  user: null | IUser;
   isAuthenticated: boolean;
 };
 
@@ -40,6 +41,8 @@ export const { setUser, setIsAuthenticated } = authSlice.actions;
 
 // selector
 export const getUser = () => useAppSelector((state) => state.auth.user);
+export const getUsername = () =>
+  useAppSelector((state) => state.auth.user?.username);
 export const getIsAuthenticated = () =>
   useAppSelector((state) => state.auth.isAuthenticated);
 

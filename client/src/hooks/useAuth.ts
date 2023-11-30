@@ -2,7 +2,7 @@ import { useAppDispatch } from '../redux/hooks';
 import { login } from '../services/auth';
 import { getUser, setUser, setIsAuthenticated } from '../redux/authSlice';
 
-import { UserLogin } from '../types/user';
+import { UserLogin, IUser } from '../types/user';
 
 const useAuth = () => {
   const dispatch = useAppDispatch();
@@ -10,8 +10,7 @@ const useAuth = () => {
 
   const handleLogin = async (info: UserLogin) => {
     try {
-      // todo: define an interface for user, used here and in redux
-      const user = await login(info);
+      const user = (await login(info)) as IUser;
 
       // save user info in redux
       if (user) {
