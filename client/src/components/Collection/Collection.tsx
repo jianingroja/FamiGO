@@ -5,9 +5,6 @@ import { useEffect, useState } from 'react';
 import { getUserInfo } from '../../services/users';
 import { getActivity } from '../../services/activity';
 
-import Logo from '../../assets/logo.png';
-import { act } from 'react-dom/test-utils';
-
 type Props = {
   type: string;
 };
