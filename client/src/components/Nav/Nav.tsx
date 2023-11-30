@@ -9,26 +9,18 @@ import LightBulb from '../../assets/LightBulb.svg';
 const Nav = () => {
   return (
     <div className="nav">
-      <div>
-        <NavLink to="/feed">
-          <img src={Home} alt="Feed" />
-        </NavLink>
-      </div>
-      <div>
-        <NavLink to="/profile">
-          <img src={Profile} alt="Profile" />
-        </NavLink>
-      </div>
-      <div>
-        <NavLink to="/generator">
-          <img src={LightBulb} alt="LightBulb" />
-        </NavLink>
-      </div>
-      <div>
-        <NavLink to="/publish-activity">
-          <img src={Publish} alt="Publish" />
-        </NavLink>
-      </div>
+      <NavLink to="/feed">
+        <img src={Home} alt="Feed" />
+      </NavLink>
+      <NavLink to="/profile">
+        <img src={Profile} alt="Profile" />
+      </NavLink>
+      <NavLink to="/generator">
+        <img src={LightBulb} alt="LightBulb" />
+      </NavLink>
+      <NavLink to="/publish-activity">
+        <img src={Publish} alt="Publish" />
+      </NavLink>
     </div>
   );
 };
