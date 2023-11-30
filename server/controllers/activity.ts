@@ -69,7 +69,27 @@ export const getUserData = async (_req: Request, res: Response) => {
     const listOfActivities = await iterateActivitiesFromUser(
       activitiesFromUser!.statistics!.posts!
     );
-    res.json({ user: user, activities: listOfActivities }).status(200);
+
+    console.log('listOfActivities', listOfActivities);
+
+    const listOfSavedAIActivities = await iterateActivitiesFromUser(
+      activitiesFromUser!.savedAIPosts!
+    );
+    console.log('listOfSavedAIActivities', listOfSavedAIActivities);
+
+    const listOfSavedActivities = await iterateActivitiesFromUser(
+      activitiesFromUser!.savedPosts!
+    );
+    console.log('listOfSavedActivities', listOfSavedActivities);
+
+    res
+      .json({
+        user: user,
+        activities: listOfActivities,
+        savedAIActivities: listOfSavedAIActivities,
+        savedActivities: listOfSavedActivities,
+      })
+      .status(200);
     return;
   } catch (error) {
     console.error(error);
