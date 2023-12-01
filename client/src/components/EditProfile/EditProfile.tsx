@@ -2,38 +2,36 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import { updateUserInfo } from '../../services/users';
-import Logo from '../../assets/logo.png';
+import { UserInfoUpdate } from '../../types/user';
 
+import Logo from '../../assets/logo.png';
 import './EditProfile.css';
 
 const EditProfile = () => {
+  const navigate = useNavigate();
+  const { username: currUsername } = useParams();
   const { handleUserInfoUpdate } = useAuth();
+
   const [newUsername, setNewUsername] = useState('');
   const [presentation, setPresentation] = useState('');
   const [avatar] = useState(Logo);
 
-  const navigate = useNavigate();
-
-  const { username: currentUsername } = useParams<{ username?: string }>();
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (currentUsername) {
-      try {
-        const res = await updateUserInfo(currentUsername, {
-          newUsername: newUsername,
-          description: presentation,
-          avatar: avatar,
-        });
+    try {
+      const updates: UserInfoUpdate = {
+        newUsername,
+        description: presentation,
+        avatar,
+      };
 
-        handleUserInfoUpdate(res);
-        navigate(`/profile/${newUsername}`);
-      } catch (error) {
-        console.error('Failed to update the profile', error);
-        return;
-      }
-    } else {
-      console.error('Username is undefined');
+      const res = await updateUserInfo(currUsername!, updates);
+
+      handleUserInfoUpdate(res);
+      navigate(`/profile/${newUsername}`);
+    } catch (error) {
+      console.error('Failed to update the profile', error);
+      return;
     }
   };
 

@@ -70,3 +70,9 @@ export interface IUser {
   savedPosts: string[];
   statistics: UserStatistics;
 }
+
+export interface UserInfoUpdate {
+  newUsername: string;
+  description: string;
+  avatar: string;
+}

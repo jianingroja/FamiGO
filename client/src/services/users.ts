@@ -1,10 +1,11 @@
-import { IUser } from '../types/user';
-const url = 'http://localhost:3000';
+import { IUser, UserInfoUpdate } from '../types/user';
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 // with data
 export const getUserInfo = async (username: string) => {
   try {
-    const response = await fetch(`${url}/profile/${username}`, {
+    const url = `${BASE_URL}/profile/${username}`;
+    const response = await fetch(url, {
       method: 'GET',
       credentials: 'include',
     });
@@ -21,8 +22,10 @@ export const getUserInfo = async (username: string) => {
 // plain info
 export const getUserPlainInfo = async (username: string) => {
   try {
+    const url = `${BASE_URL}/user/${username}`;
+
     // get the info of cookie user
-    const res = await fetch(`${url}/user/${username}`, {
+    const res = await fetch(url, {
       method: 'GET',
       credentials: 'include',
     });
@@ -37,21 +40,21 @@ export const getUserPlainInfo = async (username: string) => {
 
 export const updateUserInfo = async (
   username: string,
-  updates: { newUsername?: string; avatar?: string; description?: string }
+  updates: UserInfoUpdate
 ) => {
   try {
-    const response = await fetch(`${url}/profile/${username}`, {
+    const url = `${BASE_URL}/profile/${username}`;
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+
+    const response = await fetch(url, {
       method: 'PUT',
       mode: 'cors',
       credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
       body: JSON.stringify(updates),
     });
-    if (!response.ok) {
-      console.error('Failed to update user info');
-    }
 
     const data = (await response.json()) as IUser;
     return data;
