@@ -1,13 +1,161 @@
 {
-  "content": {
-    "filters": ["Nature", "1", "0-3", "Beginner", "Outside", "< 1h"],
-    "title": "Magical Nature Collage",
-    "materials": [
-      "Safety scissors",
-      "Glue",
-      "Cardboard",
-      "Nature items (like leaves, flowers, twigs)"
-    ],
-    "description": "In this activity, kids will explore their surroundings to gather nature items and use them to create a beautiful collage on a piece of cardboard. They can pick up leaves of different sizes, shapes and colors, flowers, twigs, etc. Once they've collected enough items, they can glue them onto the cardboard, producing a wonderful piece of art. This activity helps kids learn about colors, shapes, and the natural world around them. Remember, all the nature items should be collected safely and no living plants should be harmed."
-  }
+  "content": [
+    {
+      "filters": ["Nature", "1", "0 - 3", "Beginner", "Outside", "< 1h"],
+      "title": "Magical Nature Collage",
+      "materials": [
+        "Safety scissors",
+        "Glue",
+        "Cardboard",
+        "Nature items (like leaves, flowers, twigs)"
+      ],
+      "description": "In this activity, kids will explore their surroundings to gather nature items and use them to create a beautiful collage on a piece of cardboard. They can pick up leaves of different sizes, shapes and colors, flowers, twigs, etc. Once they've collected enough items, they can glue them onto the cardboard, producing a wonderful piece of art. This activity helps kids learn about colors, shapes, and the natural world around them. Remember, all the nature items should be collected safely and no living plants should be harmed."
+    },
+    {
+      "filters": ["Art", "2", "3 - 5", "Intermediate", "Inside", "1h < 2h"],
+      "title": "Miniature Clay Sculpture Workshop",
+      "materials": [
+        "Air dry clay",
+        "Acrylic paint",
+        "Paint brushes",
+        "Paper plates",
+        "Water",
+        "Toothpicks",
+        "Aprons"
+      ],
+      "description": "In this workshop, children will create their own miniature clay sculptures. Each kid will start by selecting a favorite animal or object to represent. Then, they'll shape their sculpture out of clay, using toothpicks for delicate details. Once the clay has hardened, they can paint their creations. This engages kids in a fun hands-on experience that stimulates creativity, fine motor skills, and imagination. Always remember to supervise the kids during this activity as small materials will be used."
+    },
+    {
+      "filters": ["Sports", "3", "9 - 12", "Expert", "Outside", "2h < 3h"],
+      "title": "Advanced Soccer Training Challenge",
+      "materials": ["Soccer Ball", "Cones", "Goal Net"],
+      "description": "A fun and skill-building Advanced Soccer Training Challenge tailored for expert players with an age range of 9-12 years old. The activity lasts for 2 to 3 hours, taking place outdoors. It starts with a warm-up, followed by obstacle courses that focus on dribbling skills. After that, the kids will practice passing techniques, team strategies, and finally, they will engage in a competitive match. The goal is to rinse and repeat until perfection. This activity aims to improve their soccer skills, team working abilities, and build up endurance."
+    },
+    {
+      "filters": [
+        "Constructions",
+        "more than 3",
+        "3 - 5",
+        "Intermediate",
+        "Inside",
+        "1h < 2h"
+      ],
+      "title": "Build a Cardboard City",
+      "materials": ["Cardboard boxes", "Markers", "Scissors", "Tape"],
+      "description": "In 'Build a Cardboard City', each child gets to construct their own building using cardboard boxes, scissors, and tape. They can utilize the markers to decorate their building. Once each building is complete, arrange all the buildings together to form a city. This activity not only fosters creativity, but also promotes teamwork as children need to collaborate on the layout of the city."
+    },
+    {
+      "filters": ["Logic", "2", "7 - 9", "Expert", "Inside", "1h < 2h"],
+      "title": "Mastermind Logic Game",
+      "materials": [
+        "Mastermind game or a DIY replica (pegs and board)",
+        "Paper",
+        "Pencil"
+      ],
+      "description": "In this activity, children will play the Mastermind Logic Game. The goal is to decipher the hidden code. Player 1 creates a secret code with four pegs. They can use the same color multiple times or not at all. Player 2 must try to guess this code within a set number of turns. Each turn, Player 1 gives hints for the previous guess, indicating how many pegs are the correct color and in the correct position, and how many are the correct color but the wrong position. Player 2 must use logical deduction based on these clues to guess the secret code."
+    },
+    {
+      "filters": ["Linguistic", "1", "12 - 14", "Expert", "Inside", "1h < 2h"],
+      "title": "Crafting a Short Story",
+      "materials": ["Notebook", "Pen", "Dictionary", "Thesaurus"],
+      "description": "This activity will facilitate the kid to craft and write a compelling short story in two hours. They'll start by brainstorming ideas for their short story, including character creation, plot, and setting development. The use of dictionary and thesaurus is encouraged for a rich linguistic experience allowing them to practice expert level word usage and sentence formation. Review and draft rewrites will hone the kid's editing and proofreading skills leading to a polished short story."
+    },
+    {
+      "filters": [
+        "Nature",
+        "more than 3",
+        "9 - 12",
+        "Expert",
+        "Outside",
+        "3h <"
+      ],
+      "title": "Ecosystem Exploration Challenge",
+      "materials": [
+        "Notepad",
+        "Pen/Pencil",
+        "Magnifying glasses",
+        "Guide books on local flora and fauna",
+        "First aid kits",
+        "Snacks and water",
+        "Camera/ Smartphone"
+      ],
+      "description": "In the Ecosystem Exploration Challenge, children will be divided into teams and each team will be given a list of local flora and fauna to find, identify, and document in a natural environment. Using guide books, they will learn to identify different species, encouraging observation, clarity and patience. Teams will compete on who can identify and document the most species within a set time limit. Supervised by adults when required, it will be a fun, educational and challenging experience for the kids."
+    },
+    {
+      "filters": ["Art", "3", "12 - 14", "Expert", "Inside", "1h < 2h"],
+      "title": "DIY Modern Art Canvas",
+      "materials": [
+        "Canvas (16x20 inches)",
+        "Acrylic paints",
+        "Paint brushes",
+        "Painter’s tape"
+      ],
+      "description": "In this activity, kids will create a piece of modern art on a canvas. They begin by placing the painter's tape randomly on the canvas, creating a series of unique geometric shapes. Then, they fill in each of these shapes with different colors of acrylic paint, resulting in a vibrant, modern art piece. They can experiment with color combinations and textures while also learning about geometric forms in art. After the paint is completely dry, the painter's tape is carefully peeled off, revealing a stunning, one-of-a-kind artwork. This activity requires expert levels of concentration and creativity, making it perfect for kids aged 12 to 14."
+    },
+    {
+      "filters": [
+        "Sports",
+        "1",
+        "12 - 14",
+        "Intermediate",
+        "Inside",
+        "1h < 2h"
+      ],
+      "title": "Indoor Basketball Shooting Competition",
+      "materials": ["Basketball", "Basketball Hoop", "Scorecard", "Pen"],
+      "description": "This activity is a basketball shooting competition. The player has to score as many points as possible within 2 hours. A basketball and hoop will be set for the player. A scorecard will be provided to keep track of the points they score. The player will not only enjoy the activity but also improve their shooting skills."
+    },
+    {
+      "filters": [
+        "Constructions",
+        "2",
+        "5 - 7",
+        "Beginner",
+        "Inside",
+        "1h < 2h"
+      ],
+      "title": "Building Your Magical Castle",
+      "materials": [
+        "Building Blocks (Plastic or Wooden)",
+        "Table with Space",
+        "Reference Image of a Castle (printed or on a device)"
+      ],
+      "description": "This activity encourages creativity and teamwork. The children will collaborate to build a castle using building blocks, based on their interpretation of the reference image. It can take between 1 - 2 hours, adding or removing details, also discussing about castles and their importance in history. Always remember to celebrate your completed masterpiece."
+    },
+    {
+      "filters": ["Logic", "1", "0 - 3", "Beginner", "Inside", "< 1h"],
+      "title": "Color Sorting Fun",
+      "materials": ["Colorful Blocks", "Six Different Colored Bowls"],
+      "description": "This activity involves sorting colorful blocks into their corresponding colored bowl. This is a great way to introduce logic skills to a child within this age range, as they will learn to identify colors and categorize based on this characteristic. This activity is very hands-on and will also help develop motor skills."
+    },
+    {
+      "filters": [
+        "Linguistic",
+        "3",
+        "7 - 9",
+        "Intermediate",
+        "Outside",
+        "1h < 2h"
+      ],
+      "title": "Linguistic Scavenger Hunt",
+      "materials": ["3 x Notepads", "3 x Pencil", "3 x Envelopes with Clues"],
+      "description": "In this game, kids perform a Scavenger Hunt where they have to find objects starting with specific letters or objects corresponding to specific words located around the park. They follow the clues found in the envelopes. The first one to find all objects wins. A good way to enhance their linguistic skills, vocabulary and understanding while enjoying a day outdoors."
+    },
+    {
+      "filters": ["Nature", "1", "12 - 14", "Intermediate", "Outside", "3h <"],
+      "title": "Intermediate Wilderness Survival Skills",
+      "materials": [
+        "Backpack",
+        "Snacks",
+        "Water bottle",
+        "Notepad",
+        "Pen",
+        "Binoculars",
+        "Compass",
+        "Safety whistle",
+        "First aid kit"
+      ],
+      "description": "This activity is focused on stimulating one's ability to survive in nature. It includes learning about how to react in dangerous situations, the essential tools needed and their usage in nature, identifying natives plants and animals, orientation, and ways to call for help. Remember, safety is a priority, any dangerous action is strictly prohibited. Participant's awareness and respect for nature is crucial."
+    }
+  ]
 }

@@ -3,11 +3,23 @@ import openAIResponse from '../mocks/openAIGeneratedActivity.json';
 import { Request, Response } from 'express';
 
 export const generateActivity = async (req: Request, res: Response) => {
-  const filtersBody = req.body;
-  console.log('filtersBody', filtersBody);
+  const filtersBody: Object = req.body;
 
-  console.log('openAIResponse', openAIResponse);
-  res.json({ openAIResponse });
+  const desiredFilters: any = Object.values(filtersBody).map(
+    (filter) => filter.value
+  );
+
+  const activitiesArray = openAIResponse.content;
+
+  const matchingActivity = activitiesArray.find((activity) => {
+    return desiredFilters.every((filter: string) =>
+      activity.filters.includes(filter)
+    );
+  });
+
+  res.json({
+    matchingActivity: matchingActivity || 'No match found in mockdata',
+  });
 };
 
 //  Use OPENAI API (Remember to also change the GeneratorPage.tsx FE):
