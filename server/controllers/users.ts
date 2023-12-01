@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { OAuth2Client } from 'google-auth-library';
 import {
   createUser,
@@ -206,21 +206,18 @@ export const updatePassword = async (req: Request, res: Response) => {
   }
 };
 
-export const getUserInfo = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getUserInfo = async (req: Request, res: Response) => {
   try {
-    const username = req.params.id;
-
+    const { username } = req.params;
     const user = await getUserByUserName(username);
 
-    res.locals.user = user;
-    next();
-    return;
+    if (user) {
+      return res.status(200).send(user);
+    } else {
+      throw new Error('can not find error');
+    }
   } catch (error) {
-    console.error(error);
+    console.error('getUserInfo err -->', error);
     return res.sendStatus(400);
   }
 };

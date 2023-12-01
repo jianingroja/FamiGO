@@ -76,4 +76,7 @@ router.post('/savepost-in-user/:username/:id', saveActivityInProfile);
 router.post('/save-like/:username/:id', likeActivity);
 router.get('/check-like/:username/:id', checkLike);
 
+// get plain user info
+router.get('/user/:username', isAuthenticated, getUserInfo);
+
 export default router;
