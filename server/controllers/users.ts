@@ -170,6 +170,13 @@ export const updateUserInfo = async (req: Request, res: Response) => {
       description: description,
     };
     console.log(updatedInfo);
+
+    res.cookie('username', newUsername, {
+      domain: 'localhost',
+      path: '/',
+      httpOnly: true,
+    });
+
     return res.status(200).json({ updatedInfo });
   } catch (error) {
     return res.sendStatus(400);
