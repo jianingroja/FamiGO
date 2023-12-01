@@ -104,7 +104,3 @@ export const isAuthorized = async (
     res.status(400).end();
   }
 };
-
-export const cookiesOK = async (_req: Request, res: Response) => {
-  res.sendStatus(200);
-};

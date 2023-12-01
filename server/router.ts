@@ -14,7 +14,6 @@ import {
 } from './controllers/cloudinary';
 import { getAllUsers } from './middlewares/users';
 import {
-  cookiesOK,
   isAuthenticated,
   isOwner,
   isAuthorized,
@@ -51,8 +50,6 @@ router.put(
   updatePassword
 );
 router.put('/profile/:username', isAuthenticated, isOwnerEdit, updateUserInfo);
-
-router.get('/api/check-auth', isAuthenticated, cookiesOK);
 
 //get User Info (Posts and Stats)
 router.get('/profile/:username', isAuthenticated, getUserData);

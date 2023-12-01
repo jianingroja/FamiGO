@@ -83,21 +83,3 @@ export const registerPOST = async (
     console.error(error);
   }
 };
-
-export const checkAuthentication = async () => {
-  try {
-    const response = await fetch(`${url}/api/check-auth`, {
-      method: 'GET',
-      credentials: 'include',
-    });
-
-    if (response.ok) {
-      return true;
-    } else {
-      return false;
-    }
-  } catch (error) {
-    console.error(error);
-    return false;
-  }
-};
