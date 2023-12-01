@@ -1,3 +1,4 @@
+import { IUser } from '../types/user';
 const url = 'http://localhost:3000';
 
 export const getUserInfo = async (username: string) => {
@@ -34,9 +35,10 @@ export const updateUserInfo = async (
       console.error('Failed to update user info');
     }
 
-    const data = response.json();
+    const data = (await response.json()) as IUser;
     return data;
   } catch (error) {
     console.error('Error in updateUserInfo', error);
+    throw error;
   }
 };

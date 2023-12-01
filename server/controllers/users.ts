@@ -164,12 +164,6 @@ export const updateUserInfo = async (req: Request, res: Response) => {
     if (description) user.description = description;
 
     await user.save();
-    let updatedInfo = {
-      newUsername: newUsername,
-      avatar: avatar,
-      description: description,
-    };
-    console.log(updatedInfo);
 
     res.cookie('username', newUsername, {
       domain: 'localhost',
@@ -177,7 +171,7 @@ export const updateUserInfo = async (req: Request, res: Response) => {
       httpOnly: true,
     });
 
-    return res.status(200).json({ updatedInfo });
+    return res.status(200).json(user);
   } catch (error) {
     return res.sendStatus(400);
   }
