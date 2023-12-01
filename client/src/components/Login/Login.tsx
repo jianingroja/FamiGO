@@ -36,7 +36,10 @@ const Login = () => {
   return (
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <div className="login-container">
-        <form onSubmit={handleSubmit}>
+        <div className="welcome-back">
+          <h2>Welcome back!</h2>
+        </div>
+        <form onSubmit={handleSubmit} className="form-log-in">
           <input
             type="email"
             value={email}

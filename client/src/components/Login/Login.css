@@ -2,10 +2,20 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   height: 100vh;
-  background: #83a4d4;
+  background-color: var(background-color);
   position: relative;
+
+  & .welcome-back {
+    display: flex;
+    padding: 18%;
+
+    & h2 {
+      font-size: 40px;
+      line-height: 60px;
+      color: var(--secondary-color);
+    }
+  }
 
   & form {
     text-align: center;
@@ -21,26 +31,31 @@
 
   & .login-btn {
     width: 80%;
-    padding: 10px;
+    padding: 15px;
     margin: 20px 0;
     border: none;
     border-radius: 5px;
-    background-color: #f0ad4e;
+    background-color: var(--primary-color);
     color: white;
   }
 }
 
 .signup-btn {
   text-decoration: none;
-  margin-left: 0.5rem;
+  margin-left: 2rem;
+  color: var(--primary-color);
+  font-weight: 600;
 }
 
 .signup-section {
+  background-color: var(--secondary-color);
+  padding: 7%;
   display: flex;
-  width: 90%;
+  width: 100%;
   justify-content: center;
   position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 0px;
+  color: var(--darkgrey-color);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
 }

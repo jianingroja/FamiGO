@@ -50,6 +50,9 @@ const Register = () => {
 
   return (
     <div className="register-container">
+      <div className="create-account">
+        <h2>Create account</h2>
+      </div>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -92,10 +95,10 @@ const Register = () => {
         />
         <input type="submit" value="SIGN UP" className="login-btn" />
       </form>
-      <div className="signup-section">
-        <span>Don't have an account?</span>
-        <Link to="/login" className="signup-btn">
-          SIGN UP
+      <div className="signin-section">
+        <span>Already have an account?</span>
+        <Link to="/login" className="signin-btn">
+          LOG IN
         </Link>
       </div>
     </div>
