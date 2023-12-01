@@ -1,22 +1,11 @@
 import { useEffect, useState } from 'react';
-import { BaseSyntheticEvent } from 'react';
 import { Link } from 'react-router-dom';
+
 import './GeneratedActivity.css';
 import Save from '../../assets/Save.svg';
 import New from '../../assets/New.svg';
+import { IActivity } from '../../types/activity';
 import { getMyUsername } from '../../redux/userSlice';
-
-interface IActivity {
-  activity: {
-    filters: Array<String>;
-    title: String;
-    materials: Array<String>;
-    description: String;
-  };
-  onSubmit: (
-    e?: BaseSyntheticEvent<object, any, any> | undefined
-  ) => Promise<void>;
-}
 
 const GeneratedActivity: React.FC<IActivity> = ({ activity, onSubmit }) => {
   const username = getMyUsername();
@@ -24,7 +13,6 @@ const GeneratedActivity: React.FC<IActivity> = ({ activity, onSubmit }) => {
 
   useEffect(() => {
     if (activity) {
-      console.log(document.body.scrollHeight);
       window.scrollTo(0, document.body.scrollHeight);
     }
   }, [activity]);
@@ -53,7 +41,6 @@ const GeneratedActivity: React.FC<IActivity> = ({ activity, onSubmit }) => {
       type,
       userInfo,
     };
-    console.log('savedActivity', savedActivity);
     fetch('http://localhost:3000/save-activity', {
       method: 'POST',
       headers: {

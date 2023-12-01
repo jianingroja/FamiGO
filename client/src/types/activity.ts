@@ -1,3 +1,4 @@
+import { BaseSyntheticEvent } from 'react';
 export interface Option {
   label: string;
   value: string;
@@ -74,4 +75,32 @@ export interface ActivityObject {
     createdAt: string;
     __v: number;
   };
+}
+
+export interface IFormInput {
+  Topic: {};
+  KidsNumber: {};
+  AgeRange: {};
+  Difficulty: {};
+  Place: {};
+  Duration: {};
+}
+
+export interface GenerateFormProps {
+  control: any;
+  onSubmit: (
+    e?: BaseSyntheticEvent<object, any, any> | undefined
+  ) => Promise<void>;
+}
+
+export interface IActivity {
+  activity: {
+    filters: Array<String>;
+    title: String;
+    materials: Array<String>;
+    description: String;
+  };
+  onSubmit: (
+    e?: BaseSyntheticEvent<object, any, any> | undefined
+  ) => Promise<void>;
 }
