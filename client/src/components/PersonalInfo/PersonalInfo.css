@@ -1,7 +1,7 @@
 .personal-info {
   border: 1px dashed var(--primary-color);
   width: 100%;
-  padding: 1rem 2rem;
+  padding: 3rem 2rem 1rem;
 
   & .upper {
     margin-bottom: 1rem;
