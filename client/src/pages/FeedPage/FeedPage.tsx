@@ -24,15 +24,18 @@ const FeedPage = () => {
   const [filteredFeedItems, setFilteredFeedItems] = useState<FeedActivity[]>(
     []
   );
+  const [hasFilters, setHasFilters] = useState<Boolean>(false);
 
   const { control, handleSubmit } = useForm<IFormInput>({});
 
   const myNewPublish = getNewlyPublishedActivity();
   const hasFeed = feedItems.length !== 0;
-  const hasFiltered = filteredFeedItems.length !== 0;
+  // todo: optimize this condition check
+  const hasFilteredItems = filteredFeedItems.length !== 0;
 
   const onSubmit: SubmitHandler<any> = async (data: FiltersWithOptions) => {
     const res = (await getFilteredFeed(data)) as FeedActivity[];
+    setHasFilters(true);
     setFilteredFeedItems(res);
   };
 
@@ -59,13 +62,17 @@ const FeedPage = () => {
           Search
         </button>
       </form>
-      {hasFiltered &&
-        filteredFeedItems.map((feedItem) => (
-          <FeedItem key={feedItem._id} activity={feedItem} />
+      {hasFilters &&
+        (hasFilteredItems ? (
+          filteredFeedItems.map((feedItem) => (
+            <FeedItem key={feedItem._id} activity={feedItem} />
+          ))
+        ) : (
+          <p>no item, try another filter combination</p>
         ))}
       {myNewPublish && <FeedItem activity={myNewPublish} />}
       {hasFeed &&
-        !hasFiltered &&
+        !hasFilters &&
         feedItems.map((feedItem) => (
           <FeedItem key={feedItem._id} activity={feedItem} />
         ))}
