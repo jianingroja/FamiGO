@@ -78,7 +78,6 @@ export const isAuthenticated = async (
     }
     merge(req, { identity: existingUser });
 
-    console.log('isAuthenticated check - server middleware');
     return next();
   } catch (error) {
     return res.sendStatus(400);
