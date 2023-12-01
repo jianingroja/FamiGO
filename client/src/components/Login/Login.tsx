@@ -18,7 +18,10 @@ const Login = () => {
 
     handleLogin({ email, password })
       .then(() => navigate('/feed'))
-      .catch((error) => console.log('login err component', error));
+      .catch((error) => {
+        console.log('login err component', error);
+        // todo: show message to user in ui
+      });
   };
 
   const handleGoogleLogin = async (response: any) => {

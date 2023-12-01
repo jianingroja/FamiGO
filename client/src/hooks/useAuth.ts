@@ -16,9 +16,13 @@ const useAuth = () => {
       if (user) {
         dispatch(setUser(user));
         dispatch(setIsAuthenticated(true));
+        return;
       }
+
+      return;
     } catch (error) {
       console.log('login error - useAuth -->', error);
+      throw new Error('login fail');
     }
   };
 
