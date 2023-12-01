@@ -55,7 +55,7 @@ router.put('/profile/:username', isAuthenticated, isOwnerEdit, updateUserInfo);
 router.get('/api/check-auth', isAuthenticated, cookiesOK);
 
 //get User Info (Posts and Stats)
-router.get('/profile/:id', isAuthenticated, getUserInfo, getUserData);
+router.get('/profile/:username', isAuthenticated, getUserData);
 
 //get posts from feed
 router.get('/feed', isAuthenticated, isAuthorized, getPostsForFeed);
