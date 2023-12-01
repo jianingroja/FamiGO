@@ -17,10 +17,11 @@ import './App.css';
 import Activity from './pages/Activity/Activity';
 
 const App = () => {
-  const { handleUserInfo } = useAuth();
+  const { handleAuthCheck, handleUserInfo } = useAuth();
 
   // every time app reloads, get user's info, save it in redux
   useEffect(() => {
+    handleAuthCheck();
     handleUserInfo();
   }, []);
 

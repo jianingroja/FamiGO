@@ -1,4 +1,5 @@
 import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch } from '../redux/hooks';
 import { login } from '../services/auth';
@@ -8,6 +9,7 @@ import { getUser, setUser, setIsAuthenticated } from '../redux/authSlice';
 import { UserLogin, IUser } from '../types/user';
 
 const useAuth = () => {
+  const navigate = useNavigate();
   const [cookies, setCookie] = useCookies(['app-username']);
   const dispatch = useAppDispatch();
   const user = getUser();
@@ -34,6 +36,17 @@ const useAuth = () => {
   const handleGoogleLogin = () => {};
 
   const handleRegister = () => {};
+
+  const handleAuthCheck = () => {
+    const name = cookies['app-username'];
+    if (!name) {
+      navigate('/login');
+    } else {
+      navigate('/feed');
+    }
+
+    return;
+  };
 
   const handleUserInfo = async () => {
     try {
@@ -66,6 +79,7 @@ const useAuth = () => {
     handleLogin,
     handleGoogleLogin,
     handleRegister,
+    handleAuthCheck,
     handleUserInfo,
     handleUserInfoUpdate,
   };
