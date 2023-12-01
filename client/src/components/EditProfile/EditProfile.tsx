@@ -2,15 +2,18 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import { updateUserInfo } from '../../services/users';
-import { UserInfoUpdate } from '../../types/user';
+import { getUser } from '../../redux/userSlice';
+import { UserInfoUpdate, IUser } from '../../types/user';
 
 import Logo from '../../assets/logo.png';
 import './EditProfile.css';
 
 const EditProfile = () => {
   const navigate = useNavigate();
-  const { username: currUsername } = useParams();
   const { handleUserInfoUpdate } = useAuth();
+
+  const user = getUser();
+  const { username, description } = user as IUser;
 
   const [newUsername, setNewUsername] = useState('');
   const [presentation, setPresentation] = useState('');
@@ -25,10 +28,14 @@ const EditProfile = () => {
         avatar,
       };
 
-      const res = await updateUserInfo(currUsername!, updates);
-
+      const res = await updateUserInfo(username, updates);
       handleUserInfoUpdate(res);
-      navigate(`/profile/${newUsername}`);
+
+      if (newUsername) {
+        navigate(`/profile/${newUsername}`);
+      } else {
+        navigate(`/profile/${username}`);
+      }
     } catch (error) {
       console.error('Failed to update the profile', error);
       return;
@@ -46,13 +53,13 @@ const EditProfile = () => {
             type="text"
             value={newUsername}
             onChange={(e) => setNewUsername(e.target.value)}
-            placeholder="User Name"
+            placeholder={username}
             className="username-input"
           />
           <textarea
             value={presentation}
             onChange={(e) => setPresentation(e.target.value)}
-            placeholder="Presentation"
+            placeholder={description}
             className="presentation-textarea"
           ></textarea>
           <button type="submit" className="update-btn">
