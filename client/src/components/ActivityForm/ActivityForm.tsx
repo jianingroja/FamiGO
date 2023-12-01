@@ -26,7 +26,7 @@ const tempImg = Logo;
 
 const ActivityForm = () => {
   const [fileInfo, setFileInfo] = useState<FileInfo>({} as FileInfo);
-  const [isFileLoading, setIsFileLoading] = useState(false);
+  const [fileStatus, setFileStatus] = useState<null | string>(null);
 
   const [material, setMaterial] = useState<string>('');
   const [materials, setMaterials] = useState<Array<string>>([]);
@@ -39,26 +39,32 @@ const ActivityForm = () => {
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     try {
       event.preventDefault();
-      setIsFileLoading(true);
+      setFileStatus('loading');
 
       const file = event.target.files![0];
       const info = (await uploadFileToCloudinary(file)) as FileInfo;
 
       setFileInfo(info);
-      setIsFileLoading(false);
+      setFileStatus(null);
     } catch (error) {
       console.log('Upload file error!');
+      setFileStatus('failed');
     }
   };
 
   const handleFileDelete = async () => {
-    setIsFileLoading(true);
+    try {
+      setFileStatus('loading');
 
-    const { publicId } = fileInfo;
-    await deleteFileFromCloudinary(publicId);
+      const { publicId } = fileInfo;
+      await deleteFileFromCloudinary(publicId);
 
-    setFileInfo({} as FileInfo);
-    setIsFileLoading(false);
+      setFileInfo({} as FileInfo);
+      setFileStatus(null);
+    } catch (error) {
+      console.log('Delete file error!');
+      setFileStatus('failed');
+    }
   };
 
   // todo: upload multiple files
@@ -131,7 +137,7 @@ const ActivityForm = () => {
     <div className="activity-form">
       <div className="file-upload-container">
         <div className="file-container">
-          {isFileLoading ? (
+          {fileStatus === 'loading' ? (
             <img className="spinner" src={tempImg} alt="spinner" />
           ) : (
             <img src={fileInfo.secureUrl || tempImg} alt="uploaded image"></img>
@@ -144,6 +150,7 @@ const ActivityForm = () => {
           <input type="file" onChange={handleFileChange} />
           <label>upload a image</label>
         </div>
+        {fileStatus && <p className="status">{fileStatus}...</p>}
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>

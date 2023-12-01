@@ -74,6 +74,11 @@
       background-color: var(--primary-color);
     }
   }
+
+  & .status {
+    color: var(--primary-color);
+    line-height: 0.8;
+  }
 }
 
 .title-container,
