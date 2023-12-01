@@ -2,6 +2,7 @@ import { useCookies } from 'react-cookie';
 
 import { useAppDispatch } from '../redux/hooks';
 import { login } from '../services/auth';
+import { getUserPlainInfo } from '../services/users';
 import { getUser, setUser, setIsAuthenticated } from '../redux/authSlice';
 
 import { UserLogin, IUser } from '../types/user';
@@ -34,7 +35,40 @@ const useAuth = () => {
 
   const handleRegister = () => {};
 
-  return { user, handleLogin, handleGoogleLogin, handleRegister };
+  const handleUserInfo = async () => {
+    try {
+      const name = cookies['app-username'];
+      const res = await getUserPlainInfo(name);
+
+      dispatch(setUser(res));
+      dispatch(setIsAuthenticated(true));
+    } catch (error) {
+      console.log('handle user info use auth hook err -->', error);
+    }
+  };
+
+  const handleUserInfoUpdate = async (user: IUser) => {
+    try {
+      const { username } = user;
+      setCookie('app-username', username);
+
+      const res = await getUserPlainInfo(username);
+
+      dispatch(setUser(res));
+      dispatch(setIsAuthenticated(true));
+    } catch (error) {
+      console.log('handle user info update use auth hook err -->', error);
+    }
+  };
+
+  return {
+    user,
+    handleLogin,
+    handleGoogleLogin,
+    handleRegister,
+    handleUserInfo,
+    handleUserInfoUpdate,
+  };
 };
 
 export default useAuth;

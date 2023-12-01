@@ -1,4 +1,7 @@
+import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+
+import useAuth from './hooks/useAuth';
 
 import HomePage from './pages/HomePage/HomePage';
 import FeedPage from './pages/FeedPage/FeedPage';
@@ -14,6 +17,13 @@ import './App.css';
 import Activity from './pages/Activity/Activity';
 
 const App = () => {
+  const { handleUserInfo } = useAuth();
+
+  // every time app reloads, get user's info, save it in redux
+  useEffect(() => {
+    handleUserInfo();
+  }, []);
+
   return (
     <div className="app">
       <Routes>

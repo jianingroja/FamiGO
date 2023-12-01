@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useAppDispatch } from '../../redux/hooks';
-import { setUser } from '../../redux/authSlice';
+import useAuth from '../../hooks/useAuth';
 import { updateUserInfo } from '../../services/users';
 import Logo from '../../assets/logo.png';
 
 import './EditProfile.css';
 
 const EditProfile = () => {
-  const dispatch = useAppDispatch();
+  const { handleUserInfoUpdate } = useAuth();
   const [newUsername, setNewUsername] = useState('');
   const [presentation, setPresentation] = useState('');
   const [avatar] = useState(Logo);
@@ -27,7 +26,7 @@ const EditProfile = () => {
           avatar: avatar,
         });
 
-        dispatch(setUser(res));
+        handleUserInfoUpdate(res);
         navigate(`/profile/${newUsername}`);
       } catch (error) {
         console.error('Failed to update the profile', error);
