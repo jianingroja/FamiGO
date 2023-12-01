@@ -18,7 +18,7 @@ export const generateActivity = async (req: Request, res: Response) => {
   });
 
   res.json({
-    matchingActivity: matchingActivity || 'No match found in mockdata',
+    matchingActivity: matchingActivity || null,
   });
 };
 
