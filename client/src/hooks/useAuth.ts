@@ -1,3 +1,5 @@
+import { useCookies } from 'react-cookie';
+
 import { useAppDispatch } from '../redux/hooks';
 import { login } from '../services/auth';
 import { getUser, setUser, setIsAuthenticated } from '../redux/authSlice';
@@ -5,6 +7,7 @@ import { getUser, setUser, setIsAuthenticated } from '../redux/authSlice';
 import { UserLogin, IUser } from '../types/user';
 
 const useAuth = () => {
+  const [cookies, setCookie] = useCookies(['app-username']);
   const dispatch = useAppDispatch();
   const user = getUser();
 
@@ -16,6 +19,7 @@ const useAuth = () => {
       if (user) {
         dispatch(setUser(user));
         dispatch(setIsAuthenticated(true));
+        setCookie('app-username', user.username);
         return;
       }
 
