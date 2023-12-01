@@ -52,9 +52,10 @@ const FeedPage = () => {
 
   return (
     <div className="feed-page">
+      <br />
       <form onSubmit={handleSubmit(onSubmit)}>
         <FiltersSelect control={control} />
-        <button className="button-filter-feed" type="submit">
+        <button className="button" type="submit">
           Search
         </button>
       </form>

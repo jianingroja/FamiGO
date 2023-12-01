@@ -4,17 +4,6 @@
   overflow-y: scroll;
 }
 
-.button-filter-feed {
-  display: flex;
+.feed-page .button {
   margin-left: 38%;
-  width: 101px;
-  height: 33px;
-  padding: 12px 24px;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  border-radius: 5px;
-  background: var(--secondary-color);
-  color: #481700;
-  border: none;
 }

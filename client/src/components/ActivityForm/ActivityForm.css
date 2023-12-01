@@ -68,6 +68,7 @@
     & label {
       display: inline-block;
       padding: 0.5rem;
+      font-family: Arial, Helvetica, sans-serif;
       font-size: 0.8rem;
       border-radius: 5px;
       color: whitesmoke;
@@ -79,7 +80,36 @@
 .title-container,
 .material-container,
 .description-container {
-  & label {
-    display: block;
+  margin-left: 7%;
+  margin-top: 2%;
+
+  & input {
+    width: 78%;
+    min-height: 30px;
+    height: fit-content;
   }
+  & textarea {
+    width: 90%;
+    height: fit-content;
+  }
+}
+
+.material-container .buttonAdd {
+  display: inline-block;
+  padding: 0.5rem;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.8rem;
+  border-radius: 5px;
+  color: whitesmoke;
+  background-color: var(--primary-color);
+  width: min-content;
+  height: min-content;
+  border: none;
+  margin-left: 2%;
+}
+
+.activities-description-fields {
+  display: block;
+  flex-wrap: wrap;
+  justify-content: center;
 }

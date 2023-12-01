@@ -69,3 +69,18 @@ p {
   line-height: 26px;
   text-align: justify;
 }
+
+/* GENERAL BUTTON */
+.button {
+  display: flex;
+  width: 101px;
+  height: 33px;
+  padding: 12px 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 5px;
+  background: var(--secondary-color);
+  color: #481700;
+  border: none;
+}

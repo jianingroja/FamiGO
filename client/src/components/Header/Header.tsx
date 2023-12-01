@@ -21,7 +21,7 @@ const Header = ({ title }: Props) => {
       <button className="btn-go-back" onClick={handleClick}>
         <FaChevronLeft style={iconStyle} />
       </button>
-      <span>{title}</span>
+      <h2>{title}</h2>
     </div>
   );
 };

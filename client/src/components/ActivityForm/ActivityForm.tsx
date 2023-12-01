@@ -85,7 +85,7 @@ const ActivityForm = () => {
     );
 
     if (!hasAllInputs) {
-      console.log('fill iin all');
+      console.log('fill in all');
       return;
     }
 
@@ -148,43 +148,53 @@ const ActivityForm = () => {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <FiltersSelect control={control} />
+        <div className="activities-description-fields">
+          <div className="title-container">
+            <p>Title</p>
+            <Controller
+              name="title"
+              control={control}
+              render={({ field }) => <textarea {...field} />}
+            />
+          </div>
+          <div className="material-container">
+            <p>Materials</p>
+            <input
+              type="text"
+              value={material}
+              onChange={(e) => setMaterial(e.target.value)}
+            />
+            <button
+              className="buttonAdd"
+              type="button"
+              onClick={handleAddMaterial}
+            >
+              add
+            </button>
+            <div>
+              {!!materials.length &&
+                materials.map((material, index) => (
+                  <span onClick={() => handleDeleteMaterial(index)} key={index}>
+                    - {material}
+                  </span>
+                ))}
+            </div>
+          </div>
+          <div className="description-container">
+            <p>Description</p>
+            <Controller
+              name="description"
+              control={control}
+              render={({ field }) => <textarea {...field} />}
+            />
+          </div>
 
-        <div className="title-container">
-          <label>Title</label>
-          <Controller
-            name="title"
-            control={control}
-            render={({ field }) => <textarea {...field} />}
-          />
-        </div>
-        <div className="material-container">
-          <label>Materials</label>
-          <input
-            type="text"
-            value={material}
-            onChange={(e) => setMaterial(e.target.value)}
-          />
-          <button type="button" onClick={handleAddMaterial}>
-            add
-          </button>
-          <div>
-            {!!materials.length &&
-              materials.map((material, index) => (
-                <span onClick={() => handleDeleteMaterial(index)} key={index}>
-                  - {material}{' '}
-                </span>
-              ))}
+          <div className="button-box">
+            <button className="button" type="submit">
+              publish
+            </button>
           </div>
         </div>
-        <div className="description-container">
-          <label>Description</label>
-          <Controller
-            name="description"
-            control={control}
-            render={({ field }) => <textarea {...field} />}
-          />
-        </div>
-        <button type="submit">publish</button>
       </form>
     </div>
   );
