@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../redux/hooks';
 import { login } from '../services/auth';
 import { getUserPlainInfo } from '../services/users';
-import { getUser, setUser, setIsAuthenticated } from '../redux/authSlice';
+import { getUser, setUser } from '../redux/userSlice';
 
 import { UserLogin, IUser } from '../types/user';
 
@@ -21,7 +21,6 @@ const useAuth = () => {
       // save user info in redux
       if (user) {
         dispatch(setUser(user));
-        dispatch(setIsAuthenticated(true));
         setCookie('app-username', user.username);
         return;
       }
@@ -54,7 +53,6 @@ const useAuth = () => {
       const res = await getUserPlainInfo(name);
 
       dispatch(setUser(res));
-      dispatch(setIsAuthenticated(true));
     } catch (error) {
       console.log('handle user info use auth hook err -->', error);
     }
@@ -68,7 +66,6 @@ const useAuth = () => {
       const res = await getUserPlainInfo(username);
 
       dispatch(setUser(res));
-      dispatch(setIsAuthenticated(true));
     } catch (error) {
       console.log('handle user info update use auth hook err -->', error);
     }

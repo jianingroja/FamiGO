@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import './GeneratedActivity.css';
 import Save from '../../assets/Save.svg';
 import New from '../../assets/New.svg';
-import { getUsername } from '../../redux/authSlice';
+import { getMyUsername } from '../../redux/userSlice';
 
 interface IActivity {
   activity: {
@@ -19,7 +19,7 @@ interface IActivity {
 }
 
 const GeneratedActivity: React.FC<IActivity> = ({ activity, onSubmit }) => {
-  const username = getUsername();
+  const username = getMyUsername();
   const [newClickCount, setNewClickCount] = useState(0);
 
   useEffect(() => {

@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { getUsername } from '../../redux/authSlice';
+import { getMyUsername } from '../../redux/userSlice';
 
 import './Nav.css';
 import Home from '../../assets/Home.svg';
@@ -8,7 +8,7 @@ import Publish from '../../assets/Publish.svg';
 import LightBulb from '../../assets/LightBulb.svg';
 
 const Nav = () => {
-  const username = getUsername();
+  const username = getMyUsername();
 
   return (
     <div className="nav">

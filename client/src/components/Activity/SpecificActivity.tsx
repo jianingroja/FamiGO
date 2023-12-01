@@ -9,10 +9,10 @@ import {
 import { ActivityObject } from '../../types/activity';
 import { getUserInfo } from '../../services/users';
 import { UserInfo } from '../../types/user';
-import { getUsername } from '../../redux/authSlice';
+import { getMyUsername } from '../../redux/userSlice';
 
 const SpecificActivity = () => {
-  const myUsername = getUsername();
+  const myUsername = getMyUsername();
   const { id } = useParams();
   const [activityData, setActivityData] = useState<ActivityObject | null>(null);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
