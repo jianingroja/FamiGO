@@ -9,11 +9,10 @@
   & .create-account {
     display: flex;
     padding: 18%;
-    padding-bottom: 12%;
 
     & h2 {
       font-size: 40px;
-      line-height: 60px;
+      line-height: 50px;
       color: var(--primary-color);
     }
   }
