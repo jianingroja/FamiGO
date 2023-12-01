@@ -139,11 +139,19 @@ export const getPostsForFeed = async (req: Request, res: Response) => {
     else {
       let limit = 20; //will only get 20 posts
       const activities = await ActivityModel.aggregate([
-        { $match: { type: 'published' } },
+        {
+          $match: {
+            type: 'published',
+          },
+        },
         { $sample: { size: limit } },
       ]);
 
-      res.json({ activities }).status(200);
+      const result = activities.filter(
+        (activity) => activity.userInfo?.username !== username
+      );
+
+      res.json({ activities: result }).status(200);
     }
     return;
   } catch (error) {
@@ -168,6 +176,8 @@ interface FilterCriteria {
 export const getPostsByFilter = async (req: Request, res: Response) => {
   try {
     const filters: FilterCriteria = req.body;
+    const { username } = req.cookies;
+
     let query: Record<string, any> = {};
 
     if (filters) {
@@ -182,9 +192,13 @@ export const getPostsByFilter = async (req: Request, res: Response) => {
     const filteredActivities = await ActivityModel.find(query)
       .find({ type: 'published' })
       .limit(limit);
-    console.log('filteredActivities -->', filteredActivities);
 
-    res.status(200).json({ activities: filteredActivities });
+    const result = filteredActivities.filter(
+      (activity) => activity.userInfo?.username !== username
+    );
+    console.log('filteredActivities -->', result);
+
+    res.status(200).json({ activities: result });
   } catch (error) {
     console.error('Error fetching filtered posts:', error);
     res.status(500).send('Error fetching posts');
