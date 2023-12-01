@@ -1,7 +1,7 @@
 .filter-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-content: center;
   padding-top: 2%;
   padding-right: 2%;
@@ -11,4 +11,5 @@
 .individual-filter {
   width: 40%;
   padding-bottom: 2%;
+  font-size: 12px;
 }

@@ -2,8 +2,27 @@
   width: 100%;
   height: 90vh;
   overflow-y: scroll;
-}
 
-.feed-page .button {
-  margin-left: 38%;
+  & .box-button-filter {
+    display: block;
+  }
+
+  & .button-filter {
+    width: 100%;
+    line-height: 0.8;
+    padding: 10px 24px;
+    text-align: center;
+    gap: 10px;
+    background-color: rgba(0, 109, 119, 0.1);
+    color: var(--primary-color);
+    border: none;
+  }
+
+  & .button {
+    margin-left: 38%;
+    background: var(--primary-color);
+    color: var(--white-color);
+    font-size: 12px;
+    height: 20px;
+  }
 }

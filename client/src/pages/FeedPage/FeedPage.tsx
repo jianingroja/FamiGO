@@ -25,7 +25,7 @@ const FeedPage = () => {
     []
   );
   const [hasFilters, setHasFilters] = useState<Boolean>(false);
-
+  const [showFilters, setShowFilters] = useState(false);
   const { control, handleSubmit } = useForm<IFormInput>({});
 
   const myNewPublish = getNewlyPublishedActivity();
@@ -37,6 +37,10 @@ const FeedPage = () => {
     const res = (await getFilteredFeed(data)) as FeedActivity[];
     setHasFilters(true);
     setFilteredFeedItems(res);
+  };
+
+  const toggleFilters = () => {
+    setShowFilters(!showFilters);
   };
 
   const navigate = useNavigate();
@@ -55,13 +59,22 @@ const FeedPage = () => {
 
   return (
     <div className="feed-page">
-      <br />
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <FiltersSelect control={control} />
-        <button className="button" type="submit">
-          Search
-        </button>
-      </form>
+      <div>
+        <div className="box-button-filter">
+          <button className="button-filter" onClick={toggleFilters}>
+            Select a filter
+          </button>
+        </div>
+        {showFilters && (
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <FiltersSelect control={control} />
+            <button className="button" type="submit">
+              Search
+            </button>
+          </form>
+        )}
+      </div>
+
       {hasFilters &&
         (hasFilteredItems ? (
           filteredFeedItems.map((feedItem) => (
