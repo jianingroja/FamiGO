@@ -4,6 +4,7 @@ import { getUserCollectionByType } from '../../services/users';
 import { FeedActivity } from '../../types/feed';
 
 import CollectionPreview from '../CollectionPreview/CollectionPreview';
+import Spinner from '../Spinner/Spinner';
 
 import './Collection.css';
 
@@ -31,7 +32,11 @@ const Collection = ({ type }: Props) => {
   }, [type]);
 
   if (isLoading) {
-    return <p>loading</p>;
+    return (
+      <div className="loading-container">
+        <Spinner />
+      </div>
+    );
   }
 
   return (
