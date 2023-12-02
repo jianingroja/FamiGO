@@ -17,6 +17,14 @@ export interface FiltersWithValues {
   place: string;
   duration: string;
 }
+export interface FiltersWithOptions {
+  topic: Option;
+  numOfKids: Option;
+  age: Option;
+  difficulty: Option;
+  place: Option;
+  duration: Option;
+}
 
 export interface Activity {
   image?: string;
@@ -42,6 +50,11 @@ export interface PublishFormInput {
   title: string;
   // materials?: string[];
   description: string;
+}
+
+export interface DraftPublish extends PublishFormInput {
+  image: FileInfo;
+  materials: string[];
 }
 
 export interface ActivityObject {

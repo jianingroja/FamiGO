@@ -1,9 +1,13 @@
-import { useState, ChangeEvent } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch } from '../../redux/hooks';
-import { setNewlyPublishedActivity } from '../../redux/activitySlice';
+import {
+  setNewlyPublishedActivity,
+  setDraftPublish,
+  getDraftPublish,
+} from '../../redux/activitySlice';
 import {
   uploadFileToCloudinary,
   deleteFileFromCloudinary,
@@ -13,9 +17,11 @@ import FiltersSelect from '../FiltersSelect/FiltersSelect';
 
 import {
   FileInfo,
-  PublishFormInput,
   Activity,
   FiltersWithValues,
+  FiltersWithOptions,
+  PublishFormInput,
+  DraftPublish,
 } from '../../types/activity';
 
 import DeleteIcon from '../../assets/close-white.png';
@@ -25,16 +31,33 @@ import './ActivityForm.css';
 const tempImg = Logo;
 
 const ActivityForm = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const draft = getDraftPublish();
+
   const [fileInfo, setFileInfo] = useState<FileInfo>({} as FileInfo);
   const [fileStatus, setFileStatus] = useState<null | string>(null);
 
   const [material, setMaterial] = useState<string>('');
-  const [materials, setMaterials] = useState<Array<string>>([]);
+  const [materials, setMaterials] = useState<string[]>([]);
 
-  const { control, handleSubmit } = useForm<PublishFormInput>();
+  const [submitType, setSubmitType] = useState<string>('draft');
 
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  const { control, handleSubmit, reset } = useForm<PublishFormInput>({
+    defaultValues: {},
+  });
+
+  // todo: clear draft
+
+  useEffect(() => {
+    if (draft) {
+      const { image, materials, ...defaultValues } = draft;
+
+      setFileInfo(image);
+      setMaterials(materials);
+      reset(defaultValues);
+    }
+  }, []);
 
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     try {
@@ -83,53 +106,94 @@ const ActivityForm = () => {
     });
   };
 
-  // form
-  const onSubmit: SubmitHandler<PublishFormInput> = async (data) => {
-    // check all inputs are provided=
+  const handleSaveDraft = (info: DraftPublish) => {
+    dispatch(setDraftPublish(info));
+    navigate(-1);
+    return;
+  };
+
+  const handleCheckPublish = (data: PublishFormInput) => {
     const hasAllInputs = Object.values(data).every(
       (input) => Boolean(input) === true
     );
 
     if (!hasAllInputs) {
       console.log('fill in all');
-      return;
+      return false;
     }
 
     if (!fileInfo.secureUrl) {
       console.log('upload an image');
-      return;
+      return false;
     }
 
-    const { title, description, ...filtersOrigin } = data;
+    return true;
+  };
+
+  const formatOptionsToValues = (filters: FiltersWithOptions) => {
     let filtersCopy = {} as FiltersWithValues;
 
-    Object.entries(filtersOrigin).forEach(([key, { value }]) => {
+    Object.entries(filters).forEach(([key, option]) => {
       filtersCopy = {
         ...filtersCopy,
-        [key]: value,
+        [key]: option ? option.value : '',
       };
     });
 
-    console.log('formatted -->', filtersCopy);
+    return filtersCopy;
+  };
 
-    const info: Activity = {
-      image: fileInfo.secureUrl,
-      filters: filtersCopy,
-      title,
-      materials,
-      description,
-    };
+  const handlePublish = async (info: Activity) => {
+    try {
+      const publishedActivity = await publishActivity(info);
 
-    console.log('send to backend -->', info);
-    const publishedActivity = await publishActivity(info);
-
-    // todo
-    // save data to redux, go to feed, render  new activity
-
-    if (publishedActivity) {
       console.log('ok, published!');
       dispatch(setNewlyPublishedActivity(publishedActivity));
       navigate('/feed');
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  // form
+  const onSubmit: SubmitHandler<PublishFormInput> = async (data) => {
+    try {
+      if (submitType === 'draft') {
+        const info: DraftPublish = {
+          image: fileInfo,
+          materials,
+          ...data,
+        };
+
+        handleSaveDraft(info);
+        return;
+      }
+
+      // publish
+      const readyToPublish = handleCheckPublish(data);
+      if (!readyToPublish) {
+        return;
+      }
+
+      const { title, description, ...filtersOrigin } = data;
+      const filtersWithValues = formatOptionsToValues(filtersOrigin);
+      console.log('formatted -->', filtersWithValues);
+
+      const info: Activity = {
+        image: fileInfo.secureUrl,
+        filters: filtersWithValues,
+        title,
+        materials,
+        description,
+      };
+      console.log('send to backend -->', info);
+
+      await handlePublish(info);
+
+      return;
+    } catch (error) {
+      console.log('submit err -->', error);
+      throw error;
     }
   };
 
@@ -199,6 +263,10 @@ const ActivityForm = () => {
           <div className="button-box">
             <button className="button" type="submit">
               publish
+            </button>
+
+            <button className="button" type="submit">
+              draft
             </button>
           </div>
         </div>
