@@ -15,7 +15,7 @@ const FiltersSelect = ({ control }: Props) => {
         const { name, placeholder, options } = group;
 
         return (
-          <div className="individual-filter">
+          <div key={name} className="individual-filter">
             <Controller
               key={index}
               name={name}
