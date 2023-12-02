@@ -7,16 +7,17 @@ import './CollectionNav.css';
 
 type Props = {
   onNavClick: Function;
+  showAllNavs: Boolean;
 };
 
-const CollectionNav = ({ onNavClick }: Props) => {
+const CollectionNav = ({ onNavClick, showAllNavs }: Props) => {
   const [activeNav, setActiveNav] = useState('mine');
 
-  const navOptions = {
-    mine: <HiOutlineSquares2X2 size={24} />,
-    others: <MdSaveAlt size={22} />,
-    ai: <BsBookmark size={20} />,
-  };
+  const mineNav = { label: 'mine', icon: <HiOutlineSquares2X2 size={24} /> };
+  const othersNav = { label: 'others', icon: <MdSaveAlt size={22} /> };
+  const aiNav = { label: 'ai', icon: <BsBookmark size={20} /> };
+
+  const navOptions = showAllNavs ? [mineNav, othersNav, aiNav] : [mineNav];
 
   const handleClick = (navType: string) => {
     setActiveNav(navType);
@@ -25,16 +26,16 @@ const CollectionNav = ({ onNavClick }: Props) => {
 
   return (
     <div className="collection-nav">
-      {Object.entries(navOptions).map(([key, value]) => {
-        const isActive = activeNav === key;
+      {navOptions.map(({ label, icon }) => {
+        const isActive = activeNav === label;
 
         return (
           <button
-            key={key}
+            key={label}
             className={`btn ${isActive ? 'active' : ''}`}
-            onClick={() => handleClick(key)}
+            onClick={() => handleClick(label)}
           >
-            {value}
+            {icon}
           </button>
         );
       })}

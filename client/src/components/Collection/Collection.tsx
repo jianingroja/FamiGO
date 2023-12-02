@@ -29,7 +29,7 @@ const Collection = ({ type }: Props) => {
     }
 
     getCollection();
-  }, [type]);
+  }, [type, username]);
 
   if (isLoading) {
     return (
