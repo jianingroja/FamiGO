@@ -5,13 +5,18 @@ import './Header.css';
 
 type Props = {
   title: string;
+  onGoBackClick?: Function;
 };
 
-const Header = ({ title }: Props) => {
+const Header = ({ title, onGoBackClick }: Props) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(-1);
+    if (onGoBackClick) {
+      onGoBackClick();
+    } else {
+      navigate(-1);
+    }
   };
 
   const iconStyle = { width: '100%', height: '100%', color: 'white' };

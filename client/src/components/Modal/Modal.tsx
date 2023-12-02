@@ -11,24 +11,27 @@ type Props = {
   };
   onConfirm?: Function;
   onCancel?: Function;
+  isForm?: boolean;
+  formName?: string;
 };
 
-const Modal = ({ content, btnText, onConfirm, onCancel }: Props) => {
-  const [hidden, setHidden] = useState(false);
-
+const Modal = ({
+  content,
+  btnText,
+  onConfirm,
+  onCancel,
+  isForm = false,
+  formName,
+}: Props) => {
   const confirm = btnText?.confirm || 'Yess';
   const cancel = btnText?.cancel || 'Cancel';
 
-  const modalClasses = classNames('modal-container', {
-    hidden,
-  });
+  const modalClasses = classNames('modal-container');
 
   const handleConfirm = () => {
     if (onConfirm) {
       onConfirm();
     }
-
-    setHidden(true);
     return;
   };
 
@@ -36,7 +39,6 @@ const Modal = ({ content, btnText, onConfirm, onCancel }: Props) => {
     if (onCancel) {
       onCancel();
     }
-    setHidden(true);
     return;
   };
 
@@ -47,10 +49,15 @@ const Modal = ({ content, btnText, onConfirm, onCancel }: Props) => {
           <p>{content}</p>
         </div>
         <div className="modal-btns">
-          <button className="modal-btn" onClick={handleCancel}>
+          <button className="modal-btn" type="button" onClick={handleCancel}>
             {cancel}
           </button>
-          <button className="modal-btn" onClick={handleConfirm}>
+          <button
+            className="modal-btn"
+            type={isForm ? 'submit' : 'button'}
+            form={isForm ? formName : ''}
+            onClick={handleConfirm}
+          >
             {confirm}
           </button>
         </div>

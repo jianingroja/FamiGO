@@ -6,6 +6,7 @@ import { useAppDispatch } from '../../redux/hooks';
 import {
   setNewlyPublishedActivity,
   setDraftPublish,
+  clearDraft,
   getDraftPublish,
 } from '../../redux/activitySlice';
 import {
@@ -14,6 +15,7 @@ import {
 } from '../../services/apiCloudinary';
 import { publishActivity } from '../../services/activity';
 import FiltersSelect from '../FiltersSelect/FiltersSelect';
+import Modal from '../Modal/Modal';
 
 import {
   FileInfo,
@@ -30,7 +32,12 @@ import './ActivityForm.css';
 
 const tempImg = Logo;
 
-const ActivityForm = () => {
+type Props = {
+  showModal: boolean;
+  setShowModal: Function;
+};
+
+const ActivityForm = ({ showModal, setShowModal }: Props) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const draft = getDraftPublish();
@@ -41,13 +48,12 @@ const ActivityForm = () => {
   const [material, setMaterial] = useState<string>('');
   const [materials, setMaterials] = useState<string[]>([]);
 
-  const [submitType, setSubmitType] = useState<string>('draft');
+  const [submitType, setSubmitType] = useState<string>('publish');
+  // const [showModal, setShowModal] = useState<Boolean>(modal);
 
   const { control, handleSubmit, reset } = useForm<PublishFormInput>({
     defaultValues: {},
   });
-
-  // todo: clear draft
 
   useEffect(() => {
     if (draft) {
@@ -58,6 +64,12 @@ const ActivityForm = () => {
       reset(defaultValues);
     }
   }, []);
+
+  useEffect(() => {
+    if (showModal) {
+      setSubmitType('draft');
+    }
+  }, [showModal]);
 
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     try {
@@ -108,6 +120,7 @@ const ActivityForm = () => {
 
   const handleSaveDraft = (info: DraftPublish) => {
     dispatch(setDraftPublish(info));
+    setShowModal(false);
     navigate(-1);
     return;
   };
@@ -197,81 +210,105 @@ const ActivityForm = () => {
     }
   };
 
-  return (
-    <div className="activity-form">
-      <div className="file-upload-container">
-        <div className="file-container">
-          {fileStatus === 'loading' ? (
-            <img className="spinner" src={tempImg} alt="spinner" />
-          ) : (
-            <img src={fileInfo.secureUrl || tempImg} alt="uploaded image"></img>
-          )}
-          <button className="btn-delete-img" onClick={handleFileDelete}>
-            <img src={DeleteIcon} alt="delete icon" />
-          </button>
-        </div>
-        <div className="file-input-container">
-          <input type="file" onChange={handleFileChange} />
-          <label>upload a image</label>
-        </div>
-        {fileStatus && <p className="status">{fileStatus}...</p>}
-      </div>
+  // modal
+  const modalContent = 'Do you want to save it as a draft?';
+  const modalBtnText = { cancel: 'No' };
+  const handleModalCancel = () => {
+    dispatch(clearDraft());
+    setShowModal(false);
+    setSubmitType('publish');
+    navigate(-1);
+  };
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <FiltersSelect control={control} />
-        <div className="activities-description-fields">
-          <div className="title-container">
-            <p>Title</p>
-            <Controller
-              name="title"
-              control={control}
-              render={({ field }) => <textarea {...field} />}
-            />
-          </div>
-          <div className="material-container">
-            <p>Materials</p>
-            <input
-              type="text"
-              value={material}
-              onChange={(e) => setMaterial(e.target.value)}
-            />
-            <button
-              className="buttonAdd"
-              type="button"
-              onClick={handleAddMaterial}
-            >
-              add
+  return (
+    <>
+      {showModal && (
+        <Modal
+          content={modalContent}
+          btnText={modalBtnText}
+          onCancel={handleModalCancel}
+          isForm
+          formName="my-form"
+        />
+      )}
+
+      <div className="activity-form">
+        <div className="file-upload-container">
+          <div className="file-container">
+            {fileStatus === 'loading' ? (
+              <img className="spinner" src={tempImg} alt="spinner" />
+            ) : (
+              <img
+                src={fileInfo.secureUrl || tempImg}
+                alt="uploaded image"
+              ></img>
+            )}
+            <button className="btn-delete-img" onClick={handleFileDelete}>
+              <img src={DeleteIcon} alt="delete icon" />
             </button>
-            <div>
-              {!!materials.length &&
-                materials.map((material, index) => (
-                  <span onClick={() => handleDeleteMaterial(index)} key={index}>
-                    - {material}
-                  </span>
-                ))}
+          </div>
+          <div className="file-input-container">
+            <input type="file" onChange={handleFileChange} />
+            <label>upload a image</label>
+          </div>
+          {fileStatus && <p className="status">{fileStatus}...</p>}
+        </div>
+
+        <form id="my-form" onSubmit={handleSubmit(onSubmit)}>
+          <FiltersSelect control={control} />
+          <div className="activities-description-fields">
+            <div className="title-container">
+              <p>Title</p>
+              <Controller
+                name="title"
+                control={control}
+                render={({ field }) => <textarea {...field} />}
+              />
+            </div>
+            <div className="material-container">
+              <p>Materials</p>
+              <input
+                type="text"
+                value={material}
+                onChange={(e) => setMaterial(e.target.value)}
+              />
+              <button
+                className="buttonAdd"
+                type="button"
+                onClick={handleAddMaterial}
+              >
+                add
+              </button>
+              <div>
+                {!!materials.length &&
+                  materials.map((material, index) => (
+                    <span
+                      onClick={() => handleDeleteMaterial(index)}
+                      key={index}
+                    >
+                      - {material}
+                    </span>
+                  ))}
+              </div>
+            </div>
+            <div className="description-container">
+              <p>Description</p>
+              <Controller
+                name="description"
+                control={control}
+                render={({ field }) => <textarea {...field} />}
+              />
+            </div>
+
+            <div className="button-box">
+              <button className="button" type="submit">
+                publish
+              </button>
             </div>
           </div>
-          <div className="description-container">
-            <p>Description</p>
-            <Controller
-              name="description"
-              control={control}
-              render={({ field }) => <textarea {...field} />}
-            />
-          </div>
-
-          <div className="button-box">
-            <button className="button" type="submit">
-              publish
-            </button>
-
-            <button className="button" type="submit">
-              draft
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
+    </>
   );
 };
 

@@ -6,6 +6,8 @@
   max-width: 430px;
   height: 100vh;
   position: fixed;
+  top: 0;
+  left: 0;
   overflow-y: hidden;
   background-color: rgba(0, 0, 0, 0.4);
 
@@ -56,8 +58,4 @@
       }
     }
   }
-}
-
-.modal-container.hidden {
-  display: none;
 }
