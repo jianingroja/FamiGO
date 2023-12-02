@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import './GeneratedActivity.css';
 import Save from '../../assets/Save.svg';
 import New from '../../assets/New.svg';
-import { IActivity } from '../../types/activity';
+import { IActivity, ISavedActivity } from '../../types/activity';
+import { saveActivity } from '../../services/activity';
 import { getMyUsername } from '../../redux/userSlice';
 
 const GeneratedActivity: React.FC<IActivity> = ({ activity, onSubmit }) => {
@@ -41,15 +42,9 @@ const GeneratedActivity: React.FC<IActivity> = ({ activity, onSubmit }) => {
       type,
       userInfo,
     };
-    fetch('http://localhost:3000/save-activity', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify(savedActivity),
-    }).catch((error) => {
-      console.error('Error:', error);
+
+    saveActivity(savedActivity as ISavedActivity).catch((error) => {
+      console.error('saveActivity AI failed:', error);
     });
   };
 
@@ -57,7 +52,6 @@ const GeneratedActivity: React.FC<IActivity> = ({ activity, onSubmit }) => {
     if (newClickCount < 3) {
       setNewClickCount(newClickCount + 1);
       onSubmit(e);
-      console.log('e', e);
     }
   };
 

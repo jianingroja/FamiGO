@@ -131,8 +131,11 @@ export const getUserData = async (req: Request, res: Response) => {
 export const saveActivity = async (req: Request, res: Response) => {
   try {
     const savedActivityBody = req.body;
+    console.log('savedActivityBody', savedActivityBody);
 
     const username = req.cookies['username'];
+    console.log('username', username);
+
     const user = await getUserByUserName(username);
     savedActivityBody.userInfo.username = user!.username;
 

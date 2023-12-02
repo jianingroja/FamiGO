@@ -1,6 +1,6 @@
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-import { Activity } from '../types/activity';
+import { Activity, IFormInput, ISavedActivity } from '../types/activity';
 
 export const publishActivity = async (info: Activity) => {
   try {
@@ -152,6 +152,43 @@ export const getComments = async (activityID: string) => {
     return data;
   } catch (error) {
     console.error(error);
+  }
+};
+
+// generate activity AI
+export const postActivity = async (data: IFormInput): Promise<any> => {
+  try {
+    const url = `${BASE_URL}/generator`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    const content = await response.json();
+    console.log('content returned', content);
+    return content;
+  } catch (error) {
+    console.error('Error', error);
+    return;
+  }
+};
+
+export const saveActivity = async (activity: ISavedActivity): Promise<any> => {
+  try {
+    const url = `${BASE_URL}/save-activity`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(activity),
+    });
+    console.log('savedActivity done', response);
+    return response;
+  } catch (error) {
+    console.error('Error', error);
   }
 };
 

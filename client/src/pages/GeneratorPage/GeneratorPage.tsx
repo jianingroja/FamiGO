@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import NavOutlet from '../../components/NavOutlet';
 import GenerateForm from '../../components/GenerateForm/GenerateForm';
 import GeneratedActivity from '../../components/GeneratedActivity/GeneratedActivity';
+import { postActivity } from '../../services/activity';
 import { IFormInput } from '../../types/activity';
 import './GeneratorPage.css';
 
@@ -14,19 +15,12 @@ const GeneratorPage = () => {
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     setLoading(true);
 
-    fetch('http://localhost:3000/generator', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => {
-        return response.json();
-      })
+    postActivity(data)
       .then((dataReceived) => {
+        console.log('dataReceived', dataReceived);
         // If working with openAI, use:
         // setActivity(dataReceived);
+        // setLoading(false);
 
         // If working with MOCK data, use:
         if (dataReceived.matchingActivity!) {

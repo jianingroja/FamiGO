@@ -77,6 +77,7 @@ export interface ActivityObject {
   };
 }
 
+// generate activity AI
 export interface IFormInput {
   Topic: {};
   KidsNumber: {};
@@ -95,12 +96,30 @@ export interface GenerateFormProps {
 
 export interface IActivity {
   activity: {
-    filters: Array<String>;
-    title: String;
-    materials: Array<String>;
-    description: String;
+    filters: Array<string>;
+    title: string;
+    materials: Array<string>;
+    description: string;
   };
   onSubmit: (
     e?: BaseSyntheticEvent<object, any, any> | undefined
   ) => Promise<void>;
+}
+
+export interface ISavedActivity {
+  filters: {
+    topic: string;
+    numOfKids: string;
+    age: string;
+    difficulty: string;
+    place: string;
+    duration: string;
+  };
+  title: string;
+  materials: string[];
+  description: string;
+  type: string;
+  userInfo: {
+    username: string;
+  };
 }

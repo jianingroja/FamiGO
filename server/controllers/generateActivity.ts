@@ -33,9 +33,9 @@ export const generateActivity = async (req: Request, res: Response) => {
 
 // interface IResponseFromAPI {
 //   filters: Object;
-//   title: String;
-//   materials: Array<String>;
-//   description: String;
+//   title: string
+//   materials: Array<string>;
+//   description: string
 // }
 
 // export const generateActivity = async (req: Request, res: Response) => {
