@@ -8,11 +8,19 @@ import { useAppSelector } from './hooks';
 type initialStateType = {
   newlyPublishedActivity: null | FeedActivity;
   draftPublish: null | DraftPublish;
+  collection: {
+    [key: string]: null | FeedActivity[];
+  };
 };
 
 const initialState: initialStateType = {
   newlyPublishedActivity: null,
   draftPublish: null,
+  collection: {
+    mine: null,
+    others: null,
+    ai: null,
+  },
 };
 
 export const activitySlice = createSlice({
@@ -39,15 +47,35 @@ export const activitySlice = createSlice({
         draftPublish: null,
       };
     },
+
+    setCollection: (state, action: PayloadAction<any>) => {
+      const collection = state.collection;
+      const { type, value } = action.payload;
+
+      return {
+        ...state,
+        collection: {
+          ...collection,
+          [type]: value,
+        },
+      };
+    },
   },
 });
 
-export const { setNewlyPublishedActivity, setDraftPublish, clearDraft } =
-  activitySlice.actions;
+export const {
+  setNewlyPublishedActivity,
+  setDraftPublish,
+  clearDraft,
+  setCollection,
+} = activitySlice.actions;
 
 export const getNewlyPublishedActivity = () =>
   useAppSelector((state) => state.activity.newlyPublishedActivity);
 export const getDraftPublish = () =>
   useAppSelector((state) => state.activity.draftPublish);
+
+export const getCollection = (type: string) =>
+  useAppSelector((state) => state.activity.collection[type]);
 
 export const activityReducer = activitySlice.reducer;
