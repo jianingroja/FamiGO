@@ -29,6 +29,7 @@ import {
   getPostsForFeed,
   getActivity,
   getPostsByFilter,
+  getUserCollectionByType,
 } from './controllers/activity';
 import { generateActivity } from './controllers/generateActivity';
 import {
@@ -87,6 +88,12 @@ router.post('/profile/follow', followAndUnfollow);
 router.get(
   '/profile/check-following/:usernameFollowing/:usernameToFollow',
   checkFollowing
+);
+
+router.get(
+  '/collection/:username/:type',
+  isAuthenticated,
+  getUserCollectionByType
 );
 
 export default router;

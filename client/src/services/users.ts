@@ -1,4 +1,4 @@
-import { IUser, UserInfoUpdate } from '../types/user';
+import { IUser, UserInfoUpdate, CollectionResponseData } from '../types/user';
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 // with data
@@ -16,6 +16,27 @@ export const getUserInfo = async (username: string) => {
     return data;
   } catch (error) {
     console.error(error);
+  }
+};
+
+export const getUserCollectionByType = async (
+  username: string,
+  type: string
+) => {
+  try {
+    const url = `${BASE_URL}/collection/${username}/${type}`;
+    const response = await fetch(url, {
+      method: 'GET',
+      credentials: 'include',
+    });
+
+    const data = (await response.json()) as CollectionResponseData;
+    const { collection } = data;
+
+    return collection;
+  } catch (error) {
+    console.error('get user coll client service err-->', error);
+    throw error;
   }
 };
 

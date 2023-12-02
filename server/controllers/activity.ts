@@ -54,6 +54,38 @@ export const getActivity = async (req: Request, res: Response) => {
   }
 };
 
+export const getUserCollectionByType = async (req: Request, res: Response) => {
+  try {
+    const { username, type } = req.params;
+    const user = await getUserByUserName(username);
+
+    let collectionId;
+    switch (type) {
+      case 'mine':
+        collectionId = user?.statistics?.posts;
+        break;
+      case 'others':
+        collectionId = user?.savedPosts;
+        break;
+      case 'ai':
+        collectionId = user?.savedAIPosts;
+        break;
+
+      default:
+        break;
+    }
+
+    const collection = await iterateActivities(collectionId as string[]);
+
+    res.status(200).send({ collection });
+    return;
+  } catch (error) {
+    console.log('get collection by type err -->', error);
+    res.status(500).end();
+    throw error;
+  }
+};
+
 // with detail info of all activities
 export const getUserData = async (req: Request, res: Response) => {
   try {

@@ -1,3 +1,5 @@
+import { FeedActivity } from './feed';
+
 // todo: rename
 export interface User {
   username: string;
@@ -75,4 +77,9 @@ export interface UserInfoUpdate {
   newUsername: string;
   description: string;
   avatar: string;
+}
+
+// collection in profile
+export interface CollectionResponseData {
+  collection: FeedActivity[];
 }
