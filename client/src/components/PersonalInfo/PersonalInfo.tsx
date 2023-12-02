@@ -1,7 +1,8 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
+import { IUser } from '../../types/user';
 import DataBox from '../DataBox/DataBox';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { getUserInfo } from '../../services/users';
 import { UserInfo } from '../../types/user';
 import { followAndUnfollow } from '../../services/users';
@@ -11,37 +12,36 @@ import { checkFollowing } from '../../services/users';
 import './PersonalInfo.css';
 
 const PersonalInfo = () => {
-  const myUsername = getMyUsername();
+  const { user } = useAuth();
+  const { username, avatar, description, statistics } = user as IUser;
+  const { username: currentProfile } = useParams();
+  const isMyProfile = currentProfile === username;
 
-  const { username } = useParams();
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [isFollowing, setIsFollowing] = useState(false);
 
   async function checkIfFollows() {
-    const following = await checkFollowing(
-      myUsername!,
-      userInfo?.user.username!
-    );
+    const following = await checkFollowing(username!, userInfo?.user.username!);
     setIsFollowing(following.following);
   }
 
   useEffect(() => {
     async function getInfoFromUser() {
-      const userData = await getUserInfo(username!);
+      const userData = await getUserInfo(currentProfile!);
       setUserInfo(userData);
     }
     getInfoFromUser();
-  }, [username]);
+  }, [currentProfile]);
 
   useEffect(() => {
     checkIfFollows();
-  }, [myUsername, userInfo?.user.username]);
+  }, [username, userInfo?.user.username]);
 
   const follow = async () => {
     console.log('follow');
     const followData = await followAndUnfollow(
       userInfo?.user.username!,
-      myUsername!
+      username!
     );
     console.log(followData);
     checkIfFollows();
@@ -52,29 +52,22 @@ const PersonalInfo = () => {
       <div className="personal-info">
         <div className="upper">
           <div className="avatar">
-            <img src={userInfo?.user.avatar} alt="avatar" />
+            <img src={avatar} alt="avatar" />
           </div>
           <div className="statistics">
-            <DataBox
-              type="Posts"
-              number={userInfo?.user.statistics.posts.length ?? 0}
-            />
-            <DataBox
-              type="Followers"
-              number={userInfo?.user.statistics.followers.length ?? 0}
-            />
-            <DataBox
-              type="Following"
-              number={userInfo?.user.statistics.following.length ?? 0}
-            />
+            {Object.entries(statistics).map(([key, value]) => (
+              <DataBox type={key} number={value.length} />
+            ))}
           </div>
         </div>
         <div className="lower">
-          <p className="name">{userInfo?.user.username}</p>
-          <p className="desc">{userInfo?.user.description}</p>
-          <Link to={`/edit-profile/${username}`}>
-            <button className="edit-btn">Edit profile</button>
-          </Link>
+          <p className="name">{username}</p>
+          <p className="desc">{description}</p>
+          {isMyProfile && (
+            <Link to={`/edit-profile/${username}`}>
+              <button className="edit-btn">Edit profile</button>
+            </Link>
+          )}
           <button onClick={() => follow()}>
             {isFollowing ? 'Unfollow' : 'Follow'}
           </button>

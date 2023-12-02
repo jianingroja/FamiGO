@@ -9,6 +9,7 @@
   }
 
   & .type {
+    text-transform: capitalize;
     font-size: 0.8rem;
   }
 }
