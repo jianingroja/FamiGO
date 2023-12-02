@@ -121,7 +121,7 @@ const ActivityForm = ({ showModal, setShowModal }: Props) => {
   const handleSaveDraft = (info: DraftPublish) => {
     dispatch(setDraftPublish(info));
     setShowModal(false);
-    navigate(-1);
+    navigate('/feed');
     return;
   };
 
