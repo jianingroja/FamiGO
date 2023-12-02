@@ -219,6 +219,10 @@ const ActivityForm = ({ showModal, setShowModal }: Props) => {
     setSubmitType('publish');
     navigate(-1);
   };
+  const handleModalClose = () => {
+    setShowModal(false);
+    setSubmitType('publish');
+  };
 
   return (
     <>
@@ -227,6 +231,7 @@ const ActivityForm = ({ showModal, setShowModal }: Props) => {
           content={modalContent}
           btnText={modalBtnText}
           onCancel={handleModalCancel}
+          onClose={handleModalClose}
           isForm
           formName="my-form"
         />

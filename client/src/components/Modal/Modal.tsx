@@ -1,7 +1,9 @@
-import { useState } from 'react';
 import classNames from 'classnames';
+import { IoCloseOutline } from 'react-icons/io5';
 
 import './Modal.css';
+
+const primaryColor = '#006d77';
 
 type Props = {
   content: string;
@@ -11,6 +13,7 @@ type Props = {
   };
   onConfirm?: Function;
   onCancel?: Function;
+  onClose?: Function;
   isForm?: boolean;
   formName?: string;
 };
@@ -20,6 +23,7 @@ const Modal = ({
   btnText,
   onConfirm,
   onCancel,
+  onClose,
   isForm = false,
   formName,
 }: Props) => {
@@ -42,9 +46,19 @@ const Modal = ({
     return;
   };
 
+  const handleClose = () => {
+    if (onClose) {
+      onClose();
+    }
+    return;
+  };
+
   return (
     <div className={modalClasses}>
       <div className="modal">
+        <button className="btn-close" onClick={handleClose}>
+          <IoCloseOutline size={22} color={primaryColor} />
+        </button>
         <div className="modal-content">
           <p>{content}</p>
         </div>
