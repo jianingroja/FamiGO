@@ -49,12 +49,14 @@ const useAuth = () => {
 
   const handleRegister = () => {};
 
-  const handleAuthCheck = () => {
+  const handleAuthCheck = (pathname: string) => {
     const name = cookies['app-username'];
     if (!name) {
       navigate('/login');
-    } else {
+    } else if (pathname === '/') {
       navigate('/feed');
+    } else {
+      navigate(pathname);
     }
     return;
   };

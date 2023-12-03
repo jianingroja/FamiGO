@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 import useAuth from './hooks/useAuth';
 
@@ -17,11 +17,12 @@ import './App.css';
 import Activity from './pages/Activity/Activity';
 
 const App = () => {
+  const { pathname } = useLocation();
   const { handleAuthCheck, handleUserInfo } = useAuth();
 
   // every time app reloads, get user's info, save it in redux
   useEffect(() => {
-    handleAuthCheck();
+    handleAuthCheck(pathname);
     handleUserInfo();
   }, []);
 

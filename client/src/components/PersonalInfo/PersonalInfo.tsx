@@ -14,7 +14,7 @@ const PersonalInfo = () => {
   const { username: currentProfile } = useParams();
   const myUsername = getMyUsername();
   const { user } = useAuth();
-  const { _id: myId } = user as IUser;
+  const { _id: myId } = (user as IUser) || {};
   const isMyProfile = currentProfile === myUsername;
 
   const [isLoading, setIsLoading] = useState(false);
@@ -24,12 +24,8 @@ const PersonalInfo = () => {
 
   useEffect(() => {
     const getInfo = async () => {
-      if (isMyProfile) {
-        setInfo(user);
-      } else {
-        const info = await getUserPlainInfo(currentProfile as string);
-        setInfo(info);
-      }
+      const info = await getUserPlainInfo(currentProfile as string);
+      setInfo(info);
 
       setIsLoading(false);
       return;

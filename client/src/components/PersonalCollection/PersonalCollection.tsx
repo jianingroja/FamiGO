@@ -11,7 +11,7 @@ const PersonalCollection = () => {
 
   const { username: currentProfile } = useParams();
   const { user } = useAuth();
-  const { username } = user as IUser;
+  const { username } = (user as IUser) || {};
 
   const isMyProfile = currentProfile === username;
 
