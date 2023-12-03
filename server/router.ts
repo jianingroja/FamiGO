@@ -7,8 +7,9 @@ import {
   getUserInfo,
   googleLogin,
   updateUserInfo,
-  followAndUnfollow,
-  checkFollowing,
+  // followAndUnfollow,
+  // checkFollowing,
+  toggleRelationship,
 } from './controllers/users';
 import {
   uploadToCloudinary,
@@ -84,11 +85,13 @@ router.get('/user/:username', isAuthenticated, getUserInfo);
 router.post('/post-comment', createComment);
 router.get('/get-comments/:activityID', getComments);
 
-router.post('/profile/follow', followAndUnfollow);
-router.get(
-  '/profile/check-following/:usernameFollowing/:usernameToFollow',
-  checkFollowing
-);
+router.post('/user/:username/:relationship', toggleRelationship);
+
+// router.post('/profile/follow', followAndUnfollow);
+// router.get(
+//   '/profile/check-following/:usernameFollowing/:usernameToFollow',
+//   checkFollowing
+// );
 
 router.get(
   '/collection/:username/:type',

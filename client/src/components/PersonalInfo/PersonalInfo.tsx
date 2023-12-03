@@ -1,79 +1,106 @@
+import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
+import { useAppDispatch } from '../../redux/hooks';
+import { getMyUsername, setUser } from '../../redux/userSlice';
 import { IUser } from '../../types/user';
 import DataBox from '../DataBox/DataBox';
-import { useEffect, useState } from 'react';
-import { getUserInfo } from '../../services/users';
-import { UserInfo } from '../../types/user';
-import { followAndUnfollow } from '../../services/users';
-import { getMyUsername } from '../../redux/userSlice';
-import { checkFollowing } from '../../services/users';
+import { getUserPlainInfo, handleRelationship } from '../../services/users';
 
 import './PersonalInfo.css';
 
 const PersonalInfo = () => {
-  const { user } = useAuth();
-  const { username, avatar, description, statistics } = user as IUser;
+  const dispatch = useAppDispatch();
   const { username: currentProfile } = useParams();
-  const isMyProfile = currentProfile === username;
+  const myUsername = getMyUsername();
+  const { user } = useAuth();
+  const { _id: myId } = user as IUser;
+  const isMyProfile = currentProfile === myUsername;
 
-  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
-  const [isFollowing, setIsFollowing] = useState(false);
-
-  async function checkIfFollows() {
-    const following = await checkFollowing(username!, userInfo?.user.username!);
-    setIsFollowing(following.following);
-  }
+  const [isLoading, setIsLoading] = useState(false);
+  const [relation, setRelation] = useState('');
+  const [info, setInfo] = useState<IUser | null>(null);
+  const { username, avatar, description, statistics } = (info as IUser) || {};
 
   useEffect(() => {
-    async function getInfoFromUser() {
-      const userData = await getUserInfo(currentProfile!);
-      setUserInfo(userData);
-    }
-    getInfoFromUser();
+    const getInfo = async () => {
+      if (isMyProfile) {
+        setInfo(user);
+      } else {
+        const info = await getUserPlainInfo(currentProfile as string);
+        setInfo(info);
+      }
+
+      setIsLoading(false);
+      return;
+    };
+
+    setIsLoading(true);
+    getInfo();
   }, [currentProfile]);
 
   useEffect(() => {
-    checkIfFollows();
-  }, [username, userInfo?.user.username]);
+    if (info) {
+      const { followers } = info.statistics;
+      const isFollowing = followers.includes(myId);
+      setRelation(isFollowing ? 'unfollow' : 'follow');
+    }
+  }, [info]);
 
-  const follow = async () => {
-    console.log('follow');
-    const followData = await followAndUnfollow(
-      userInfo?.user.username!,
-      username!
-    );
-    console.log(followData);
-    checkIfFollows();
+  const handleRelation = async () => {
+    try {
+      const data = await handleRelationship(
+        currentProfile as string,
+        myUsername as string,
+        relation
+      );
+      const { receiver, user } = data;
+      setInfo(receiver);
+      dispatch(setUser(user));
+
+      if (relation === 'follow') {
+        setRelation('unfollow');
+      } else {
+        setRelation('follow');
+      }
+    } catch (error) {
+      console.log('personal info component err -->', error);
+    }
   };
 
+  if (isLoading) {
+    return <div className="personal-info-loading" />;
+  }
+
   return (
-    <div>
-      <div className="personal-info">
-        <div className="upper">
-          <div className="avatar">
-            <img src={avatar} alt="avatar" />
+    <>
+      {info && (
+        <div className="personal-info">
+          <div className="upper">
+            <div className="avatar">
+              <img src={avatar} alt="avatar" />
+            </div>
+            <div className="statistics">
+              {Object.entries(statistics).map(([key, value]) => (
+                <DataBox type={key} number={value.length} />
+              ))}
+            </div>
           </div>
-          <div className="statistics">
-            {Object.entries(statistics).map(([key, value]) => (
-              <DataBox type={key} number={value.length} />
-            ))}
+          <div className="lower">
+            <p className="name">{username}</p>
+            <p className="desc">{description}</p>
+            {isMyProfile && (
+              <Link to={`/edit-profile/${username}`}>
+                <button className="edit-btn">Edit profile</button>
+              </Link>
+            )}
+            {!isMyProfile && (
+              <button onClick={handleRelation}>{relation}</button>
+            )}
           </div>
         </div>
-        <div className="lower">
-          <p className="name">{username}</p>
-          <p className="desc">{description}</p>
-          {isMyProfile && (
-            <Link to={`/edit-profile/${username}`}>
-              <button className="edit-btn">Edit profile</button>
-            </Link>
-          )}
-          <button onClick={() => follow()}>
-            {isFollowing ? 'Unfollow' : 'Follow'}
-          </button>
-        </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

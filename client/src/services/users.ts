@@ -140,3 +140,31 @@ export const checkFollowing = async (
     throw error;
   }
 };
+
+export const handleRelationship = async (
+  receiver: string,
+  follower: string,
+  type: string
+) => {
+  try {
+    const url = `${BASE_URL}/user/${receiver}/${type}`;
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers,
+      credentials: 'include',
+      body: JSON.stringify({
+        follower,
+      }),
+    });
+
+    const data = await res.json();
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};

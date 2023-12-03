@@ -52,3 +52,9 @@
     }
   }
 }
+
+.personal-info-loading {
+  width: 100%;
+  height: 30vh;
+  background-color: var(--white-color);
+}

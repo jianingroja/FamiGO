@@ -288,3 +288,44 @@ export const checkFollowing = async (req: Request, res: Response) => {
     return res.status(403).end();
   }
 };
+
+export const toggleRelationship = async (req: Request, res: Response) => {
+  try {
+    const { username, relationship } = req.params;
+    const { follower: followerName } = req.body;
+
+    const receiver = await getUserByUserName(username);
+    const follower = await getUserByUserName(followerName);
+
+    if (relationship === 'follow') {
+      receiver?.statistics?.followers?.push(follower?.id);
+      follower?.statistics?.following?.push(receiver?.id);
+
+      await receiver?.save();
+      await follower?.save();
+
+      return res.status(201).send({ receiver, user: follower });
+    }
+
+    if (relationship === 'unfollow') {
+      const receiver = await UserModel.findOneAndUpdate(
+        { username: username },
+        { $pull: { 'statistics.followers': follower?.id } },
+        { new: true }
+      );
+
+      const user = await UserModel.findOneAndUpdate(
+        { username: followerName },
+        { $pull: { 'statistics.following': receiver?.id } },
+        { new: true }
+      );
+
+      return res.status(201).send({ receiver, user });
+    }
+
+    return;
+  } catch (error) {
+    res.status(500).send(error);
+    throw error;
+  }
+};
