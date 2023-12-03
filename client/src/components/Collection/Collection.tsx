@@ -22,8 +22,8 @@ const Collection = ({ type }: Props) => {
 
   const collection = getCollection(type);
 
-  const fetchCollection = async () => {
-    const col = await getUserCollectionByType(username as string, type);
+  const fetchCollection = async (signal?: AbortSignal) => {
+    const col = await getUserCollectionByType(username as string, type, signal);
 
     setCol(col);
     dispatch(setCollection({ type, value: col }));
@@ -36,12 +36,19 @@ const Collection = ({ type }: Props) => {
   }, [username]);
 
   useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
     if (collection) {
       setCol(collection);
     } else {
       setIsLoading(true);
-      fetchCollection();
+      fetchCollection(signal);
     }
+
+    return () => {
+      setCol([]);
+      controller.abort('abort');
+    };
   }, [type]);
 
   if (isLoading) {

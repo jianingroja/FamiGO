@@ -21,13 +21,15 @@ export const getUserInfo = async (username: string) => {
 
 export const getUserCollectionByType = async (
   username: string,
-  type: string
+  type: string,
+  signal?: AbortSignal
 ) => {
   try {
     const url = `${BASE_URL}/collection/${username}/${type}`;
     const response = await fetch(url, {
       method: 'GET',
       credentials: 'include',
+      signal,
     });
 
     const data = (await response.json()) as CollectionResponseData;
