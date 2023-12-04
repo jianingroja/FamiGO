@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getComments } from '../../services/activity';
+import './CommentList.css';
 
 interface Comment {
   _id: string;
@@ -9,9 +10,10 @@ interface Comment {
 
 interface CommentListProps {
   activityID: string;
+  refresh: number;
 }
 
-const CommentList: React.FC<CommentListProps> = ({ activityID }) => {
+const CommentList: React.FC<CommentListProps> = ({ activityID, refresh }) => {
   const [comments, setComments] = useState<Comment[]>([]);
 
   useEffect(() => {
@@ -25,10 +27,10 @@ const CommentList: React.FC<CommentListProps> = ({ activityID }) => {
     };
 
     fetchComments();
-  }, [activityID]);
+  }, [activityID, refresh]);
 
   return (
-    <div>
+    <div className="comment-list">
       <h2>Comments:</h2>
       {comments ? (
         comments.map((comment) => (

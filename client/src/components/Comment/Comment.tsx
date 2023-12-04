@@ -1,13 +1,19 @@
-import React, { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { publishComment } from '../../services/activity';
-
+import './Comment.css';
 interface CommentProps {
   myUsername: string;
   activityID: string;
+  onCommentSubmitted: () => void;
 }
 
-const Comment: React.FC<CommentProps> = ({ myUsername, activityID }) => {
+const Comment: React.FC<CommentProps> = ({
+  myUsername,
+  activityID,
+  onCommentSubmitted,
+}) => {
   const [commentText, setCommentText] = useState('');
+  const [isCommentSubmitted, setIsCommentSubmitted] = useState(false);
 
   const handleTextareaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const newText = event.target.value;
@@ -15,20 +21,29 @@ const Comment: React.FC<CommentProps> = ({ myUsername, activityID }) => {
   };
 
   const submitComment = async () => {
-    publishComment(myUsername!, activityID!, commentText);
+    await publishComment(myUsername!, activityID!, commentText);
+    setIsCommentSubmitted(true);
+    onCommentSubmitted();
   };
 
   return (
     <>
-      <textarea
-        name="textarea"
-        rows={10}
-        cols={50}
-        value={commentText}
-        onChange={handleTextareaChange}
-        placeholder="COMENTA AQUI POR FAVOOOR"
-      />
-      <button onClick={() => submitComment()}>Send</button>
+      {!isCommentSubmitted && (
+        <div className="comment-section">
+          <textarea
+            name="textarea"
+            rows={6}
+            cols={45}
+            value={commentText}
+            onChange={handleTextareaChange}
+            placeholder="Write your comment here..."
+          />
+          <button className="button" onClick={() => submitComment()}>
+            Send
+          </button>
+        </div>
+      )}
+      <br />
     </>
   );
 };
