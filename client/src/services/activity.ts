@@ -145,12 +145,17 @@ export const getComments = async (activityID: string) => {
       method: 'GET',
     });
 
-    if (!response.ok) console.error('ERROR');
+    if (!response.ok) {
+      throw new Error();
+    }
 
     const data = await response.json();
-    return data;
+    const { comments } = data;
+
+    return comments;
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };
 

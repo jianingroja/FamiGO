@@ -15,6 +15,7 @@ import { getMyUsername } from '../../redux/userSlice';
 import Comment from '../Comment/Comment';
 import CommentList from '../CommentList/CommentList';
 import FilterTag from '../FilterTag/FilterTag';
+import Spinner from '../Spinner/Spinner';
 
 import './SpecificActivity.css';
 
@@ -27,7 +28,7 @@ const SpecificActivity = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [showComment, setShowComment] = useState(false);
-  const [showActivityComments, setshowActivityComments] = useState(true);
+  const [showActivityComments, setshowActivityComments] = useState(false);
   const [refreshComments, setRefreshComments] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
 
