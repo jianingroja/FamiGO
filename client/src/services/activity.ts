@@ -163,10 +163,12 @@ export const deleteActivity = async (username: string, activityID: string) => {
         method: 'DELETE',
       }
     );
-    if (!response.ok) console.error('ERROR: ', response);
+    if (!response.ok) {
+      throw new Error(`HTTP Error: ${response.status} ${response.statusText}`);
+    }
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error(error);
+    console.error('Error in deleteActivity:', error);
   }
 };
