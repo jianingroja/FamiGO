@@ -34,6 +34,7 @@ input:focus {
   max-width: 430px;
   margin: 0 auto;
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 /* FONTS */

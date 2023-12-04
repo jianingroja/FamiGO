@@ -82,6 +82,8 @@ const SpecificActivity = () => {
 
   const like = async () => {
     await saveLike(myUsername as string, id as string);
+    setIsLiked((prev) => !prev);
+
     const activity = await getActivity(id!);
     setActivity(activity);
   };
@@ -97,7 +99,7 @@ const SpecificActivity = () => {
   }
 
   return (
-    <div className="feed-item">
+    <div className="specific-item">
       <h2>{title}</h2>
       <br />
       <div className="info">
@@ -135,13 +137,6 @@ const SpecificActivity = () => {
           </button>
         </p>
       </div>
-      <div className="delete">
-        {isMyProfile && (
-          <button className="button" onClick={() => deletePost()}>
-            Delete post
-          </button>
-        )}
-      </div>
       {showComment && (
         <Comment
           myUsername={myUsername!}
@@ -162,6 +157,13 @@ const SpecificActivity = () => {
       </div>
       {showActivityComments && (
         <CommentList activityID={id as string} refresh={refreshComments} />
+      )}
+      {isMyProfile && (
+        <div className="delete">
+          <button className="button" onClick={() => deletePost()}>
+            Delete post
+          </button>
+        </div>
       )}
     </div>
   );

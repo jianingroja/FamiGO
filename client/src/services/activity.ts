@@ -81,10 +81,11 @@ export const saveLike = async (username: string, activityID: string) => {
       }
     );
 
-    if (!response.ok) console.error('ERROR');
+    if (!response.ok) {
+      throw new Error();
+    }
 
-    const data = await response.json();
-    return data;
+    return;
   } catch (error) {
     console.error(error);
   }
