@@ -33,6 +33,12 @@ export const activitySlice = createSlice({
         newlyPublishedActivity: action.payload,
       };
     },
+    clearNewlyPublishedActivity: (state) => {
+      return {
+        ...state,
+        newlyPublishedActivity: null,
+      };
+    },
 
     setDraftPublish: (state, action: PayloadAction<any>) => {
       return {
@@ -65,6 +71,7 @@ export const activitySlice = createSlice({
 
 export const {
   setNewlyPublishedActivity,
+  clearNewlyPublishedActivity,
   setDraftPublish,
   clearDraft,
   setCollection,

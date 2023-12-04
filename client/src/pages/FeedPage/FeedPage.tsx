@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
 import { getNewlyPublishedActivity } from '../../redux/activitySlice';
+import { getMyUsername } from '../../redux/userSlice';
 import { getFeed, getFilteredFeed } from '../../services/feed';
 import { FeedActivity, FiltersWithOptions } from '../../types/feed';
 import FeedItem from '../../components/FeedItem/FeedItem';
@@ -29,6 +31,7 @@ const FeedPage = () => {
   const { control, handleSubmit } = useForm<IFormInput>({});
 
   const myNewPublish = getNewlyPublishedActivity();
+  const myUsername = getMyUsername();
   const hasFeed = feedItems.length !== 0;
   // todo: optimize this condition check
   const hasFilteredItems = filteredFeedItems.length !== 0;
@@ -56,6 +59,16 @@ const FeedPage = () => {
 
     getFeedItems();
   }, []);
+
+  useEffect(() => {
+    if (myNewPublish) {
+      toast(`New activity from ${myUsername}`, {
+        icon: '👏',
+        duration: 4000,
+        id: 'newPub',
+      });
+    }
+  }, [myNewPublish]);
 
   return (
     <div className="feed-page">

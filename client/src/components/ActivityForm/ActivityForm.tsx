@@ -1,6 +1,7 @@
 import { useState, useEffect, ChangeEvent } from 'react';
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 import { useAppDispatch } from '../../redux/hooks';
 import {
@@ -49,7 +50,6 @@ const ActivityForm = ({ showModal, setShowModal }: Props) => {
   const [materials, setMaterials] = useState<string[]>([]);
 
   const [submitType, setSubmitType] = useState<string>('publish');
-  // const [showModal, setShowModal] = useState<Boolean>(modal);
 
   const { control, handleSubmit, reset } = useForm<PublishFormInput>({
     defaultValues: {},
@@ -72,34 +72,35 @@ const ActivityForm = ({ showModal, setShowModal }: Props) => {
   }, [showModal]);
 
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
-    try {
-      event.preventDefault();
-      setFileStatus('loading');
+    event.preventDefault();
+    setFileStatus('loading');
 
-      const file = event.target.files![0];
-      const info = (await uploadFileToCloudinary(file)) as FileInfo;
+    const file = event.target.files![0];
+    const uploadPromise = uploadFileToCloudinary(file);
 
-      setFileInfo(info);
-      setFileStatus(null);
-    } catch (error) {
-      console.log('Upload file error!');
-      setFileStatus('failed');
-    }
+    const info = await toast.promise<FileInfo>(uploadPromise, {
+      loading: 'uploading',
+      success: <b>uploaded!</b>,
+      error: <b>fail to upload...</b>,
+    });
+
+    setFileInfo(info);
+    setFileStatus(null);
   };
 
   const handleFileDelete = async () => {
-    try {
-      setFileStatus('loading');
+    setFileStatus('loading');
+    const { publicId } = fileInfo;
+    const deletePromise = deleteFileFromCloudinary(publicId);
 
-      const { publicId } = fileInfo;
-      await deleteFileFromCloudinary(publicId);
+    await toast.promise(deletePromise, {
+      loading: 'deleting',
+      success: <b>deleted!</b>,
+      error: <b>fail to delete...</b>,
+    });
 
-      setFileInfo({} as FileInfo);
-      setFileStatus(null);
-    } catch (error) {
-      console.log('Delete file error!');
-      setFileStatus('failed');
-    }
+    setFileInfo({} as FileInfo);
+    setFileStatus(null);
   };
 
   // todo: upload multiple files
@@ -121,7 +122,10 @@ const ActivityForm = ({ showModal, setShowModal }: Props) => {
   const handleSaveDraft = (info: DraftPublish) => {
     dispatch(setDraftPublish(info));
     setShowModal(false);
-    navigate('/feed');
+    toast.success('Your activity is saved!');
+    setTimeout(() => {
+      navigate('/feed');
+    }, 2000);
     return;
   };
 
@@ -160,9 +164,11 @@ const ActivityForm = ({ showModal, setShowModal }: Props) => {
     try {
       const publishedActivity = await publishActivity(info);
 
-      console.log('ok, published!');
       dispatch(setNewlyPublishedActivity(publishedActivity));
-      navigate('/feed');
+      toast.success('Your activity is now published!');
+      setTimeout(() => {
+        navigate('/feed');
+      }, 2000);
     } catch (error) {
       throw error;
     }
@@ -185,6 +191,7 @@ const ActivityForm = ({ showModal, setShowModal }: Props) => {
       // publish
       const readyToPublish = handleCheckPublish(data);
       if (!readyToPublish) {
+        toast('please fill in all inputs', { icon: '☀️' });
         return;
       }
 
@@ -206,6 +213,7 @@ const ActivityForm = ({ showModal, setShowModal }: Props) => {
       return;
     } catch (error) {
       console.log('submit err -->', error);
+      toast.error('fail to submit');
       throw error;
     }
   };
@@ -240,14 +248,11 @@ const ActivityForm = ({ showModal, setShowModal }: Props) => {
       <div className="activity-form">
         <div className="file-upload-container">
           <div className="file-container">
-            {fileStatus === 'loading' ? (
-              <img className="spinner" src={tempImg} alt="spinner" />
-            ) : (
-              <img
-                src={fileInfo.secureUrl || tempImg}
-                alt="uploaded image"
-              ></img>
-            )}
+            <img
+              className={fileStatus === 'loading' ? 'loading' : ''}
+              src={fileInfo.secureUrl || tempImg}
+              alt="uploaded image"
+            ></img>
             <button className="btn-delete-img" onClick={handleFileDelete}>
               <img src={DeleteIcon} alt="delete icon" />
             </button>
@@ -256,7 +261,6 @@ const ActivityForm = ({ showModal, setShowModal }: Props) => {
             <input type="file" onChange={handleFileChange} />
             <label>upload a image</label>
           </div>
-          {fileStatus && <p className="status">{fileStatus}...</p>}
         </div>
 
         <form id="my-form" onSubmit={handleSubmit(onSubmit)}>
