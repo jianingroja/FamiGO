@@ -2,12 +2,17 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IActivity, ISavedActivity } from '../../types/activity';
 import { saveActivity } from '../../services/activity';
+
+import { useAppDispatch } from '../../redux/hooks';
 import { getMyUsername } from '../../redux/userSlice';
+import { setCollection } from '../../redux/activitySlice';
+
 import './GeneratedActivity.css';
 import Save from '../../assets/Save.svg';
 import New from '../../assets/New.svg';
 
 const GeneratedActivity: React.FC<IActivity> = ({ activity, onSubmit }) => {
+  const dispatch = useAppDispatch();
   const username = getMyUsername();
   const [newClickCount, setNewClickCount] = useState(0);
 
@@ -16,6 +21,10 @@ const GeneratedActivity: React.FC<IActivity> = ({ activity, onSubmit }) => {
       window.scrollTo(0, document.body.scrollHeight);
     }
   }, [activity]);
+
+  useEffect(() => {
+    dispatch(setCollection({ type: 'ai', value: null }));
+  }, []);
 
   const handleSaveClick = () => {
     const topic = activity.filters[0];
