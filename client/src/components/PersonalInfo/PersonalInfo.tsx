@@ -81,9 +81,15 @@ const PersonalInfo = () => {
               <img src={avatar} alt="avatar" />
             </div>
             <div className="statistics">
-              {Object.entries(statistics).map(([key, value]) => (
-                <DataBox key={key} type={key} number={value.length} />
-              ))}
+              {['posts', 'followers', 'following'].map((cat, index) => {
+                return (
+                  <DataBox
+                    key={index}
+                    type={cat}
+                    number={statistics[cat].length}
+                  />
+                );
+              })}
             </div>
           </div>
           <div className="lower">

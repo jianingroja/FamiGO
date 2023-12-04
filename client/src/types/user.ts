@@ -64,9 +64,7 @@ export interface UserRegister {
 
 // redux
 export interface UserStatistics {
-  followers: string[];
-  following: string[];
-  posts: string[];
+  [key: string]: string[];
 }
 
 export interface IUser {
