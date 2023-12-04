@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getActivity, getLikes, deleteActivity } from '../../services/activity';
 import { ActivityObject } from '../../types/activity';
@@ -18,6 +18,7 @@ const SpecificActivity = () => {
   const [showComment, setShowComment] = useState(false);
   const [showActivityComments, setshowActivityComments] = useState(true);
   const [refreshComments, setRefreshComments] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getActivityInfo() {
@@ -50,6 +51,7 @@ const SpecificActivity = () => {
   async function deletePost() {
     const activityID = activityData!.activityInfo._id;
     await deleteActivity(myUsername!, activityID!);
+    navigate(`/profile/${myUsername}`);
   }
 
   const handleCommentSubmitted = () => {
