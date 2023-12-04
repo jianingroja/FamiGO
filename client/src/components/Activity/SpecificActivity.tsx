@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import { IUser } from '../../types/user';
 import { FeedActivity } from '../../types/feed';
 import { getUserPlainInfo } from '../../services/users';
@@ -28,11 +29,11 @@ const SpecificActivity = () => {
   const [showComment, setShowComment] = useState(false);
   const [showActivityComments, setshowActivityComments] = useState(true);
   const [refreshComments, setRefreshComments] = useState(0);
-
   const [isLiked, setIsLiked] = useState(false);
 
   const { title, image, likes, description, userInfo } = activity || {};
   const { username, avatar } = user || {};
+
   const isMyProfile = myUsername === username;
 
   useEffect(() => {
@@ -51,22 +52,31 @@ const SpecificActivity = () => {
         const res = await getUserPlainInfo(username!);
         setUser(res);
       };
+
       getUser();
 
-      const checkLike = async () => {
-        const hasLiked = await getLikes(myUsername as string, id as string);
-        setIsLiked(hasLiked);
-      };
       checkLike();
-
       setIsLoading(false);
     }
   }, [activity]);
 
+  const checkLike = async () => {
+    const hasLiked = await getLikes(myUsername as string, id as string);
+    setIsLiked(hasLiked);
+  };
+
   const deletePost = async () => {
-    const activityID = id as string;
-    await deleteActivity(myUsername!, activityID);
-    navigate(`/profile/${myUsername}`);
+    const deletePromise = deleteActivity(myUsername as string, id as string);
+
+    await toast.promise(deletePromise, {
+      loading: 'deleting...',
+      success: <b>deleted!</b>,
+      error: <b>fail to delete...</b>,
+    });
+
+    setTimeout(() => {
+      navigate(`/profile/${myUsername}`);
+    }, 2000);
   };
 
   const like = async () => {
@@ -101,6 +111,7 @@ const SpecificActivity = () => {
       </div>
       <div className="status">
         <p>{likes?.length} likes</p>
+
         <button
           className={`button ${isLiked ? 'button-grey' : ''}`}
           onClick={like}

@@ -203,5 +203,6 @@ export const deleteActivity = async (username: string, activityID: string) => {
     return data;
   } catch (error) {
     console.error('Error in deleteActivity:', error);
+    throw error;
   }
 };
