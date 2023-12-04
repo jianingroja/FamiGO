@@ -168,13 +168,13 @@ export const updateUserInfo = async (req: Request, res: Response) => {
     if (description) user.description = description;
 
     await user.save();
-
-    res.cookie('username', newUsername, {
-      domain: 'localhost',
-      path: '/',
-      httpOnly: true,
-    });
-
+    if (newUsername) {
+      res.cookie('username', newUsername, {
+        domain: 'localhost',
+        path: '/',
+        httpOnly: true,
+      });
+    }
     return res.status(200).json(user);
   } catch (error) {
     return res.sendStatus(400);

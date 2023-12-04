@@ -108,7 +108,6 @@ const useAuth = () => {
       setCookie('app-username', username);
 
       const res = await getUserPlainInfo(username);
-
       dispatch(setUser(res));
     } catch (error) {
       console.log('handle user info update use auth hook err -->', error);
