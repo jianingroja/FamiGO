@@ -38,10 +38,14 @@ export const getActivity = async (id: string) => {
       credentials: 'include',
     });
 
-    if (!response.ok) console.error('ERROR');
+    if (!response.ok) {
+      throw new Error();
+    }
 
     const data = await response.json();
-    return data;
+    const { activityInfo } = data;
+
+    return activityInfo;
   } catch (error) {
     console.error(error);
   }
@@ -98,7 +102,9 @@ export const getLikes = async (username: string, activityID: string) => {
     if (!response.ok) console.error('ERROR');
 
     const data = await response.json();
-    return data;
+    const { value: hasLiked } = data;
+
+    return hasLiked;
   } catch (error) {
     console.error(error);
   }

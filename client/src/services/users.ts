@@ -1,24 +1,6 @@
 import { IUser, UserInfoUpdate, CollectionResponseData } from '../types/user';
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-// with data
-export const getUserInfo = async (username: string) => {
-  try {
-    const url = `${BASE_URL}/profile/${username}`;
-    const response = await fetch(url, {
-      method: 'GET',
-      credentials: 'include',
-    });
-
-    if (!response.ok) console.error('ERROR');
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 export const getUserCollectionByType = async (
   username: string,
   type: string,

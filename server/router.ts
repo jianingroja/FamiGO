@@ -25,7 +25,6 @@ import {
 } from './middlewares/index';
 
 import {
-  getUserData,
   publishActivity,
   saveActivity,
   getPostsForFeed,
@@ -58,9 +57,6 @@ router.put(
   updatePassword
 );
 router.put('/profile/:username', isAuthenticated, isOwnerEdit, updateUserInfo);
-
-//get User Info (Posts and Stats)
-router.get('/profile/:username', isAuthenticated, getUserData);
 
 //get posts from feed
 router.get('/feed', isAuthenticated, isAuthorized, getPostsForFeed);

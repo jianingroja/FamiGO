@@ -1,100 +1,95 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { IUser } from '../../types/user';
+import { FeedActivity } from '../../types/feed';
+import { getUserPlainInfo } from '../../services/users';
 import {
   getActivity,
   getLikes,
   deleteActivity,
   saveLike,
 } from '../../services/activity';
-import { ActivityObject } from '../../types/activity';
-import { getUserInfo } from '../../services/users';
-import { UserInfo } from '../../types/user';
 import { getMyUsername } from '../../redux/userSlice';
+
 import Comment from '../Comment/Comment';
 import CommentList from '../CommentList/CommentList';
 import FilterTag from '../FilterTag/FilterTag';
+
 import './SpecificActivity.css';
 
 const SpecificActivity = () => {
+  const navigate = useNavigate();
   const myUsername = getMyUsername();
   const { id } = useParams();
-  const [activityData, setActivityData] = useState<ActivityObject | null>(null);
-  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [activity, setActivity] = useState<FeedActivity | null>(null);
+  const [user, setUser] = useState<IUser | null>(null);
+
+  const [isLoading, setIsLoading] = useState(true);
   const [showComment, setShowComment] = useState(false);
   const [showActivityComments, setshowActivityComments] = useState(true);
   const [refreshComments, setRefreshComments] = useState(0);
-  const [isMyActivity, setIsMyActivity] = useState(false);
+
   const [isLiked, setIsLiked] = useState(false);
 
-  const navigate = useNavigate();
+  const { title, image, likes, description, userInfo } = activity || {};
+  const { username, avatar } = user || {};
+  const isMyProfile = myUsername === username;
 
   useEffect(() => {
-    async function getActivityInfo() {
-      const activity = await getActivity(id!);
-      setActivityData(activity);
-    }
+    const getActivityInfo = async () => {
+      const res = await getActivity(id as string);
+      setActivity(res);
+    };
+
     getActivityInfo();
   }, [id]);
 
   useEffect(() => {
-    const username = activityData?.activityInfo.userInfo.username;
-
-    if (activityData) {
-      async function getInfoFromUser() {
-        const userData = await getUserInfo(username!);
-        setUserInfo(userData);
-        if (activityData?.activityInfo.userInfo.username == myUsername) {
-          setIsMyActivity(true);
-        }
-      }
-      getInfoFromUser();
+    if (activity) {
+      const username = userInfo?.username;
+      const getUser = async () => {
+        const res = await getUserPlainInfo(username!);
+        setUser(res);
+      };
+      getUser();
 
       const checkLike = async () => {
-        const liked = await checkIfLike();
-        liked;
+        const hasLiked = await getLikes(myUsername as string, id as string);
+        setIsLiked(hasLiked);
       };
       checkLike();
+
+      setIsLoading(false);
     }
-  }, [activityData]);
+  }, [activity]);
 
-  async function checkIfLike() {
-    const activityID = activityData!.activityInfo._id;
-    const checkIfActivityHasLike = await getLikes(myUsername!, activityID!);
-    setIsLiked(checkIfActivityHasLike.value);
-    return checkIfActivityHasLike.value;
-  }
-
-  async function like() {
-    const activityID = activityData!.activityInfo._id;
-    await saveLike(myUsername!, activityID!);
-    const activity = await getActivity(id!);
-    setActivityData(activity);
-    await checkIfLike();
-  }
-
-  async function deletePost() {
-    const activityID = activityData!.activityInfo._id;
-    await deleteActivity(myUsername!, activityID!);
+  const deletePost = async () => {
+    const activityID = id as string;
+    await deleteActivity(myUsername!, activityID);
     navigate(`/profile/${myUsername}`);
-  }
-
-  const handleCommentSubmitted = () => {
-    setShowComment(false);
   };
 
-  const filterEntries = Object.entries(
-    activityData?.activityInfo.filters || {}
-  );
+  const like = async () => {
+    await saveLike(myUsername as string, id as string);
+    const activity = await getActivity(id!);
+    setActivity(activity);
+  };
+
+  const filterEntries = Object.entries(activity?.filters || {});
+
+  if (isLoading) {
+    return <p>loadiing</p>;
+  }
 
   return (
     <div className="feed-item">
-      <h2>{activityData?.activityInfo.title}</h2>
+      <h2>{title}</h2>
       <br />
       <div className="info">
         <div className="avatar">
-          <img src={userInfo?.user.avatar} alt="avatar" />
+          <img src={avatar} alt="avatar" />
         </div>
-        <p>{activityData?.activityInfo.userInfo.username}</p>
+        <p>{userInfo?.username}</p>
       </div>
       <div className="filters">
         {filterEntries.map(([label, value]) => (
@@ -102,21 +97,18 @@ const SpecificActivity = () => {
         ))}
       </div>
       <div className="content">
-        {activityData?.activityInfo.image && (
-          <img src={activityData?.activityInfo.image} alt="activity image" />
-        )}
+        {image && <img src={image} alt="activity image" />}
       </div>
       <div className="status">
-        <p>{activityData?.activityInfo.likes.length} likes</p>
+        <p>{likes?.length} likes</p>
         <button
           className={`button ${isLiked ? 'button-grey' : ''}`}
-          onClick={() => like()}
+          onClick={like}
         >
           {isLiked ? 'Unlike' : 'Like'}
         </button>
       </div>
-
-      <p>{activityData?.activityInfo.description}</p>
+      <p>{description}</p>
       <div className="actions">
         <p>
           <button
@@ -128,7 +120,7 @@ const SpecificActivity = () => {
         </p>
       </div>
       <div className="delete">
-        {isMyActivity && (
+        {isMyProfile && (
           <button className="button" onClick={() => deletePost()}>
             Delete post
           </button>
@@ -137,9 +129,9 @@ const SpecificActivity = () => {
       {showComment && (
         <Comment
           myUsername={myUsername!}
-          activityID={activityData?.activityInfo._id!}
+          activityID={id as string}
           onCommentSubmitted={() => {
-            handleCommentSubmitted();
+            setShowComment(false);
             setRefreshComments((prev) => prev + 1);
           }}
         />
@@ -153,10 +145,7 @@ const SpecificActivity = () => {
         </button>
       </div>
       {showActivityComments && (
-        <CommentList
-          activityID={String(activityData?.activityInfo._id)}
-          refresh={refreshComments}
-        />
+        <CommentList activityID={id as string} refresh={refreshComments} />
       )}
     </div>
   );

@@ -1,12 +1,11 @@
 import { Request, Response } from 'express';
 import { getUserByUserName } from '../models/users';
-import { getActivitiesByID, getActivitiesFromUser } from '../models/activity';
+import { getActivitiesByID } from '../models/activity';
 import { ActivityModel, createActivity } from '../models/activity';
 import {
   iterateIDs,
   getAllPostsIDs,
   iterateActivities,
-  iterateActivitiesFromUser,
 } from '../helpers/activity';
 
 import { ActivityWithUser } from '../types/activity';
@@ -86,45 +85,6 @@ export const getUserCollectionByType = async (req: Request, res: Response) => {
     console.log('get collection by type err -->', error);
     res.status(500).end();
     throw error;
-  }
-};
-
-// with detail info of all activities
-export const getUserData = async (req: Request, res: Response) => {
-  try {
-    const { username } = req.params;
-    const user = await getUserByUserName(username);
-
-    const activitiesFromUser = await getActivitiesFromUser(username);
-
-    const listOfActivities = await iterateActivitiesFromUser(
-      activitiesFromUser!.statistics!.posts!
-    );
-    const listOfSavedAIActivities = await iterateActivitiesFromUser(
-      activitiesFromUser!.savedAIPosts!
-    );
-    const listOfSavedActivities = await iterateActivitiesFromUser(
-      activitiesFromUser!.savedPosts!
-    );
-
-    listOfActivities.sort((a, b) => {
-      const dateA = new Date(Object.values(a)[0].createdAt) as any;
-      const dateB = new Date(Object.values(b)[0].createdAt) as any;
-      return dateB - dateA;
-    });
-
-    res
-      .json({
-        user: user,
-        activities: listOfActivities,
-        savedAIActivities: listOfSavedAIActivities,
-        savedActivities: listOfSavedActivities,
-      })
-      .status(200);
-    return;
-  } catch (error) {
-    console.error(error);
-    return res.sendStatus(500);
   }
 };
 
