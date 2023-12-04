@@ -78,7 +78,7 @@ const PersonalInfo = () => {
             </div>
             <div className="statistics">
               {Object.entries(statistics).map(([key, value]) => (
-                <DataBox type={key} number={value.length} />
+                <DataBox key={key} type={key} number={value.length} />
               ))}
             </div>
           </div>
