@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { getUserCollectionByType } from '../../services/users';
 import { useAppDispatch } from '../../redux/hooks';
 import { setCollection, getCollection } from '../../redux/activitySlice';
@@ -12,18 +11,18 @@ import './Collection.css';
 
 type Props = {
   type: string;
+  currentProfile: string;
 };
 
-const Collection = ({ type }: Props) => {
+const Collection = ({ type, currentProfile }: Props) => {
   const dispatch = useAppDispatch();
-  const { username } = useParams();
   const [col, setCol] = useState<FeedActivity[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const collection = getCollection(type);
 
   const fetchCollection = async (signal?: AbortSignal) => {
-    const col = await getUserCollectionByType(username as string, type, signal);
+    const col = await getUserCollectionByType(currentProfile, type, signal);
 
     setCol(col);
     dispatch(setCollection({ type, value: col }));
@@ -33,7 +32,7 @@ const Collection = ({ type }: Props) => {
   useEffect(() => {
     setIsLoading(true);
     fetchCollection();
-  }, [username]);
+  }, [currentProfile]);
 
   useEffect(() => {
     const controller = new AbortController();

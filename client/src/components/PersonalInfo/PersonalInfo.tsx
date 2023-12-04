@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import { useAppDispatch } from '../../redux/hooks';
 import { getMyUsername, setUser } from '../../redux/userSlice';
@@ -9,13 +9,16 @@ import { getUserPlainInfo, handleRelationship } from '../../services/users';
 
 import './PersonalInfo.css';
 
-const PersonalInfo = () => {
+type Props = {
+  isMyProfile: boolean;
+  currentProfile: string;
+};
+
+const PersonalInfo = ({ isMyProfile, currentProfile }: Props) => {
   const dispatch = useAppDispatch();
-  const { username: currentProfile } = useParams();
   const myUsername = getMyUsername();
   const { user, handleLogout } = useAuth();
   const { _id: myId } = (user as IUser) || {};
-  const isMyProfile = currentProfile === myUsername;
 
   const [isLoading, setIsLoading] = useState(false);
   const [relation, setRelation] = useState('');
@@ -23,16 +26,21 @@ const PersonalInfo = () => {
   const { username, avatar, description, statistics } = (info as IUser) || {};
 
   useEffect(() => {
+    setIsLoading(true);
+
     const getInfo = async () => {
       const info = await getUserPlainInfo(currentProfile as string);
       setInfo(info);
-
       setIsLoading(false);
       return;
     };
 
-    setIsLoading(true);
-    getInfo();
+    if (isMyProfile) {
+      setInfo(user);
+      setIsLoading(false);
+    } else {
+      getInfo();
+    }
   }, [currentProfile]);
 
   useEffect(() => {
