@@ -40,6 +40,7 @@ const FeedPage = () => {
     const res = (await getFilteredFeed(data)) as FeedActivity[];
     setHasFilters(true);
     setFilteredFeedItems(res);
+    setShowFilters(false);
   };
 
   const toggleFilters = () => {
