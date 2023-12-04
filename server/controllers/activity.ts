@@ -76,6 +76,9 @@ export const getUserCollectionByType = async (req: Request, res: Response) => {
     }
 
     const collection = await iterateActivities(collectionId as string[]);
+    collection.sort((a, b) => {
+      return b.createdAt - a.createdAt;
+    });
 
     res.status(200).send({ collection });
     return;
