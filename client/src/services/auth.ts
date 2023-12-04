@@ -1,4 +1,4 @@
-import { UserLogin } from '../types/user';
+import { UserLogin, UserRegister } from '../types/user';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -57,22 +57,14 @@ export const googleLogin = async (credential: string) => {
   }
 };
 
-export const registerPOST = async (
-  username: string,
-  email: string,
-  password: string
-) => {
+export const registerPOST = async (info: UserRegister) => {
   try {
     const response = await fetch(`${BASE_URL}/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        username,
-        password,
-        email,
-      }),
+      body: JSON.stringify(info),
     });
 
     if (!response.ok) {

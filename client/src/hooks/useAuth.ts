@@ -2,11 +2,11 @@ import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch } from '../redux/hooks';
-import { login, googleLogin } from '../services/auth';
+import { login, googleLogin, registerPOST } from '../services/auth';
 import { getUserPlainInfo } from '../services/users';
 import { getUser, setUser } from '../redux/userSlice';
 
-import { UserLogin, IUser } from '../types/user';
+import { UserLogin, IUser, UserRegister } from '../types/user';
 
 const useAuth = () => {
   const navigate = useNavigate();
@@ -47,7 +47,22 @@ const useAuth = () => {
     }
   };
 
-  const handleRegister = () => {};
+  const handleRegister = async (info: UserRegister) => {
+    try {
+      const user = (await registerPOST(info)) as IUser;
+
+      if (user) {
+        dispatch(setUser(user));
+        setCookie('app-username', user.username);
+        return;
+      }
+
+      return;
+    } catch (error) {
+      console.log('login error - useAuth -->', error);
+      throw new Error('register fail');
+    }
+  };
 
   const handleAuthCheck = (pathname: string) => {
     const name = cookies['app-username'];

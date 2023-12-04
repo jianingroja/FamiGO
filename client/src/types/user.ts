@@ -56,6 +56,12 @@ export interface UserLogin {
   password: string;
 }
 
+export interface UserRegister {
+  username: string;
+  email: string;
+  password: string;
+}
+
 // redux
 export interface UserStatistics {
   followers: string[];

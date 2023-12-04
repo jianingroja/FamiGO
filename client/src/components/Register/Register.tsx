@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { User } from '../../types/user';
 import { Link, useNavigate } from 'react-router-dom';
-import { registerPOST } from '../../services/auth';
+import useAuth from '../../hooks/useAuth';
 import './Register.css';
 
 const Register = () => {
   const navigate = useNavigate();
+  const { handleRegister } = useAuth();
 
   interface FormState {
     inputValues: User;
@@ -31,20 +32,19 @@ const Register = () => {
     if (inputValues.password != inputValues.confirmPassword) {
       console.log('Password is different than Confirm Password');
     } else {
-      registerPOST(
-        inputValues.username,
-        inputValues.email,
-        inputValues.password
-      ).then(() => {
-        setInputValues({
-          username: '',
-          email: '',
-          password: '',
-          confirmPassword: '',
+      const { confirmPassword, ...info } = inputValues;
+      handleRegister(info)
+        .then(() => {
+          setInputValues({
+            username: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+          });
+        })
+        .then(() => {
+          navigate('/login');
         });
-
-        navigate('/login');
-      });
     }
   };
 
