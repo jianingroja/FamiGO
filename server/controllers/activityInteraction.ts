@@ -112,7 +112,7 @@ export const getComments = async (req: Request, res: Response) => {
   }
 };
 
-export const deleteActivtiy = async (req: Request, res: Response) => {
+export const deleteActivity = async (req: Request, res: Response) => {
   try {
     const { username, id } = req.params;
     await ActivityModel.findByIdAndDelete(id);

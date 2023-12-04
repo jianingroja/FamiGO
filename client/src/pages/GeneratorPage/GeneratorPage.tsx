@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import NavOutlet from '../../components/NavOutlet';
 import GenerateForm from '../../components/GenerateForm/GenerateForm';
 import GeneratedActivity from '../../components/GeneratedActivity/GeneratedActivity';
-import { postActivity } from '../../services/activity';
+import { postGeneratedActivity } from '../../services/activity';
 import { IFormInput } from '../../types/activity';
 import './GeneratorPage.css';
 
@@ -15,7 +15,7 @@ const GeneratorPage = () => {
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     setLoading(true);
 
-    postActivity(data)
+    postGeneratedActivity(data)
       .then((dataReceived) => {
         console.log('dataReceived', dataReceived);
         // If working with openAI, use:

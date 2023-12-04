@@ -155,8 +155,7 @@ export const getComments = async (activityID: string) => {
   }
 };
 
-// generate activity AI
-export const postActivity = async (data: IFormInput): Promise<any> => {
+export const postGeneratedActivity = async (data: IFormInput): Promise<any> => {
   try {
     const url = `${BASE_URL}/generator`;
     const response = await fetch(url, {
