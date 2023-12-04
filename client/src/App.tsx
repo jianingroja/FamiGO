@@ -22,8 +22,10 @@ const App = () => {
 
   // every time app reloads, get user's info, save it in redux
   useEffect(() => {
-    handleAuthCheck(pathname);
-    handleUserInfo();
+    const isAuth = handleAuthCheck(pathname);
+    if (isAuth) {
+      handleUserInfo();
+    }
   }, []);
 
   return (

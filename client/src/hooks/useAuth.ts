@@ -77,23 +77,25 @@ const useAuth = () => {
     const name = cookies['app-username'];
     if (!name) {
       navigate('/login');
+      return false;
     } else if (pathname === '/') {
       navigate('/feed');
     } else {
       navigate(pathname);
     }
-    return;
+
+    return true;
   };
 
   const handleUserInfo = async () => {
     try {
       const name = cookies['app-username'];
       if (!name) {
-        console.error('Username is undefined');
+        console.error('app-username is undefined');
         return;
       }
-      const res = await getUserPlainInfo(name);
 
+      const res = await getUserPlainInfo(name);
       dispatch(setUser(res));
     } catch (error) {
       console.log('handle user info use auth hook err -->', error);
