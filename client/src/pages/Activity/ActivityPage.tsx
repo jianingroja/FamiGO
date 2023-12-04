@@ -1,10 +1,10 @@
-import SpecificActivityCopy from '../../components/Activity/SpecificActivityCopy.tsx';
+import SpecificActivity from '../../components/Activity/SpecificActivity.tsx';
 import './ActivityPage.css';
 
 const Activity = () => {
   return (
     <div className="activity-page">
-      <SpecificActivityCopy />
+      <SpecificActivity />
     </div>
   );
 };
