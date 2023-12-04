@@ -1,12 +1,13 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { getActivity, getLikes } from '../../services/activity';
+import { getActivity, getLikes, deleteActivity } from '../../services/activity';
 import { ActivityObject } from '../../types/activity';
 import { getUserInfo } from '../../services/users';
 import { UserInfo } from '../../types/user';
 import { getMyUsername } from '../../redux/userSlice';
 import Comment from '../Comment/Comment';
 import CommentList from '../CommentList/CommentList';
+import FilterTag from '../FilterTag/FilterTag';
 import './SpecificActivityCopy.css';
 
 const SpecificActivity = () => {
@@ -46,20 +47,33 @@ const SpecificActivity = () => {
     const checkIfActivityHasLike = await getLikes(myUsername!, activityID!);
     return checkIfActivityHasLike.value;
   }
+  async function deletePost() {
+    const activityID = activityData!.activityInfo._id;
+    await deleteActivity(myUsername!, activityID!);
+  }
 
   const handleCommentSubmitted = () => {
     setShowComment(false);
   };
 
+  const filterEntries = Object.entries(
+    activityData?.activityInfo.filters || {}
+  );
+
   return (
     <div className="feed-item">
+      <h2>{activityData?.activityInfo.title}</h2>
       <div className="info">
         <div className="avatar">
           <img src={userInfo?.user.avatar} alt="avatar" />
         </div>
         <p>{activityData?.activityInfo.userInfo.username}</p>
       </div>
-      <br />
+      <div className="filters">
+        {filterEntries.map(([label, value]) => (
+          <FilterTag key={label} label={label} value={value} />
+        ))}
+      </div>
       <div className="content">
         {activityData?.activityInfo.image && (
           <img src={activityData?.activityInfo.image} alt="activity image" />
@@ -67,6 +81,9 @@ const SpecificActivity = () => {
       </div>
       <div className="status">
         <p>{activityData?.activityInfo.likes.length} likes</p>
+        <button className="button" onClick={() => deletePost()}>
+          Delete post
+        </button>
       </div>
       <p>{activityData?.activityInfo.description}</p>
       <div className="actions">

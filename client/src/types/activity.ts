@@ -62,21 +62,14 @@ export interface ActivityObject {
     userInfo: {
       username: string;
     };
-    filters: {
-      topic: string;
-      numOfKids: string;
-      age: string;
-      difficulty: string;
-      place: string;
-      duration: string;
-    };
+    filters: FiltersWithValues;
     materials: string[];
     _id: string;
     title: string;
     material: string;
     image: string;
     description: string;
-    likes: any[]; // Puedes definir una interfaz específica para los likes si es necesario
+    likes: string[];
     type: string;
     createdAt: string;
     __v: number;
