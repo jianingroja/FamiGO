@@ -66,6 +66,17 @@ export const activitySlice = createSlice({
         },
       };
     },
+
+    clearCollection: (state) => {
+      return {
+        ...state,
+        collection: {
+          mine: null,
+          others: null,
+          ai: null,
+        },
+      };
+    },
   },
 });
 
@@ -75,6 +86,7 @@ export const {
   setDraftPublish,
   clearDraft,
   setCollection,
+  clearCollection,
 } = activitySlice.actions;
 
 export const getNewlyPublishedActivity = () =>

@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import { getUserCollectionByType } from '../../services/users';
 import { useAppDispatch } from '../../redux/hooks';
-import { setCollection, getCollection } from '../../redux/activitySlice';
+import {
+  setCollection,
+  getCollection,
+  clearCollection,
+} from '../../redux/activitySlice';
 import { FeedActivity } from '../../types/feed';
 
 import CollectionPreview from '../CollectionPreview/CollectionPreview';
@@ -32,6 +36,10 @@ const Collection = ({ type, currentProfile }: Props) => {
   useEffect(() => {
     setIsLoading(true);
     fetchCollection();
+
+    return () => {
+      dispatch(clearCollection());
+    };
   }, [currentProfile]);
 
   useEffect(() => {
