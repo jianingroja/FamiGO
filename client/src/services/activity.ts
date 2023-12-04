@@ -154,3 +154,19 @@ export const getComments = async (activityID: string) => {
     console.error(error);
   }
 };
+
+export const deleteActivity = async (username: string, activityID: string) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/delete-activity/${username}/${activityID}`,
+      {
+        method: 'DELETE',
+      }
+    );
+    if (!response.ok) console.error('ERROR: ', response);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
