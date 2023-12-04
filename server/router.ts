@@ -103,6 +103,6 @@ router.get(
 
 router.delete('/delete-activity/:username/:id', deleteActivtiy);
 
-router.get('/logout', logout);
+router.post('/logout', isAuthenticated, logout);
 
 export default router;

@@ -168,20 +168,3 @@ export const handleRelationship = async (
     throw error;
   }
 };
-
-export const logout = async () => {
-  try {
-    const url = `${BASE_URL}/logout`;
-
-    const response = await fetch(url, {
-      method: 'GET',
-      credentials: 'include',
-    });
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error in updateUserInfo', error);
-    throw error;
-  }
-};

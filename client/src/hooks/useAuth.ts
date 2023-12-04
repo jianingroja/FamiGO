@@ -2,7 +2,7 @@ import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch } from '../redux/hooks';
-import { login, googleLogin, registerPOST } from '../services/auth';
+import { login, googleLogin, registerPOST, logout } from '../services/auth';
 import { getUserPlainInfo } from '../services/users';
 import { getUser, setUser } from '../redux/userSlice';
 
@@ -10,7 +10,7 @@ import { UserLogin, IUser, UserRegister } from '../types/user';
 
 const useAuth = () => {
   const navigate = useNavigate();
-  const [cookies, setCookie] = useCookies(['app-username']);
+  const [cookies, setCookie, removeCookie] = useCookies(['app-username']);
   const dispatch = useAppDispatch();
   const user = getUser();
 
@@ -64,6 +64,15 @@ const useAuth = () => {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+      dispatch(setUser(null));
+      removeCookie('app-username');
+      navigate('/login');
+    } catch (error) {}
+  };
+
   const handleAuthCheck = (pathname: string) => {
     const name = cookies['app-username'];
     if (!name) {
@@ -110,6 +119,7 @@ const useAuth = () => {
     handleLogin,
     handleGoogleLogin,
     handleRegister,
+    handleLogout,
     handleAuthCheck,
     handleUserInfo,
     handleUserInfoUpdate,

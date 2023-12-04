@@ -77,3 +77,19 @@ export const registerPOST = async (info: UserRegister) => {
     console.error(error);
   }
 };
+
+export const logout = async () => {
+  try {
+    const url = `${BASE_URL}/logout`;
+
+    await fetch(url, {
+      method: 'POST',
+      credentials: 'include',
+    });
+
+    return;
+  } catch (error) {
+    console.error('Error in log out', error);
+    throw error;
+  }
+};

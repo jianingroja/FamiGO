@@ -333,7 +333,6 @@ export const toggleRelationship = async (req: Request, res: Response) => {
 export const logout = async (_req: Request, res: Response) => {
   try {
     res.clearCookie('CookieFamiGO');
-    res.clearCookie('app-username');
     res.clearCookie('username');
     res.status(200).end();
   } catch (error) {
