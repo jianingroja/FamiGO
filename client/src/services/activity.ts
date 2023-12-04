@@ -185,7 +185,6 @@ export const saveActivity = async (activity: ISavedActivity): Promise<any> => {
       },
       body: JSON.stringify(activity),
     });
-    console.log('savedActivity done', response);
     return response;
   } catch (error) {
     console.error('Error', error);

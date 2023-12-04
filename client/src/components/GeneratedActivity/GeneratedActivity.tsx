@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
-import './GeneratedActivity.css';
-import Save from '../../assets/Save.svg';
-import New from '../../assets/New.svg';
 import { IActivity, ISavedActivity } from '../../types/activity';
 import { saveActivity } from '../../services/activity';
 import { getMyUsername } from '../../redux/userSlice';
+import './GeneratedActivity.css';
+import Save from '../../assets/Save.svg';
+import New from '../../assets/New.svg';
 
 const GeneratedActivity: React.FC<IActivity> = ({ activity, onSubmit }) => {
   const username = getMyUsername();
@@ -31,7 +30,6 @@ const GeneratedActivity: React.FC<IActivity> = ({ activity, onSubmit }) => {
     const materials = activity.materials;
     const description = activity.description;
     const type = 'saved';
-    const username = '';
     const userInfo = { username };
 
     const savedActivity = {
@@ -42,6 +40,7 @@ const GeneratedActivity: React.FC<IActivity> = ({ activity, onSubmit }) => {
       type,
       userInfo,
     };
+    console.log('savedActivity', savedActivity);
 
     saveActivity(savedActivity as ISavedActivity).catch((error) => {
       console.error('saveActivity AI failed:', error);
