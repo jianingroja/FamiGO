@@ -14,7 +14,7 @@ import EditProfilePage from './pages/EditProfilePage';
 import NavOutlet from './components/NavOutlet';
 
 import './App.css';
-import Activity from './pages/Activity/Activity';
+import Activity from './pages/Activity/ActivityPage';
 
 const App = () => {
   const { pathname } = useLocation();
