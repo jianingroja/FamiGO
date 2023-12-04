@@ -88,7 +88,11 @@ const SpecificActivity = () => {
   const filterEntries = Object.entries(activity?.filters || {});
 
   if (isLoading) {
-    return <p>loadiing</p>;
+    return (
+      <div className="specific-loading">
+        <Spinner />;
+      </div>
+    );
   }
 
   return (

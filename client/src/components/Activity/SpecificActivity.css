@@ -73,3 +73,12 @@
     color: white;
   }
 }
+
+.specific-loading {
+  padding: 5vh 0;
+  width: 100%;
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
