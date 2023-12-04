@@ -83,7 +83,7 @@ export const logout = async () => {
     const url = `${BASE_URL}/logout`;
 
     await fetch(url, {
-      method: 'POST',
+      method: 'GET',
       credentials: 'include',
     });
 
