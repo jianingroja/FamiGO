@@ -1,0 +1,40 @@
+.feed-item {
+  width: 100%;
+  height: fit-content;
+
+  & .actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1%;
+    margin-right: 6%;
+    & .button {
+      width: fit-content;
+      height: 25px;
+      padding: 10px;
+      margin-bottom: 5%;
+      background: var(--secondary-color);
+      color: #481700;
+    }
+    & .button-grey {
+      background: rgb(217, 217, 217);
+      color: var(--darkgrey-color);
+    }
+  }
+}
+
+.button-hide-all {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 6%;
+  & .button {
+    width: fit-content;
+    height: 25px;
+    padding: 10px;
+    background: rgb(217, 217, 217);
+    color: var(--darkgrey-color);
+  }
+  & .button-grey {
+    background: var(--secondary-color);
+    color: #481700;
+  }
+}
