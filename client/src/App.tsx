@@ -11,6 +11,7 @@ import GeneratorPage from './pages/GeneratorPage/GeneratorPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import EditProfilePage from './pages/EditProfilePage';
+import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import NavOutlet from './components/NavOutlet';
 
 import './App.css';
@@ -42,7 +43,7 @@ const App = () => {
           <Route path="/generator" element={<GeneratorPage />} />
         </Route>
         <Route path="/publish-activity" element={<PublishIdeaPage />} />
-        <Route path="/*" element={<p>page not found</p>} />
+        <Route path="/*" element={<NotFoundPage />} />
       </Routes>
     </div>
   );

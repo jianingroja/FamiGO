@@ -1,0 +1,26 @@
+.not-found-page {
+  padding: 10vh 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--primary-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.solution {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+
+  & p {
+    text-align: center;
+    color: var(--browny-color);
+  }
+
+  & .button {
+    width: 8rem;
+  }
+}
