@@ -33,7 +33,8 @@ export const publishActivity = async (info: Activity) => {
 
 export const getActivity = async (id: string) => {
   try {
-    const response = await fetch(`http://localhost:3000/get-activity/${id}`, {
+    const url = `${BASE_URL}/get-activity/${id}`;
+    const response = await fetch(url, {
       method: 'GET',
       credentials: 'include',
     });
