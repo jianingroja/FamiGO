@@ -39,14 +39,19 @@ export const login = async (req: Request, res: Response) => {
 
     await user.save();
 
+    // domain is set to undefined in production
     res.cookie('CookieFamiGO', user.authentication!.sessionToken, {
-      domain: 'localhost',
+      domain: process.env.COOKIE_DOMAIN || undefined,
+      secure: true,
+      sameSite: 'none',
       path: '/',
       httpOnly: true,
     });
 
     res.cookie('username', user.username, {
-      domain: 'localhost',
+      domain: process.env.COOKIE_DOMAIN || undefined,
+      secure: true,
+      sameSite: 'none',
       path: '/',
       httpOnly: true,
     });
@@ -103,13 +108,17 @@ export const googleLogin = async (req: Request, res: Response) => {
     await user!.save();
 
     res.cookie('CookieFamiGO', user.authentication!.sessionToken, {
-      domain: 'localhost',
+      domain: process.env.COOKIE_DOMAIN || undefined,
+      secure: true,
+      sameSite: 'none',
       path: '/',
       httpOnly: true,
     });
 
     res.cookie('username', user.username, {
-      domain: 'localhost',
+      domain: process.env.COOKIE_DOMAIN || undefined,
+      secure: true,
+      sameSite: 'none',
       path: '/',
       httpOnly: true,
     });
@@ -176,7 +185,9 @@ export const updateUserInfo = async (req: Request, res: Response) => {
     await user.save();
     if (newUsername) {
       res.cookie('username', newUsername, {
-        domain: 'localhost',
+        domain: process.env.COOKIE_DOMAIN || undefined,
+        secure: true,
+        sameSite: 'none',
         path: '/',
         httpOnly: true,
       });
@@ -339,8 +350,21 @@ export const toggleRelationship = async (req: Request, res: Response) => {
 
 export const logout = async (_req: Request, res: Response) => {
   try {
-    res.clearCookie('CookieFamiGO');
-    res.clearCookie('username');
+    res.clearCookie('CookieFamiGO', {
+      domain: process.env.COOKIE_DOMAIN || undefined,
+      secure: true,
+      sameSite: 'none',
+      path: '/',
+      httpOnly: true,
+    });
+    res.clearCookie('username', {
+      domain: process.env.COOKIE_DOMAIN || undefined,
+      secure: true,
+      sameSite: 'none',
+      path: '/',
+      httpOnly: true,
+    });
+
     res.status(200).end();
   } catch (error) {
     res.status(400).json({ ERROR: error });
