@@ -14,8 +14,9 @@ type Props = {
 
 const FeedItem = ({ activity }: Props) => {
   const {
+    _id: activityId,
     userInfo: { username },
-    description,
+    title,
     filters,
     likes,
     image,
@@ -40,18 +41,14 @@ const FeedItem = ({ activity }: Props) => {
         ))}
       </div>
       <div className="content">
-        <img src={image} alt="activity image" />
+        <Link to={`../activity/${activityId}`}>
+          <img src={image} alt="activity image" />
+        </Link>
       </div>
       <div className="status">
         <p>{likesCount} likes</p>
-        <div className="actions">
-          <p>like</p>
-          <p>comment</p>
-          <p>save</p>
-        </div>
       </div>
-      <p>{description}</p>
-      <p>view all comments</p>
+      <p>{title}</p>
     </div>
   );
 };
