@@ -1,5 +1,7 @@
-import { useState, ChangeEvent, useEffect } from 'react';
+import { useState, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+
 import useAuth from '../../hooks/useAuth';
 import { updateUserInfo } from '../../services/users';
 import { getUser } from '../../redux/userSlice';
@@ -9,21 +11,18 @@ import './EditProfile.css';
 import { uploadFileToCloudinary } from '../../services/apiCloudinary';
 import { FileInfo } from '../../types/activity';
 
-import { toast as showHotToast } from 'react-hot-toast';
-
 const EditProfile = () => {
   const navigate = useNavigate();
   const { handleUserInfoUpdate } = useAuth();
 
   const user = getUser();
   const { username, description } = user as IUser;
-  let { avatar } = user as IUser;
+  const { avatar } = user as IUser;
 
   const [newUsername, setNewUsername] = useState('');
   const [presentation, setPresentation] = useState('');
 
   const [fileInfo, setFileInfo] = useState<FileInfo>({} as FileInfo);
-  const [fileStatus, setFileStatus] = useState<null | string>(null);
 
   const [localAvatar, setLocalAvatar] = useState<string | null>(null);
 
@@ -44,9 +43,9 @@ const EditProfile = () => {
         };
         const res = await updateUserInfo(username, updates);
         await handleUserInfoUpdate(res);
-        toast('Password updated successfully', { icon: 'success' });
+        toast.success('Password updated successfully');
       } else if (newPassword !== '' && newPassword !== confirmNewPassword) {
-        toast('Passwords do not match', { icon: 'error' });
+        toast.error('Passwords do not match');
         didMatch = false;
       } else {
         const updates: UserInfoUpdate = {
@@ -69,34 +68,24 @@ const EditProfile = () => {
       }
     } catch (error) {
       console.error('Failed to update the profile', error);
-      toast('Passwords do not match', { icon: 'error' });
+      toast.error('Passwords do not match');
     }
   };
 
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
-    try {
-      event.preventDefault();
-      setFileStatus('loading');
+    event.preventDefault();
 
-      const file = event.target.files![0];
-      const info = (await uploadFileToCloudinary(file)) as FileInfo;
+    const file = event.target.files![0];
+    const uploadPromise = uploadFileToCloudinary(file);
+    const info = await toast.promise<FileInfo>(uploadPromise, {
+      loading: 'uploading',
+      success: <b>uploaded!</b>,
+      error: <b>fail to upload...</b>,
+    });
 
-      setFileInfo(info);
-
-      avatar = info.secureUrl;
-
-      setLocalAvatar(avatar);
-
-      setFileStatus(null);
-    } catch (error) {
-      console.log('Upload file error!');
-      setFileStatus('failed');
-    }
+    setFileInfo(info);
+    setLocalAvatar(info.secureUrl);
   };
-
-  useEffect(() => {
-    setLocalAvatar(fileInfo.secureUrl);
-  }, [fileInfo]);
 
   return (
     <div>
@@ -150,6 +139,3 @@ const EditProfile = () => {
 };
 
 export default EditProfile;
-function toast(message: string, options: { icon: string }) {
-  showHotToast(message, { icon: options.icon });
-}

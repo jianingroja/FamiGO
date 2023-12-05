@@ -15,7 +15,6 @@ interface Props {
 
 const CommentList = ({ activityID, refresh }: Props) => {
   const [comments, setComments] = useState<Comment[]>([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchComments = async () => {
