@@ -2,7 +2,13 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
-import { getMyUsername } from '../../redux/userSlice';
+import { useAppDispatch } from '../../redux/hooks';
+import {
+  addSavedPost,
+  removeSavedPost,
+  getMyUsername,
+  getMySavedPost,
+} from '../../redux/userSlice';
 import { FeedActivity } from '../../types/feed';
 import { IUser } from '../../types/user';
 import { getUserPlainInfo } from '../../services/users';
@@ -28,6 +34,7 @@ type Props = {
 };
 
 const FeedItem = ({ activity, isFeed, isAI = false }: Props) => {
+  const dispatch = useAppDispatch();
   const [user, setUser] = useState<IUser | null>(null);
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [isSaved, setIsSaved] = useState<boolean>(false);
@@ -44,6 +51,9 @@ const FeedItem = ({ activity, isFeed, isAI = false }: Props) => {
 
   const myUsername = getMyUsername();
   const isMyActivity = myUsername === username;
+  const mySaved = getMySavedPost();
+  const isMySaved = mySaved?.includes(activityId);
+
   const filterEntries = Object.entries(filters);
 
   const checkLike = async () => {
@@ -61,12 +71,19 @@ const FeedItem = ({ activity, isFeed, isAI = false }: Props) => {
     const savePromise = saveActivityInProfile(myUsername as string, activityId);
 
     await toast.promise(savePromise, {
-      loading: 'saving...',
-      success: <b>Saved!</b>,
-      error: <b>Fail to save...</b>,
+      loading: 'Processing...',
+      success: <b>{isSaved ? 'Unsaved!' : 'Saved!'}</b>,
+      error: <b>Fail to process...</b>,
     });
 
     setIsSaved((prev) => !prev);
+    if (isSaved) {
+      dispatch(removeSavedPost(activityId as string));
+    } else {
+      dispatch(addSavedPost(activityId as string));
+    }
+
+    return;
   };
 
   useEffect(() => {
@@ -78,6 +95,7 @@ const FeedItem = ({ activity, isFeed, isAI = false }: Props) => {
 
       getUser();
       checkLike();
+      setIsSaved(isMySaved as boolean);
     }
   }, [activity]);
 
