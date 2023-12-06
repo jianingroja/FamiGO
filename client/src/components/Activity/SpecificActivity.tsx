@@ -48,7 +48,9 @@ const SpecificActivity = () => {
     });
 
     setTimeout(() => {
-      navigate(`/profile/${myUsername}`);
+      navigate(`/profile/${myUsername}`, {
+        state: { type: isAI ? 'ai' : 'mine' },
+      });
     }, 2000);
   };
 
