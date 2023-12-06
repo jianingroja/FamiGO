@@ -194,27 +194,12 @@ const SpecificActivity = () => {
           </button>
         </div>
       )}
-      {type !== 'ai' && (
-        <>
-          <div className="actions">
-            <p>
-              <button
-                className={`button ${showComment ? 'button-grey' : ''}`}
-                onClick={() => setShowComment((prev) => !prev)}
-              >
-                {showComment ? 'Hide' : 'Add a comment'}
-              </button>
-            </p>
-          </div>
-          {showComment && (
-            <Comment
-              myUsername={myUsername!}
-              activityID={id as string}
-              onCommentSubmitted={() => {
-                setShowComment(false);
-                setRefreshComments((prev) => prev + 1);
-              }}
-            />
+
+      {!isAI && (
+        <CommentSection
+          myUsername={myUsername as string}
+          activityId={id as string}
+        />
           )}
           <div className="button-hide-all">
             <button

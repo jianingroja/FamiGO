@@ -1,0 +1,23 @@
+.comment-section {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  & .add-comment {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  & .toggle-comment {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  & .btn-grey {
+    background: rgb(217, 217, 217);
+    color: var(--darkgrey-color);
+  }
+}

@@ -29,7 +29,7 @@ const Comment: React.FC<CommentProps> = ({
   return (
     <>
       {!isCommentSubmitted && (
-        <div className="comment-section">
+        <div className="write-comment">
           <textarea
             name="textarea"
             rows={6}
@@ -38,7 +38,7 @@ const Comment: React.FC<CommentProps> = ({
             onChange={handleTextareaChange}
             placeholder="Write your comment here..."
           />
-          <button className="button" onClick={() => submitComment()}>
+          <button className="button" onClick={submitComment}>
             Send
           </button>
         </div>

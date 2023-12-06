@@ -35,11 +35,11 @@ const CommentList = ({ activityID, refresh }: Props) => {
 
   return (
     <div className="comment-list">
-      <h2>Comments:</h2>
-      {comments.map((comment) => (
-        <div key={comment._id}>
+      <h2>Comments</h2>
+      {comments.map(({ _id, username, text }) => (
+        <div key={_id}>
           <p>
-            {comment.username}: {comment.text}
+            {username}: {text}
           </p>
         </div>
       ))}
