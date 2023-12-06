@@ -134,6 +134,7 @@ export const getPostsForFeed = async (req: Request, res: Response) => {
           $match: {
             type: 'published',
             _id: { $nin: existingActivitiesIDs },
+            'userInfo.username': { $ne: username },
           },
         },
         { $sample: { size: 5 } },
