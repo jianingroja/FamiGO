@@ -7,11 +7,13 @@ import Collection from '../Collection/Collection';
 
 const PersonalCollection = () => {
   const { state } = useLocation();
-  const [collectionType, setCollectionType] = useState('mine');
+  const [collectionType, setCollectionType] = useState<string>('');
 
   useEffect(() => {
     if (state) {
       setCollectionType(state.type);
+    } else {
+      setCollectionType('mine');
     }
   }, [state]);
 

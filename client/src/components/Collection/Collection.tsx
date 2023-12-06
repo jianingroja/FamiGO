@@ -46,11 +46,13 @@ const Collection = () => {
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-    if (collection) {
-      setCol(collection);
-    } else {
-      setIsLoading(true);
-      fetchCollection(signal);
+    if (type) {
+      if (collection) {
+        setCol(collection);
+      } else {
+        setIsLoading(true);
+        fetchCollection(signal);
+      }
     }
 
     return () => {
