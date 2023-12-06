@@ -57,8 +57,7 @@ const useAuth = () => {
 
       return;
     } catch (error) {
-      console.log('login error - useAuth -->', error);
-      throw new Error('register fail');
+      throw error;
     }
   };
 

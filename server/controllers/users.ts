@@ -131,15 +131,11 @@ export const register = async (req: Request, res: Response) => {
   try {
     const { email, password, username } = req.body;
 
-    if (!email || !password || !username) {
-      return res.sendStatus(400);
-    }
-
     const existingUserEmail = await getUserByEmail(email);
     const existingUserName = await getUserByUserName(username);
 
     if (existingUserEmail || existingUserName) {
-      return res.sendStatus(400);
+      return res.status(400).send({ message: 'user already exist' });
     }
 
     const salt = random();

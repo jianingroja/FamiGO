@@ -68,13 +68,14 @@ export const registerPOST = async (info: UserRegister) => {
     });
 
     if (!response.ok) {
-      console.error('Register failed');
+      const { message } = await response.json();
+      throw new Error(message);
     }
 
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error(error);
+    throw error;
   }
 };
 

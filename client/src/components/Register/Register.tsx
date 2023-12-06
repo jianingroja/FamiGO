@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { User } from '../../types/user';
 import { Link, useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+
 import useAuth from '../../hooks/useAuth';
 import './Register.css';
 
@@ -18,6 +20,9 @@ const Register = () => {
     password: '',
     confirmPassword: '',
   });
+  const hasAllInputs = Object.values(inputValues).every(
+    (input) => Boolean(input) === true
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValues({
@@ -26,26 +31,39 @@ const Register = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!hasAllInputs) {
+      toast.error('Please fill in all inputs', { icon: '🤖' });
+      return;
+    }
 
     if (inputValues.password != inputValues.confirmPassword) {
-      console.log('Password is different than Confirm Password');
-    } else {
-      const { confirmPassword, ...info } = inputValues;
-      handleRegister(info)
-        .then(() => {
-          setInputValues({
-            username: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
-          });
-        })
-        .then(() => {
-          navigate('/login');
-        });
+      toast.error('Passwords are different', { icon: '🤖' });
+      return;
     }
+
+    const { confirmPassword, ...info } = inputValues;
+    const registerPromise = handleRegister(info);
+
+    await toast.promise(
+      registerPromise,
+      {
+        loading: 'registering...',
+        success: 'welcome on board',
+        error: (error) => `${error.toString().split(': ')[1]}`,
+      },
+      {
+        success: {
+          icon: '☀️',
+        },
+        error: {
+          icon: '🤖',
+        },
+      }
+    );
+
+    navigate('/login');
   };
 
   return (
