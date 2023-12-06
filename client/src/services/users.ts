@@ -74,54 +74,6 @@ export const updateUserInfo = async (
   }
 };
 
-export const followAndUnfollow = async (
-  usernameToFollow: string,
-  usernameFollowing: string
-) => {
-  try {
-    const followData = {
-      usernameToFollow: usernameToFollow,
-      usernameFollowing: usernameFollowing,
-    };
-    const url = `${BASE_URL}/profile/follow`;
-
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify(followData),
-    });
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error in updateUserInfo', error);
-    throw error;
-  }
-};
-
-export const checkFollowing = async (
-  usernameFollowing: string,
-  usernameToFollow: string
-) => {
-  try {
-    const url = `${BASE_URL}/profile/check-following/${usernameFollowing}/${usernameToFollow}`;
-
-    const response = await fetch(url, {
-      method: 'GET',
-      credentials: 'include',
-    });
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error in updateUserInfo', error);
-    throw error;
-  }
-};
-
 export const handleRelationship = async (
   receiver: string,
   follower: string,

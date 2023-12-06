@@ -236,69 +236,6 @@ export const getUserInfo = async (req: Request, res: Response) => {
   }
 };
 
-export const followAndUnfollow = async (req: Request, res: Response) => {
-  try {
-    const { usernameToFollow, usernameFollowing } = req.body;
-
-    const userToFollow = await getUserByUserName(usernameToFollow);
-    const userFollowing = await getUserByUserName(usernameFollowing);
-
-    const userToFollowID = userToFollow?._id?.toString();
-    const userFollowingID = userFollowing?._id?.toString();
-
-    console.log(userToFollowID, userFollowingID);
-
-    if (userToFollow?.statistics?.followers?.includes(userFollowingID || '')) {
-      await UserModel.findOneAndUpdate(
-        { username: usernameFollowing },
-        { $pull: { 'statistics.following': userToFollowID } },
-        { new: true }
-      );
-
-      await UserModel.findOneAndUpdate(
-        { username: usernameToFollow },
-        { $pull: { 'statistics.followers': userFollowingID } },
-        { new: true }
-      );
-    } else {
-      await UserModel.findOneAndUpdate(
-        { username: usernameFollowing },
-        { $push: { 'statistics.following': userToFollowID } },
-        { new: true }
-      );
-      await UserModel.findOneAndUpdate(
-        { username: usernameToFollow },
-        { $push: { 'statistics.followers': userFollowingID } },
-        { new: true }
-      );
-    }
-
-    return res.status(200).json({ userToFollow, userFollowing });
-  } catch (error) {
-    return res.status(500).json({ error: 'Internal server error.' });
-  }
-};
-
-export const checkFollowing = async (req: Request, res: Response) => {
-  try {
-    const { usernameFollowing, usernameToFollow } = req.params;
-    const userFollowingData = await getUserByUserName(usernameFollowing);
-    const userToFollowData = await getUserByUserName(usernameToFollow);
-
-    const userFollowingID = userFollowingData?._id.toString();
-
-    if (
-      userToFollowData?.statistics?.followers?.includes(userFollowingID || '')
-    ) {
-      return res.status(200).json({ following: true });
-    } else {
-      return res.status(200).json({ following: false });
-    }
-  } catch (error) {
-    return res.status(403).end();
-  }
-};
-
 export const toggleRelationship = async (req: Request, res: Response) => {
   try {
     const { username, relationship } = req.params;

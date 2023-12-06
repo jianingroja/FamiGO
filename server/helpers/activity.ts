@@ -1,4 +1,3 @@
-// helpers.ts
 import { getActivitiesByID } from '../models/activity';
 import { getUserById } from '../models/users';
 import { UsersData } from '../types/user';
