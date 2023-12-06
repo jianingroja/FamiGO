@@ -25,4 +25,29 @@
     font-size: 12px;
     height: 20px;
   }
+
+  .no-filter-result {
+    padding: 1rem 1.5rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    gap: 0.5rem;
+
+    & p {
+      padding: 1rem 0;
+      font-size: 14px;
+      color: var(--lightgrey-color);
+      background-color: rgba(0, 109, 119, 0.1);
+      border: 1px dashed var(--primary-color);
+      text-align: center;
+    }
+
+    & .btn-clear {
+      padding: 0.5rem;
+      color: var(--lightgrey-color);
+      background-color: rgba(0, 109, 119, 0.1);
+      border: none;
+    }
+  }
 }
