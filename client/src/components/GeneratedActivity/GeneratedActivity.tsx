@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { IActivity, ISavedActivity } from '../../types/activity';
 import { saveActivity } from '../../services/activity';
 import { getMyUsername } from '../../redux/userSlice';
@@ -9,6 +9,7 @@ import Save from '../../assets/Save.svg';
 import New from '../../assets/New.svg';
 
 const GeneratedActivity: React.FC<IActivity> = ({ activity, onSubmit }) => {
+  const navigate = useNavigate();
   const username = getMyUsername();
   const [newClickCount, setNewClickCount] = useState(0);
 
@@ -43,9 +44,13 @@ const GeneratedActivity: React.FC<IActivity> = ({ activity, onSubmit }) => {
     };
     console.log('savedActivity', savedActivity);
 
-    saveActivity(savedActivity as ISavedActivity).catch((error) => {
-      console.error('saveActivity AI failed:', error);
-    });
+    saveActivity(savedActivity as ISavedActivity)
+      .then(() => {
+        navigate(`../profile/${username}`, { state: { type: 'ai' } });
+      })
+      .catch((error) => {
+        console.error('saveActivity AI failed:', error);
+      });
   };
 
   const handleSubmit = (e: any) => {
@@ -78,12 +83,10 @@ const GeneratedActivity: React.FC<IActivity> = ({ activity, onSubmit }) => {
       </div>
       <p>{activity.description}</p>
       <div className="button-box">
-        <Link to={`/profile/${username}`} className="saveredirect-btn">
-          <button className="button" onClick={handleSaveClick}>
-            <img src={Save} alt="SaveIcon" />
-            Save
-          </button>
-        </Link>
+        <button className="button" onClick={handleSaveClick}>
+          <img src={Save} alt="SaveIcon" />
+          Save
+        </button>
         <form onSubmit={handleSubmit}>
           <button
             className="button"

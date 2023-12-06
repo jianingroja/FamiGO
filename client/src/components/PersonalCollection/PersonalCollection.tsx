@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import CollectionNav from '../CollectionNav/CollectionNav';
 import Collection from '../Collection/Collection';
@@ -9,7 +10,10 @@ type Props = {
 };
 
 const PersonalCollection = ({ isMyProfile, currentProfile }: Props) => {
-  const [collectionType, setCollectionType] = useState('mine');
+  const { state } = useLocation();
+  const [collectionType, setCollectionType] = useState(
+    (state?.type as string) || 'mine'
+  );
 
   const handleNavClick = (type: string) => {
     setCollectionType(type);
@@ -17,7 +21,11 @@ const PersonalCollection = ({ isMyProfile, currentProfile }: Props) => {
 
   return (
     <>
-      <CollectionNav onNavClick={handleNavClick} showAllNavs={isMyProfile} />
+      <CollectionNav
+        activeNav={collectionType}
+        onNavClick={handleNavClick}
+        showAllNavs={isMyProfile}
+      />
       <Collection type={collectionType} currentProfile={currentProfile} />
     </>
   );
