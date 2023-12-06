@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getUserByUserName } from '../models/users';
+import { UserModel, getUserByUserName } from '../models/users';
 import { getActivitiesByID } from '../models/activity';
 import { ActivityModel, createActivity } from '../models/activity';
 import {
@@ -13,7 +13,7 @@ import { ActivityWithUser } from '../types/activity';
 export const publishActivity = async (req: Request, res: Response) => {
   try {
     const {
-      body: { activity },
+      body: { activity, info },
     } = req;
 
     const username = req.cookies['username'];
@@ -32,6 +32,14 @@ export const publishActivity = async (req: Request, res: Response) => {
       user.statistics ??= {};
       user.statistics.posts ??= [];
       user.statistics.posts.push(activityId);
+
+      if (info.type === 'ai') {
+        UserModel.findOneAndUpdate(
+          { _id: user._id.toString() },
+          { $pull: { savedAIPosts: info.id } },
+          { new: true }
+        );
+      }
 
       await user.save();
 
