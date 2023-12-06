@@ -1,8 +1,21 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
+
+import { getMyUsername } from '../../redux/userSlice';
 import { FeedActivity } from '../../types/feed';
+import { IUser } from '../../types/user';
+import { getUserPlainInfo } from '../../services/users';
+import {
+  getLikes,
+  saveLike,
+  saveActivityInProfile,
+} from '../../services/activity';
 
 import FilterTag from '../FilterTag/FilterTag';
-
+import { FiHeart } from 'react-icons/fi';
+import { LuHeartOff } from 'react-icons/lu';
+import { MdOutlineSaveAlt } from 'react-icons/md';
 import Logo from '../../assets/logo.png';
 import './FeedItem.css';
 
@@ -10,26 +23,69 @@ const tempImg = Logo;
 
 type Props = {
   activity: FeedActivity;
+  isFeed: boolean;
+  isAI?: boolean;
 };
 
-const FeedItem = ({ activity }: Props) => {
+const FeedItem = ({ activity, isFeed, isAI = false }: Props) => {
+  const [user, setUser] = useState<IUser | null>(null);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [isSaved, setIsSaved] = useState<boolean>(false);
+  const [likesCount, setLikesCount] = useState<number>(activity.likes.length);
+
   const {
     _id: activityId,
     userInfo: { username },
     title,
     filters,
-    likes,
     image,
   } = activity;
+  const { avatar } = user || {};
 
+  const myUsername = getMyUsername();
+  const isMyActivity = myUsername === username;
   const filterEntries = Object.entries(filters);
-  const likesCount = likes.length;
+
+  const checkLike = async () => {
+    const isLiked = await getLikes(myUsername as string, activityId as string);
+    setIsLiked(isLiked);
+  };
+
+  const likeActivity = async () => {
+    await saveLike(myUsername as string, activityId as string);
+    setIsLiked((prev) => !prev);
+    setLikesCount((prev) => (isLiked ? prev - 1 : prev + 1));
+  };
+
+  const saveActivity = async () => {
+    const savePromise = saveActivityInProfile(myUsername as string, activityId);
+
+    await toast.promise(savePromise, {
+      loading: 'saving...',
+      success: <b>Saved!</b>,
+      error: <b>Fail to save...</b>,
+    });
+
+    setIsSaved((prev) => !prev);
+  };
+
+  useEffect(() => {
+    if (activity) {
+      const getUser = async () => {
+        const res = await getUserPlainInfo(username!);
+        setUser(res);
+      };
+
+      getUser();
+      checkLike();
+    }
+  }, [activity]);
 
   return (
     <div className="feed-item">
       <div className="info">
         <div className="avatar">
-          <img src={tempImg} alt="avatar" />
+          <img src={avatar || tempImg} alt="avatar" />
         </div>
         <Link to={`../profile/${username}`}>
           <p>{username}</p>
@@ -40,15 +96,33 @@ const FeedItem = ({ activity }: Props) => {
           <FilterTag key={label} label={label} value={value} />
         ))}
       </div>
-      <div className="content">
-        <Link to={`../activity/${activityId}`}>
-          <img src={image} alt="activity image" />
-        </Link>
-      </div>
+      {!isAI && (
+        <div className="content">
+          <Link to={`../activity/${activityId}`}>
+            <img src={image} alt="activity image" />
+          </Link>
+        </div>
+      )}
       <div className="status">
-        <p>{likesCount} likes</p>
+        {!isAI && <p>{likesCount} likes</p>}
+        {!isMyActivity && (
+          <div className="actions">
+            <button
+              className={`button ${isLiked ? 'btn-grey' : ''}`}
+              onClick={likeActivity}
+            >
+              {isLiked ? <LuHeartOff size={18} /> : <FiHeart size={18} />}
+            </button>
+            <button
+              className={`button ${isSaved ? 'btn-grey' : ''}`}
+              onClick={saveActivity}
+            >
+              <MdOutlineSaveAlt size={20} />
+            </button>
+          </div>
+        )}
       </div>
-      <p>{title}</p>
+      {isFeed && <p>{title}</p>}
     </div>
   );
 };

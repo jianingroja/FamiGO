@@ -92,16 +92,16 @@ const FeedPage = () => {
       {hasFilters &&
         (hasFilteredItems ? (
           filteredFeedItems.map((feedItem) => (
-            <FeedItem key={feedItem._id} activity={feedItem} />
+            <FeedItem key={feedItem._id} activity={feedItem} isFeed />
           ))
         ) : (
           <p>no item, try another filter combination</p>
         ))}
-      {myNewPublish && <FeedItem activity={myNewPublish} />}
+      {myNewPublish && <FeedItem activity={myNewPublish} isFeed />}
       {hasFeed &&
         !hasFilters &&
         feedItems.map((feedItem) => (
-          <FeedItem key={feedItem._id} activity={feedItem} />
+          <FeedItem key={feedItem._id} activity={feedItem} isFeed />
         ))}
     </div>
   );
