@@ -34,8 +34,9 @@ export const publishActivity = async (req: Request, res: Response) => {
       user.statistics.posts.push(activityId);
 
       if (info.type === 'ai') {
-        UserModel.findOneAndUpdate(
-          { _id: user._id.toString() },
+        const userID = user._id.toString();
+        await UserModel.findByIdAndUpdate(
+          userID,
           { $pull: { savedAIPosts: info.id } },
           { new: true }
         );
@@ -90,7 +91,6 @@ export const getUserCollectionByType = async (req: Request, res: Response) => {
     res.status(200).send({ collection });
     return;
   } catch (error) {
-    console.log('get collection by type err -->', error);
     res.status(500).end();
     throw error;
   }
@@ -200,8 +200,6 @@ export const getPostsByFilter = async (req: Request, res: Response) => {
       });
     }
 
-    console.log('query -->', query);
-
     const limit = 20;
     const filteredActivities = await ActivityModel.find(query)
       .find({ type: 'published' })
@@ -210,7 +208,6 @@ export const getPostsByFilter = async (req: Request, res: Response) => {
     const result = filteredActivities.filter(
       (activity) => activity.userInfo?.username !== username
     );
-    console.log('filteredActivities -->', result);
 
     res.status(200).json({ activities: result });
   } catch (error) {
