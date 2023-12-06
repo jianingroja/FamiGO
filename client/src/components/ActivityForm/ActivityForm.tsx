@@ -9,6 +9,7 @@ import {
   clearDraft,
   getDraftPublish,
   getAIDraftPublish,
+  getAIId,
 } from '../../redux/activitySlice';
 import {
   uploadFileToCloudinary,
@@ -24,6 +25,7 @@ import {
   FiltersWithOptions,
   PublishFormInput,
   DraftPublish,
+  PublishInfo,
 } from '../../types/activity';
 
 import { IoAddOutline } from 'react-icons/io5';
@@ -43,6 +45,7 @@ const ActivityForm = ({ showModal, setShowModal }: Props) => {
   const dispatch = useAppDispatch();
   const draft = getDraftPublish();
   const AIdraft = getAIDraftPublish();
+  const AIId = getAIId();
 
   const bottomRef = useRef<HTMLDivElement>(null);
   const [fileInfo, setFileInfo] = useState<FileInfo>({} as FileInfo);
@@ -178,9 +181,15 @@ const ActivityForm = ({ showModal, setShowModal }: Props) => {
     return filtersCopy;
   };
 
-  const handlePublish = async (info: Activity) => {
+  const handlePublish = async (activity: Activity) => {
     try {
-      const publishedActivity = await publishActivity(info);
+      // ai
+      const info: PublishInfo = {
+        type: AIId ? 'ai' : 'normal',
+        id: AIId || null,
+      };
+
+      const publishedActivity = await publishActivity(activity, info);
 
       dispatch(setNewlyPublishedActivity(publishedActivity));
       toast.success('Your activity is now published!');

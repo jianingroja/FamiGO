@@ -1,11 +1,20 @@
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-import { Activity, IFormInput, ISavedActivity } from '../types/activity';
+import {
+  Activity,
+  IFormInput,
+  ISavedActivity,
+  PublishInfo,
+} from '../types/activity';
 
-export const publishActivity = async (info: Activity) => {
+export const publishActivity = async (
+  activity: Activity,
+  info: PublishInfo
+) => {
   try {
-    const activity = {
-      ...info,
+    const publishBody = {
+      activity,
+      info,
     };
 
     const url = `${BASE_URL}/publish-activity`;
@@ -16,7 +25,7 @@ export const publishActivity = async (info: Activity) => {
         'Content-Type': 'application/json',
       },
       credentials: 'include',
-      body: JSON.stringify({ activity }),
+      body: JSON.stringify(publishBody),
     });
 
     if (res.status !== 201) {

@@ -127,3 +127,8 @@ export interface ISavedActivity {
     username: string;
   };
 }
+
+export interface PublishInfo {
+  id: null | string;
+  type: 'ai' | 'normal';
+}

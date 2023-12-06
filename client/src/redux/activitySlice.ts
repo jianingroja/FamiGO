@@ -9,6 +9,7 @@ type initialStateType = {
   newlyPublishedActivity: null | FeedActivity;
   draftPublish: null | DraftPublish;
   AIdraftPublish: null | AIDraftPublish;
+  AIId: null | string;
   collection: {
     [key: string]: null | FeedActivity[];
   };
@@ -18,6 +19,7 @@ const initialState: initialStateType = {
   newlyPublishedActivity: null,
   draftPublish: null,
   AIdraftPublish: null,
+  AIId: null,
   collection: {
     mine: null,
     others: null,
@@ -49,18 +51,26 @@ export const activitySlice = createSlice({
       };
     },
 
+    setAIDraftPublish: (state, action: PayloadAction<any>) => {
+      return {
+        ...state,
+        AIdraftPublish: action.payload,
+      };
+    },
+
+    setAIId: (state, action: PayloadAction<any>) => {
+      return {
+        ...state,
+        AIId: action.payload,
+      };
+    },
+
     clearDraft: (state) => {
       return {
         ...state,
         draftPublish: null,
         AIdraftPublish: null,
-      };
-    },
-
-    setAIDraftPublish: (state, action: PayloadAction<any>) => {
-      return {
-        ...state,
-        AIdraftPublish: action.payload,
+        AIId: null,
       };
     },
 
@@ -94,8 +104,9 @@ export const {
   setNewlyPublishedActivity,
   clearNewlyPublishedActivity,
   setDraftPublish,
-  clearDraft,
   setAIDraftPublish,
+  setAIId,
+  clearDraft,
   setCollection,
   clearCollection,
 } = activitySlice.actions;
@@ -106,6 +117,7 @@ export const getDraftPublish = () =>
   useAppSelector((state) => state.activity.draftPublish);
 export const getAIDraftPublish = () =>
   useAppSelector((state) => state.activity.AIdraftPublish);
+export const getAIId = () => useAppSelector((state) => state.activity.AIId);
 export const getCollection = (type: string) =>
   useAppSelector((state) => state.activity.collection[type]);
 

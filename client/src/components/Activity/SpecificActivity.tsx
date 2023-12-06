@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { ConfirmToast } from 'react-confirm-toast';
 import { useAppDispatch } from '../../redux/hooks';
 import { getMyUsername } from '../../redux/userSlice';
-import { setAIDraftPublish } from '../../redux/activitySlice';
+import { setAIDraftPublish, setAIId } from '../../redux/activitySlice';
 import { FeedActivity } from '../../types/feed';
 import { getActivity, deleteActivity } from '../../services/activity';
 
@@ -71,6 +71,7 @@ const SpecificActivity = () => {
         materials,
       };
       dispatch(setAIDraftPublish(AIActivity));
+      dispatch(setAIId(id as string));
     }
     navigate('/publish-activity');
   };
