@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { getUserCollectionByType } from '../../services/users';
 import { useAppDispatch } from '../../redux/hooks';
 import {
@@ -6,6 +6,9 @@ import {
   getCollection,
   clearCollection,
 } from '../../redux/activitySlice';
+import { ProfileContext } from '../../context/ProfileContext';
+import { CollectionContext } from '../../context/CollectionContext';
+
 import { FeedActivity } from '../../types/feed';
 
 import CollectionPreview from '../CollectionPreview/CollectionPreview';
@@ -13,12 +16,10 @@ import Spinner from '../Spinner/Spinner';
 
 import './Collection.css';
 
-type Props = {
-  type: string;
-  currentProfile: string;
-};
+const Collection = () => {
+  const { currentProfile } = useContext(ProfileContext);
+  const { collectionType: type } = useContext(CollectionContext);
 
-const Collection = ({ type, currentProfile }: Props) => {
   const dispatch = useAppDispatch();
   const [col, setCol] = useState<FeedActivity[]>([]);
   const [isLoading, setIsLoading] = useState(false);
