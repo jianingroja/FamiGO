@@ -49,8 +49,8 @@ const Register = () => {
     await toast.promise(
       registerPromise,
       {
-        loading: 'registering...',
-        success: 'welcome on board',
+        loading: 'Registering...',
+        success: 'Welcome on board',
         error: (error) => `${error.toString().split(': ')[1]}`,
       },
       {

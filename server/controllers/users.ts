@@ -21,12 +21,12 @@ export const login = async (req: Request, res: Response) => {
       '+authentication.salt +authentication.password'
     );
     if (!user) {
-      return res.status(400).send({ message: 'user does not exist' });
+      return res.status(400).send({ message: 'User does not exist' });
     }
 
     const expectedHash = authentication(user.authentication!.salt!, password);
     if (user.authentication!.password != expectedHash) {
-      return res.status(403).send({ message: 'incorrect password' });
+      return res.status(403).send({ message: 'Incorrect password' });
     }
 
     const salt = random();
@@ -135,7 +135,7 @@ export const register = async (req: Request, res: Response) => {
     const existingUserName = await getUserByUserName(username);
 
     if (existingUserEmail || existingUserName) {
-      return res.status(400).send({ message: 'user already exist' });
+      return res.status(400).send({ message: 'User already exist' });
     }
 
     const salt = random();

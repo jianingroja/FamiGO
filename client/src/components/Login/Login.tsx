@@ -27,8 +27,8 @@ const Login = () => {
     await toast.promise(
       loginPromise,
       {
-        loading: 'logging...',
-        success: 'welcome back',
+        loading: 'Logging...',
+        success: 'Welcome back',
         error: (error) => `${error.toString().split(': ')[1]}`,
       },
       {
