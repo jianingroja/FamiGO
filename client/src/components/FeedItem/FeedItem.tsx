@@ -82,7 +82,7 @@ const FeedItem = ({ activity, isFeed, isAI = false }: Props) => {
   }, [activity]);
 
   return (
-    <div className="feed-item">
+    <div className={`feed-item ${isAI ? 'ai' : ''}`}>
       <div className="info">
         <div className="avatar">
           <img src={avatar || tempImg} alt="avatar" />

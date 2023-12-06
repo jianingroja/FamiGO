@@ -72,3 +72,7 @@
     padding: 0 1rem;
   }
 }
+
+.feed-item.ai {
+  margin-bottom: 1rem;
+}
