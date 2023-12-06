@@ -16,20 +16,17 @@ import { random, authentication } from '../helpers';
 export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
-    if (!email || !password) {
-      return res.sendStatus(400);
-    }
 
     const user = await getUserByEmail(email).select(
       '+authentication.salt +authentication.password'
     );
     if (!user) {
-      return res.sendStatus(400);
+      return res.status(400).send({ message: 'user does not exist' });
     }
 
     const expectedHash = authentication(user.authentication!.salt!, password);
     if (user.authentication!.password != expectedHash) {
-      return res.sendStatus(403);
+      return res.status(403).send({ message: 'incorrect password' });
     }
 
     const salt = random();

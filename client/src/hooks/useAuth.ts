@@ -18,7 +18,6 @@ const useAuth = () => {
     try {
       const user = (await login(info)) as IUser;
 
-      // save user info in redux
       if (user) {
         dispatch(setUser(user));
         setCookie('app-username', user.username);
@@ -27,8 +26,7 @@ const useAuth = () => {
 
       return;
     } catch (error) {
-      console.log('login error - useAuth -->', error);
-      throw new Error('login fail');
+      throw error;
     }
   };
 

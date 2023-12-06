@@ -20,13 +20,13 @@ export const login = async (info: UserLogin) => {
     });
 
     if (!response.ok) {
-      throw new Error('Login failed');
+      const { message } = await response.json();
+      throw new Error(message);
     }
 
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error('Login error', error);
     throw error;
   }
 };

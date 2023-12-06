@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import toast from 'react-hot-toast';
 
 import useAuth from '../../hooks/useAuth';
 import './Login.css';
@@ -8,6 +9,7 @@ import './Login.css';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const hasAllInputs = email && password;
 
   const navigate = useNavigate();
   const { handleLogin, handleGoogleLogin } = useAuth();
@@ -15,12 +17,31 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    handleLogin({ email, password })
-      .then(() => navigate('/feed'))
-      .catch((error) => {
-        console.log('login err component', error);
-        // todo: show message to user in ui
-      });
+    if (!hasAllInputs) {
+      toast.error('Please fill in all inputs!');
+      return;
+    }
+
+    const loginPromise = handleLogin({ email, password });
+
+    await toast.promise(
+      loginPromise,
+      {
+        loading: 'logging...',
+        success: 'welcome back',
+        error: (error) => `${error.toString().split(': ')[1]}`,
+      },
+      {
+        success: {
+          icon: '☀️',
+        },
+        error: {
+          icon: '🤖',
+        },
+      }
+    );
+
+    navigate('/feed');
   };
 
   const onGoogleSuccess = async (response: any) => {
