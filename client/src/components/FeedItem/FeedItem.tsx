@@ -123,7 +123,7 @@ const FeedItem = ({ activity, isFeed, isAI = false }: Props) => {
       )}
       <div className="status">
         {!isAI && <p>{likesCount} likes</p>}
-        {!isMyActivity && (
+        {!isMyActivity && !isAI && (
           <div className="actions">
             <button
               className={`button ${isLiked ? 'btn-grey' : ''}`}
