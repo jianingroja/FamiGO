@@ -4,7 +4,12 @@ import toast from 'react-hot-toast';
 import { ConfirmToast } from 'react-confirm-toast';
 import { useAppDispatch } from '../../redux/hooks';
 import { getMyUsername } from '../../redux/userSlice';
-import { setAIDraftPublish, setAIId } from '../../redux/activitySlice';
+import {
+  setAIDraftPublish,
+  setAIId,
+  getNewlyPublishedActivity,
+  clearNewlyPublishedActivity,
+} from '../../redux/activitySlice';
 import { FeedActivity } from '../../types/feed';
 import { getActivity, deleteActivity } from '../../services/activity';
 
@@ -20,6 +25,8 @@ const SpecificActivity = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const myUsername = getMyUsername();
+  const newlyPub = getNewlyPublishedActivity();
+  const newlyPubId = newlyPub?._id;
 
   const [activity, setActivity] = useState<FeedActivity | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -39,6 +46,10 @@ const SpecificActivity = () => {
   }, [id]);
 
   const handleDelete = async () => {
+    if (id === newlyPubId) {
+      dispatch(clearNewlyPublishedActivity());
+    }
+
     const deletePromise = deleteActivity(myUsername as string, id as string);
 
     await toast.promise(deletePromise, {
