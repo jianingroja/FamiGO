@@ -112,7 +112,9 @@ const FeedPage = () => {
             </button>
           </div>
         ))}
-      {myNewPublish && <FeedItem activity={myNewPublish} isFeed />}
+      {myNewPublish && !hasFilters && (
+        <FeedItem activity={myNewPublish} isFeed />
+      )}
       {hasFeed &&
         !hasFilters &&
         feedItems.map((feedItem) => (
