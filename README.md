@@ -1,8 +1,8 @@
 # FamiGO
 
-## Getting started
+FamiGO is a dynamic web app designed to inspire parents with activity ideas for their kids. It combines a community-driven platform where parents can share and discover activities they've enjoyed, with an integrated AI that suggests personalized activities based on specific filters. This app is a go-to resource for parents seeking creative and enjoyable ways to engage with their children.
 
-FamiGO is a dynamic web app designed to inspire parents with activity ideas for their kids. It combines a community-driven platform where parents can share and discover activities they've enjoyed, with an integrated AI that suggests personalized activities based on specific filters. This app is a go-to resource for parents seeking creative and enjoyable ways to engage with their children
+## Getting started
 
 **1. Configure environment variables**
 
@@ -54,7 +54,7 @@ npm run dev
 - OpenAI
 - Nodemailer
 
-## Authors:
+## Authors
 
 - Jianing Wang - [LinkedIn](https://www.linkedin.com/in/wangjianing/)
 - Elena González - [LinkedIn](https://www.linkedin.com/in/elenagonzaleza/)
