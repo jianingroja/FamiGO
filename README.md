@@ -39,12 +39,13 @@ npm run dev
 
 ## Teck Stack
 
+This project is fully written in TypeScript.
+
 **Front end:**
 
-- React.js
-- TypeScript
-- CSS
+- React, React Router
 - Redux Toolkit
+- Vanilla Css
 
 **Back end:**
 
@@ -64,10 +65,11 @@ npm run dev
 - Cloudinary
 - OpenAI
 - Nodemailer
+- Google OAuth
 
 ## Authors
 
-- Jianing Wang - [LinkedIn](https://www.linkedin.com/in/wangjianing/)
-- Elena González - [LinkedIn](https://www.linkedin.com/in/elenagonzaleza/)
-- Zarina Poyet - [LinkedIn](https://www.linkedin.com/in/zarinapoyet/)
-- Daniel López Bogaz - [LinkedIn](https://www.linkedin.com/in/daniel-lopez-bogaz/)
+- Jianing Wang - [LinkedIn](https://www.linkedin.com/in/wangjianing/) - [GitHub](https://github.com/jianingroja)
+- Elena González - [LinkedIn](https://www.linkedin.com/in/elenagonzaleza/) - [GitHub](https://github.com/Lartifex)
+- Zarina Poyet - [LinkedIn](https://www.linkedin.com/in/zarinapoyet/) - [GitHub](https://github.com/ZarinaPoyet)
+- Daniel López Bogaz - [LinkedIn](https://www.linkedin.com/in/daniel-lopez-bogaz/) - [GitHub](https://github.com/daniellopez1999)
